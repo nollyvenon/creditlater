@@ -29,6 +29,7 @@ class CreateProductsTable extends Migration
 			$table->string('products_weight')->nullable();
 			$table->text('products_detail');
 			$table->text('products_description');
+			$table->string('products_type')->nullable();
 			$table->text('products_video_link')->nullable();
 			$table->boolean('products_status');
 			$table->boolean('is_current');
@@ -39,7 +40,6 @@ class CreateProductsTable extends Migration
 			$table->integer('low_limit');
 			$table->boolean('is_feature')->default(0);
 			$table->string('products_slug');
-			$table->integer('products_type')->default(0);
 			$table->integer('products_min_order')->default(1);
 			$table->integer('products_max_stock')->nullable();
             $table->timestamps();

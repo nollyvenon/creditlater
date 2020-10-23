@@ -46,7 +46,7 @@
                             @endforeach
                             <div class="media-banner-box">
                                 <div class="media-view">
-                                    <h5>View More</h5>
+                                    <h5><a href="{{ url('products/new-products') }}">View More</a></h5>
                                 </div>
                             </div>
                         </div>
@@ -95,7 +95,7 @@
                             @endforeach
                             <div class="media-banner-box">
                                 <div class="media-view">
-                                    <h5>View More</h5>
+                                <h5><a href="{{ url('products/feature-products') }}">View More</a></h5>
                                 </div>
                             </div>
                         </div>
@@ -144,7 +144,7 @@
                             @endforeach
                             <div class="media-banner-box">
                                 <div class="media-view">
-                                    <h5>View More</h5>
+                                    <h5><a href="{{ url('products/best-sellers') }}">View More</a></h5>
                                 </div>
                             </div>
                         </div>
@@ -194,7 +194,7 @@
                             @endforeach
                             <div class="media-banner-box">
                                 <div class="media-view">
-                                    <h5>View More</h5>
+                                    <h5><a href="{{ url('products/slashed') }}">View More</a></h5>
                                 </div>
                             </div>
                         </div>

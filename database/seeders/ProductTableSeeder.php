@@ -51,6 +51,7 @@ class ProductTableSeeder extends Seeder
                     "products_date_available" => $date,
                     "products_detail" => $product_detail,
                     "products_description" => $product_description,
+                    "products_type" => '',
                     "products_video_link" => 'https://www.youtube.com/embed/BUWzX78Ye_8',
                     "products_status" => true,
                     "is_current" => true,
@@ -61,7 +62,6 @@ class ProductTableSeeder extends Seeder
                     "low_limit" => "0",
                     "is_feature" => 1,
                     "products_slug" => "fashion",
-                    "products_type" => 0,
                     "products_min_order" => 0,
                     "products_max_stock" => 0
                 )
@@ -72,7 +72,7 @@ class ProductTableSeeder extends Seeder
                 array(
                     "id" => 2,
                     "products_name" => "laptop",
-                    "products_quantity" => 5,
+                    "products_quantity" => 8,
                     "category_id" => 2,
                     "brand_id" => 2,
                     "products_model" => "",
@@ -84,6 +84,7 @@ class ProductTableSeeder extends Seeder
                     "products_date_available" => $date,
                     "products_detail" => $product_detail,
                     "products_description" => $product_description,
+                    "products_type" => '',
                     "products_video_link" => 'https://www.youtube.com/embed/BUWzX78Ye_8',
                     "products_status" => true,
                     "is_current" => true,
@@ -93,8 +94,7 @@ class ProductTableSeeder extends Seeder
                     "products_liked" => 8,
                     "low_limit" => "0",
                     "is_feature" => 1,
-                    "products_slug" => "fashion",
-                    "products_type" => 0,
+                    "products_slug" => "book",
                     "products_min_order" => 0,
                     "products_max_stock" => 0
                 )
@@ -105,7 +105,7 @@ class ProductTableSeeder extends Seeder
                 array(
                     "id" => 3,
                     "products_name" => "ladies gown",
-                    "products_quantity" => 5,
+                    "products_quantity" => 9,
                     "category_id" => 3,
                     "brand_id" => 3,
                     "products_model" => "",
@@ -117,6 +117,7 @@ class ProductTableSeeder extends Seeder
                     "products_date_available" => $date,
                     "products_detail" => $product_detail,
                     "products_description" => $product_description,
+                    "products_type" => 'small,medium, large, xtra lage',
                     "products_video_link" => 'https://www.youtube.com/embed/BUWzX78Ye_8',
                     "products_status" => true,
                     "is_current" => true,
@@ -126,8 +127,7 @@ class ProductTableSeeder extends Seeder
                     "products_liked" => 8,
                     "low_limit" => "0",
                     "is_feature" => 1,
-                    "products_slug" => "fashion",
-                    "products_type" => 0,
+                    "products_slug" => "sport",
                     "products_min_order" => 0,
                     "products_max_stock" => 0
                 )
@@ -138,7 +138,7 @@ class ProductTableSeeder extends Seeder
                 array(
                     "id" => 4,
                     "products_name" => "bag",
-                    "products_quantity" => 5,
+                    "products_quantity" => 4,
                     "category_id" => 4,
                     "brand_id" => 4,
                     "products_model" => "",
@@ -150,6 +150,7 @@ class ProductTableSeeder extends Seeder
                     "products_date_available" => $date,
                     "products_detail" => $product_detail,
                     "products_description" => $product_description,
+                    "products_type" => 'small,medium, large',
                     "products_video_link" => 'https://www.youtube.com/embed/BUWzX78Ye_8',
                     "products_status" => true,
                     "is_current" => true,
@@ -159,8 +160,7 @@ class ProductTableSeeder extends Seeder
                     "products_liked" => 8,
                     "low_limit" => "0",
                     "is_feature" => 1,
-                    "products_slug" => "fashion",
-                    "products_type" => 0,
+                    "products_slug" => "electronics",
                     "products_min_order" => 0,
                     "products_max_stock" => 0
                 )
@@ -171,7 +171,7 @@ class ProductTableSeeder extends Seeder
                 array(
                     "id" => 5,
                     "products_name" => "men shoe",
-                    "products_quantity" => 5,
+                    "products_quantity" => 10,
                     "category_id" => 5,
                      "brand_id" => 5,
                     "products_model" => "",
@@ -183,6 +183,7 @@ class ProductTableSeeder extends Seeder
                     "products_date_available" => $date,
                     "products_detail" => $product_detail,
                     "products_description" => $product_description,
+                    "products_type" => 'small,medium, large, xtra lage',
                     "products_video_link" => 'https://www.youtube.com/embed/BUWzX78Ye_8',
                     "products_status" => true,
                     "is_current" => true,
@@ -192,8 +193,7 @@ class ProductTableSeeder extends Seeder
                     "products_liked" => 8,
                     "low_limit" => "0",
                     "is_feature" => 1,
-                    "products_slug" => "fashion",
-                    "products_type" => 0,
+                    "products_slug" => "toys",
                     "products_min_order" => 0,
                     "products_max_stock" => 0
                 )
@@ -204,7 +204,7 @@ class ProductTableSeeder extends Seeder
                 array(
                     "id" => 6,
                     "products_name" => "necklace",
-                    "products_quantity" => 5,
+                    "products_quantity" => 11,
                     "category_id" => 6,
                     "brand_id" => 6,
                     "products_model" => "",
@@ -216,6 +216,7 @@ class ProductTableSeeder extends Seeder
                     "products_date_available" => $date,
                     "products_detail" => $product_detail,
                     "products_description" => $product_description,
+                    "products_type" => 'small,medium, large, xtra lage',
                     "products_video_link" => 'https://www.youtube.com/embed/BUWzX78Ye_8',
                     "products_status" => true,
                     "is_current" => true,
@@ -225,8 +226,7 @@ class ProductTableSeeder extends Seeder
                     "products_liked" => 8,
                     "low_limit" => "0",
                     "is_feature" => 1,
-                    "products_slug" => "fashion",
-                    "products_type" => 0,
+                    "products_slug" => "footwares",
                     "products_min_order" => 0,
                     "products_max_stock" => 0
                 )
@@ -237,7 +237,7 @@ class ProductTableSeeder extends Seeder
                 array(
                     "id" => 7,
                     "products_name" => "speaker",
-                    "products_quantity" => 5,
+                    "products_quantity" => 16,
                     "category_id" => 1,
                     "brand_id" => 7,
                     "products_model" => "",
@@ -249,6 +249,7 @@ class ProductTableSeeder extends Seeder
                     "products_date_available" => $date,
                     "products_detail" => $product_detail,
                     "products_description" => $product_description,
+                    "products_type" => 'small,medium, xtra lage',
                     "products_video_link" => 'https://www.youtube.com/embed/BUWzX78Ye_8',
                     "products_status" => true,
                     "is_current" => true,
@@ -258,8 +259,7 @@ class ProductTableSeeder extends Seeder
                     "products_liked" => 8,
                     "low_limit" => "0",
                     "is_feature" => 1,
-                    "products_slug" => "fashion",
-                    "products_type" => 0,
+                    "products_slug" => "games",
                     "products_min_order" => 0,
                     "products_max_stock" => 0
                 )
@@ -270,7 +270,7 @@ class ProductTableSeeder extends Seeder
                 array(
                     "id" => 8,
                     "products_name" => "freezer",
-                    "products_quantity" => 5,
+                    "products_quantity" => 50,
                     "category_id" => 2,
                     "brand_id" => 8,
                     "products_model" => "",
@@ -282,6 +282,7 @@ class ProductTableSeeder extends Seeder
                     "products_date_available" => $date,
                     "products_detail" => $product_detail,
                     "products_description" => $product_description,
+                    "products_type" => 'small,medium, large, xtra lage',
                     "products_video_link" => 'https://www.youtube.com/embed/BUWzX78Ye_8',
                     "products_status" => true,
                     "is_current" => true,
@@ -291,8 +292,7 @@ class ProductTableSeeder extends Seeder
                     "products_liked" => 8,
                     "low_limit" => "0",
                     "is_feature" => 1,
-                    "products_slug" => "fashion",
-                    "products_type" => 0,
+                    "products_slug" => "adventure",
                     "products_min_order" => 0,
                     "products_max_stock" => 0
                 )
@@ -303,7 +303,7 @@ class ProductTableSeeder extends Seeder
                 array(
                     "id" => 9,
                     "products_name" => "phone",
-                    "products_quantity" => 5,
+                    "products_quantity" => 18,
                     "category_id" => 3,
                     "brand_id" => 1,
                     "products_model" => "",
@@ -315,6 +315,7 @@ class ProductTableSeeder extends Seeder
                     "products_date_available" => $date,
                     "products_detail" => $product_detail,
                     "products_description" => $product_description,
+                    "products_type" => '',
                     "products_video_link" => 'https://www.youtube.com/embed/BUWzX78Ye_8',
                     "products_status" => true,
                     "is_current" => true,
@@ -325,7 +326,6 @@ class ProductTableSeeder extends Seeder
                     "low_limit" => "0",
                     "is_feature" => 1,
                     "products_slug" => "fashion",
-                    "products_type" => 0,
                     "products_min_order" => 0,
                     "products_max_stock" => 0
                 )
@@ -336,7 +336,7 @@ class ProductTableSeeder extends Seeder
                 array(
                     "id" => 10,
                     "products_name" => "necklace",
-                    "products_quantity" => 5,
+                    "products_quantity" => 12,
                     "category_id" => 4,
                     "brand_id" => 2,
                     "products_model" => "",
@@ -348,6 +348,7 @@ class ProductTableSeeder extends Seeder
                     "products_date_available" => $date,
                     "products_detail" => $product_detail,
                     "products_description" => $product_description,
+                    "products_type" => 'small,large,xtra lage',
                     "products_video_link" => 'https://www.youtube.com/embed/BUWzX78Ye_8',
                     "products_status" => true,
                     "is_current" => true,
@@ -357,8 +358,7 @@ class ProductTableSeeder extends Seeder
                     "products_liked" => 8,
                     "low_limit" => "0",
                     "is_feature" => 1,
-                    "products_slug" => "fashion",
-                    "products_type" => 0,
+                    "products_slug" => "book",
                     "products_min_order" => 0,
                     "products_max_stock" => 0
                 )
@@ -371,7 +371,7 @@ class ProductTableSeeder extends Seeder
                 array(
                     "id" => 11,
                     "products_name" => "bag",
-                    "products_quantity" => 5,
+                    "products_quantity" => 17,
                     "category_id" => 5,
                      "brand_id" => 5,
                     "products_model" => "",
@@ -383,6 +383,7 @@ class ProductTableSeeder extends Seeder
                     "products_date_available" => $date,
                     "products_detail" => $product_detail,
                     "products_description" => $product_description,
+                    "products_type" => 'small,medium, xtra lage',
                     "products_video_link" => 'https://www.youtube.com/embed/BUWzX78Ye_8',
                     "products_status" => true,
                     "is_current" => true,
@@ -392,8 +393,7 @@ class ProductTableSeeder extends Seeder
                     "products_liked" => 8,
                     "low_limit" => "0",
                     "is_feature" => 1,
-                    "products_slug" => "fashion",
-                    "products_type" => 0,
+                    "products_slug" => "sports",
                     "products_min_order" => 0,
                     "products_max_stock" => 0
                 )
@@ -404,7 +404,7 @@ class ProductTableSeeder extends Seeder
                 array(
                     "id" => 12,
                     "products_name" => "laptop",
-                    "products_quantity" => 5,
+                    "products_quantity" => 44,
                     "category_id" => 6,
                     "brand_id" => 4,
                     "products_model" => "",
@@ -416,6 +416,7 @@ class ProductTableSeeder extends Seeder
                     "products_date_available" => $date,
                     "products_detail" => $product_detail,
                     "products_description" => $product_description,
+                    "products_type" => '',
                     "products_video_link" => 'https://www.youtube.com/embed/BUWzX78Ye_8',
                     "products_status" => true,
                     "is_current" => true,
@@ -425,8 +426,7 @@ class ProductTableSeeder extends Seeder
                     "products_liked" => 8,
                     "low_limit" => "0",
                     "is_feature" => 1,
-                    "products_slug" => "fashion",
-                    "products_type" => 0,
+                    "products_slug" => "electronics",
                     "products_min_order" => 0,
                     "products_max_stock" => 0
                 )
@@ -437,7 +437,7 @@ class ProductTableSeeder extends Seeder
                 array(
                     "id" => 13,
                     "products_name" => "dress",
-                    "products_quantity" => 5,
+                    "products_quantity" => 22,
                     "category_id" => 1,
                     "brand_id" => 6,
                     "products_model" => "",
@@ -449,6 +449,7 @@ class ProductTableSeeder extends Seeder
                     "products_date_available" => $date,
                     "products_detail" => $product_detail,
                     "products_description" => $product_description,
+                    "products_type" => 'small,medium, large',
                     "products_video_link" => 'https://www.youtube.com/embed/BUWzX78Ye_8',
                     "products_status" => true,
                     "is_current" => true,
@@ -458,8 +459,7 @@ class ProductTableSeeder extends Seeder
                     "products_liked" => 8,
                     "low_limit" => "0",
                     "is_feature" => 1,
-                    "products_slug" => "fashion",
-                    "products_type" => 0,
+                    "products_slug" => "toys",
                     "products_min_order" => 0,
                     "products_max_stock" => 0
                 )
@@ -470,7 +470,7 @@ class ProductTableSeeder extends Seeder
                 array(
                     "id" => 14,
                     "products_name" => "shoes",
-                    "products_quantity" => 5,
+                    "products_quantity" => 10,
                     "category_id" => 2,
                     "brand_id" => 7,
                     "products_model" => "",
@@ -482,6 +482,7 @@ class ProductTableSeeder extends Seeder
                     "products_date_available" => $date,
                     "products_detail" => $product_detail,
                     "products_description" => $product_description,
+                    "products_type" => 'small,medium, large, xtra lage',
                     "products_video_link" => 'https://www.youtube.com/embed/BUWzX78Ye_8',
                     "products_status" => true,
                     "is_current" => true,
@@ -491,8 +492,7 @@ class ProductTableSeeder extends Seeder
                     "products_liked" => 8,
                     "low_limit" => "0",
                     "is_feature" => 1,
-                    "products_slug" => "fashion",
-                    "products_type" => 0,
+                    "products_slug" => "games",
                     "products_min_order" => 0,
                     "products_max_stock" => 0
                 )
@@ -503,7 +503,7 @@ class ProductTableSeeder extends Seeder
                 array(
                     "id" => 15,
                     "products_name" => "sound system",
-                    "products_quantity" => 5,
+                    "products_quantity" => 30,
                     "category_id" => 3,
                     "brand_id" => 8,
                     "products_model" => "",
@@ -515,6 +515,7 @@ class ProductTableSeeder extends Seeder
                     "products_date_available" => $date,
                     "products_detail" => $product_detail,
                     "products_description" => $product_description,
+                    "products_type" => 'small,medium, xtra lage',
                     "products_video_link" => 'https://www.youtube.com/embed/BUWzX78Ye_8',
                     "products_status" => true,
                     "is_current" => true,
@@ -524,8 +525,7 @@ class ProductTableSeeder extends Seeder
                     "products_liked" => 8,
                     "low_limit" => "0",
                     "is_feature" => 1,
-                    "products_slug" => "fashion",
-                    "products_type" => 0,
+                    "products_slug" => "adventure",
                     "products_min_order" => 0,
                     "products_max_stock" => 0
                 )
@@ -536,7 +536,7 @@ class ProductTableSeeder extends Seeder
                 array(
                     "id" => 16,
                     "products_name" => "freezer",
-                    "products_quantity" => 5,
+                    "products_quantity" => 26,
                     "category_id" => 4,
                     "brand_id" => 3,
                     "products_model" => "",
@@ -548,6 +548,7 @@ class ProductTableSeeder extends Seeder
                     "products_date_available" => $date,
                     "products_detail" => $product_detail,
                     "products_description" => $product_description,
+                    "products_type" => 'small,medium, large, xtra lage',
                     "products_video_link" => 'https://www.youtube.com/embed/BUWzX78Ye_8',
                     "products_status" => true,
                     "is_current" => true,
@@ -558,7 +559,6 @@ class ProductTableSeeder extends Seeder
                     "low_limit" => "0",
                     "is_feature" => 1,
                     "products_slug" => "fashion",
-                    "products_type" => 0,
                     "products_min_order" => 0,
                     "products_max_stock" => 0
                 )
@@ -569,7 +569,7 @@ class ProductTableSeeder extends Seeder
                 array(
                     "id" => 17,
                     "products_name" => "laptop",
-                    "products_quantity" => 5,
+                    "products_quantity" => 19,
                     "category_id" => 5,
                     "brand_id" => 5,
                      "brand_id" => 5,
@@ -582,6 +582,7 @@ class ProductTableSeeder extends Seeder
                     "products_date_available" => $date,
                     "products_detail" => $product_detail,
                     "products_description" => $product_description,
+                    "products_type" => '',
                     "products_video_link" => 'https://www.youtube.com/embed/BUWzX78Ye_8',
                     "products_status" => true,
                     "is_current" => true,
@@ -591,8 +592,7 @@ class ProductTableSeeder extends Seeder
                     "products_liked" => 8,
                     "low_limit" => "0",
                     "is_feature" => 1,
-                    "products_slug" => "fashion",
-                    "products_type" => 0,
+                    "products_slug" => "book",
                     "products_min_order" => 0,
                     "products_max_stock" => 0
                 )
@@ -603,7 +603,7 @@ class ProductTableSeeder extends Seeder
                 array(
                     "id" => 18,
                     "products_name" => "ladies dress",
-                    "products_quantity" => 5,
+                    "products_quantity" => 35,
                     "category_id" => 6,
                     "brand_id" => 6,
                     "products_model" => "",
@@ -615,6 +615,7 @@ class ProductTableSeeder extends Seeder
                     "products_date_available" => $date,
                     "products_detail" => $product_detail,
                     "products_description" => $product_description,
+                    "products_type" => 'small,medium, large, xtra lage',
                     "products_video_link" => 'https://www.youtube.com/embed/BUWzX78Ye_8',
                     "products_status" => true,
                     "is_current" => true,
@@ -624,8 +625,7 @@ class ProductTableSeeder extends Seeder
                     "products_liked" => 8,
                     "low_limit" => "0",
                     "is_feature" => 1,
-                    "products_slug" => "fashion",
-                    "products_type" => 0,
+                    "products_slug" => "sports",
                     "products_min_order" => 0,
                     "products_max_stock" => 0
                 )
@@ -636,7 +636,7 @@ class ProductTableSeeder extends Seeder
                 array(
                     "id" => 19,
                     "products_name" => "bag",
-                    "products_quantity" => 5,
+                    "products_quantity" => 37,
                     "category_id" => 1,
                     "brand_id" => 8,
                     "products_model" => "",
@@ -648,6 +648,7 @@ class ProductTableSeeder extends Seeder
                     "products_date_available" => $date,
                     "products_detail" => $product_detail,
                     "products_description" => $product_description,
+                    "products_type" => 'small,medium, large, xtra lage',
                     "products_video_link" => 'https://www.youtube.com/embed/BUWzX78Ye_8',
                     "products_status" => true,
                     "is_current" => true,
@@ -657,8 +658,7 @@ class ProductTableSeeder extends Seeder
                     "products_liked" => 8,
                     "low_limit" => "0",
                     "is_feature" => 1,
-                    "products_slug" => "fashion",
-                    "products_type" => 0,
+                    "products_slug" => "electronics",
                     "products_min_order" => 0,
                     "products_max_stock" => 0
                 )
@@ -669,7 +669,7 @@ class ProductTableSeeder extends Seeder
                 array(
                     "id" => 20,
                     "products_name" => "necklace",
-                    "products_quantity" => 5,
+                    "products_quantity" => 15,
                     "category_id" => 2,
                     "brand_id" => 2,
                     "products_model" => "",
@@ -681,6 +681,7 @@ class ProductTableSeeder extends Seeder
                     "products_date_available" => $date,
                     "products_detail" => $product_detail,
                     "products_description" => $product_description,
+                    "products_type" => 'small,medium, large',
                     "products_video_link" => 'https://www.youtube.com/embed/BUWzX78Ye_8',
                     "products_status" => true,
                     "is_current" => true,
@@ -690,8 +691,7 @@ class ProductTableSeeder extends Seeder
                     "products_liked" => 8,
                     "low_limit" => "0",
                     "is_feature" => 1,
-                    "products_slug" => "fashion",
-                    "products_type" => 0,
+                    "products_slug" => "toys",
                     "products_min_order" => 0,
                     "products_max_stock" => 0
                 )

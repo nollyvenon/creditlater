@@ -3,8 +3,7 @@ window.onload = function(){
         elemOne   = document.querySelector('#img-1'),
         elemTwo   = document.querySelector('#img-2'),
         elemThree   = document.querySelector('#img-3');
-    
-        if(themeslider.length > 0){
+        
             themeslider.addEventListener('mousemove',function(e){
                 var pageX = e.clientX - window.innerWidth/1,
                     pageY = e.clientY - window.innerHeight/1;
@@ -12,6 +11,5 @@ window.onload = function(){
                 elemTwo.style.transform = 'translateX(' + (7 + pageX/150) + '%) translateY(' + (1 + pageY/150) +  '%)';
                 elemThree.style.transform = 'translateX(' + (7 + pageX/150) + '%) translateY(' + (1 + pageY/150) +  '%)';
             });
-        }
    
 };

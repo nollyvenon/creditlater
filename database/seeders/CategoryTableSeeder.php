@@ -28,7 +28,6 @@ class CategoryTableSeeder extends Seeder
                 'sort_order' => 0,
                 'date_added' => $date,
                 'last_modified' => $date,
-                'category_slug' => 'fashion',
                 'category_status' => 1,
                 'is_feature' => 1
             ),
@@ -43,7 +42,6 @@ class CategoryTableSeeder extends Seeder
                 'sort_order' => 0,
                 'date_added' => $date,
                 'last_modified' => $date,
-                'category_slug' => 'Books',
                 'category_status' => 1,
                 'is_feature' => 1
             ),
@@ -58,7 +56,6 @@ class CategoryTableSeeder extends Seeder
                 'sort_order' => 0,
                 'date_added' => $date,
                 'last_modified' => $date,
-                'category_slug' => 'sports',
                 'category_status' => 1,
                 'is_feature' => 1
             ),
@@ -73,7 +70,6 @@ class CategoryTableSeeder extends Seeder
                 'sort_order' => 0,
                 'date_added' => $date,
                 'last_modified' => $date,
-                'category_slug' => 'electronics',
                 'category_status' => 1,
                 'is_feature' => 1
             ),
@@ -88,7 +84,6 @@ class CategoryTableSeeder extends Seeder
                 'sort_order' => 0,
                 'date_added' => $date,
                 'last_modified' => $date,
-                'category_slug' => 'toys',
                 'category_status' => 1,
                 'is_feature' => 1
             ),
@@ -103,13 +98,12 @@ class CategoryTableSeeder extends Seeder
                 'sort_order' => 0,
                 'date_added' => $date,
                 'last_modified' => $date,
-                'category_slug' => 'footwares',
                 'category_status' => 1,
                 'is_feature' => 1
             ),
             array(
                 'id' => 7,
-                'category_name' => 'toys',
+                'category_name' => 'games',
                 'category_banner_image' => 'web/images/category/1.jpg',
                 'category_image' => 'web/images/layout-1/nav-img/07.png',
                 'round_cat_image' => 'web/images/layout-1/rounded-cat/1.png',
@@ -118,13 +112,12 @@ class CategoryTableSeeder extends Seeder
                 'sort_order' => 0,
                 'date_added' => $date,
                 'last_modified' => $date,
-                'category_slug' => 'toys',
                 'category_status' => 1,
                 'is_feature' => 1
             ),
             array(
                 'id' => 8,
-                'category_name' => 'footwares',
+                'category_name' => 'adventure',
                 'category_banner_image' => 'web/images/category/1.jpg',
                 'category_image' => 'web/images/layout-1/nav-img/08.png',
                 'round_cat_image' => 'web/images/layout-1/rounded-cat/3.png',
@@ -133,7 +126,6 @@ class CategoryTableSeeder extends Seeder
                 'sort_order' => 0,
                 'date_added' => $date,
                 'last_modified' => $date,
-                'category_slug' => 'footwares',
                 'category_status' => 1,
                 'is_feature' => 1
             ),

@@ -109,6 +109,7 @@
                                 <p id="demo"><span>25 <span class="padding-l">:</span> <span class="timer-cal">Days</span> </span><span>22 <span class="padding-l">:</span> <span class="timer-cal">Hrs</span> </span><span>13 <span class="padding-l">:</span> <span class="timer-cal">Min</span> </span><span>57 <span class="timer-cal">Sec</span></span>
                                 </p>
                             </div>
+                            @if($product->products_type)
                             <h6 class="product-title">select size</h6>
                             <div class="modal fade" id="sizemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -121,21 +122,27 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="size-box">
+                            @php($sizes = explode(',', $product->products_type))
+                            <div class="size-box" id="size_box">
                                 <ul>
-                                    <li class="active"><a href="#">s</a></li>
-                                    <li><a href="#">m</a></li>
-                                    <li><a href="#">l</a></li>
-                                    <li><a href="#">xl</a></li>
+                                    @foreach($sizes as $size)
+                                    <li class="{{ $sizes[0] == $size ? 'active' : ''}}"><a href="#" id="{{ $size }}">{{ first_letter($size) }}</a></li>
+                                    @endforeach
                                 </ul>
+                                <input type="text" class="form-control text-center mt-2" id="detail_product_size" value="{{ $sizes[0]}}" disabled>
                             </div>
+                            @endif
+                            <h6 class="product-title md-3">qty available: {{ $product->products_quantity }}</h6>
+                            <!-- <p style="background-color: red; color: #fff">Out of stock</p> -->
                             <h6 class="product-title">quantity</h6>
-                            <div class="qty-box">
+                            <div class="qty-box" id="detail_qty_box">
                                 <div class="input-group"><span class="input-group-prepend"><button type="button" class="btn quantity-left-minus" data-type="minus" data-field=""><i class="fa fa-angle-left"></i></button> </span>
-                                    <input type="text" name="quantity" class="form-control input-number" value="1"> <span class="input-group-prepend"><button type="button" class="btn quantity-right-plus" data-type="plus" data-field=""><i class="fa fa-angle-right"></i></button></span></div>
+                                <input type="text" name="quantity" class="form-control input-number" id="product_qty" value="1"> <span class="input-group-prepend"><button type="button" class="btn quantity-right-plus" data-type="plus" data-field=""><i class="fa fa-angle-right"></i></button></span></div>
                             </div>
                         </div>
-                        <div class="product-buttons"><a href="#" data-toggle="modal" data-target="#addtocart" class="btn btn-normal">add to cart</a> <a href="#" class="btn btn-normal">buy now</a></div>
+                        <div class="product-buttons">
+                            <a href="{{ url('/cart') }}" class="btn btn-normal" data-size="small" data-id="{{ $product->id }}" id="add_to_cart">add to cart</a> 
+                            <a href="#" class="btn btn-normal" id="buy-now">buy now</a></div>
                     </div>
                 </div>
             </div>

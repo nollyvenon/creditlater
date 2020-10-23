@@ -35,9 +35,9 @@
                                                 @endif
                                                 </div>
                                                 <p>
-                                                {{ $onSale->products_price_slash > 0? '$'. $onSale->products_price_slash : '' }}
+                                              {{ $onSale->products_name }}
                                                 </p>
-                                                <h6> ${{ $onSale->products_price }}</h6>
+                                                <h6>@money($onSale->products_price)</h6>
                                             </div>
                                         </div>
                                     </div>

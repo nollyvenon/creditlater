@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
         // money blade function
         Blade::directive('money', function ($amount) {
             $naira = "&#x20A6;";
-            return "<?php echo '$naira'.number_format($amount, 2); ?>";
+            return "<?php echo '$naira'.number_format($amount); ?>";
         });
 
          // percenatge blade function

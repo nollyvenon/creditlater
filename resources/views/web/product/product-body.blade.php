@@ -7,15 +7,15 @@
                 <div class="col-sm-3 collection-filter category-page-side">
                     <!-- side-bar colleps block stat -->
                     <div class="collection-filter-block creative-card creative-inner category-side">
-                    <form action="{{ url('category/'.$categories->category_name) }}" method="GET" id="filterField">
+                    <form action="{{ url('products') }}" method="GET" id="filterField">
                         <!-- brand filter start -->
                         <div class="collection-mobile-back"><span class="filter-back"><i class="fa fa-angle-left" aria-hidden="true"></i> back</span></div>
                         <div class="collection-collapse-block open">
                             <h3 class="collapse-block-title mt-0">brand</h3>
                             <div class="collection-collapse-block-content">
                                 <div class="collection-brand-filter"  id="brandSection">
-                                @if($categoryBrands)
-                                    @foreach($categoryBrands as $brands)
+                                @if($allBrands)
+                                    @foreach($allBrands as $brands)
                                     <div class="custom-control custom-checkbox collection-filter-checkbox">
                                         <input type="checkbox" class="custom-control-input" id="{{ $brands->id }}" {{ $brands->id == request()->brand_id ? 'checked' : ''}}>
                                         <label class="custom-control-label" for="{{ $brands->id }}">{{ $brands->brand_name}}</label>
@@ -100,31 +100,17 @@
                         </div>
                     </div>
                     <!-- side-bar single product slider end -->
-                    <!-- side-bar banner start here -->
-                    <div class="collection-sidebar-banner">
-                        <a href="#"><img src="{{ asset('web/images/category/side-banner.png') }}" class="img-fluid " alt=""></a>
-                    </div>
+                  
                     <!-- side-bar banner end here -->
                 </div>
                 <div class="collection-content col">
                     <div class="page-main-content">
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="top-banner-wrapper">
-                                    <a href="#"><img src="{{ asset($categories->category_banner_image) }}" class="img-fluid " alt=""></a>
-                                    <div class="top-banner-content small-section">
-                                        <h4>{{ $categories->category_name }} Category</h4>
-                                    </div>
-                                </div>
                                 <div class="collection-product-wrapper">
                                     <div class="product-top-filter">
-                                        <div class="row">
-                                            <div class="col-xl-12">
-                                                <div class="filter-main-btn"><span class="filter-btn  "><i class="fa fa-filter" aria-hidden="true"></i> Filter</span></div>
-                                            </div>
-                                        </div>
                                         <!-- showing  products tab start -->
-                                        @php($product = $categories->products)
+                                        @php($product = $allProducts)
                                             @if(isset($productFilter))
                                                 @php( $product = $productFilter)
                                             @endif
@@ -171,7 +157,7 @@
                                     </div>
                                          
                                     <div class="product-wrapper-grid">
-                                        @php($product = $categories->products)
+                                        @php($product = $allProducts)
                                             @if(isset($productFilter))
                                                 @php( $product = $productFilter)
                                             @endif
@@ -253,7 +239,7 @@
                                     </div>
 
                                     <!-- pagination start -->
-                                    @php($product = $categories->products)
+                                    @php($product = $allProducts)
                                         @if(isset($productFilter))
                                             @php( $product = $productFilter)
                                         @endif

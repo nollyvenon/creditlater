@@ -7,6 +7,8 @@
     <meta name="description" content="big-deal">
     <meta name="keywords" content="big-deal">
     <meta name="author" content="big-deal">
+    <!-- csrf_token -->
+    <meta name="csrf_token" content="{{ csrf_token() }}">
     <link rel="icon" href="http://themes.pixelstrap.com/bigdeal/assets/images/favicon/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="http://themes.pixelstrap.com/bigdeal/assets/images/favicon/favicon.ico" type="image/x-icon">
 

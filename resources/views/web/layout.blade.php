@@ -17,17 +17,19 @@
     </section>
     
     <!-- footer -->
-     <section>
+    <section>
         @include("web.footer")
-        @include("web.notification")
-        @include("web.newsletter-popup")
-     </section>
+    </section>
+
+    <!-- drop down -->
+    <section>
+        @include("web.dropdowns") 
+    </section>
      
     <!-- script -->
-       <section>
-       @include("web.script")
-       </section>
-       
+    <section>
+        @include("web.script")
+    </section>
 
 </body>
 </html>

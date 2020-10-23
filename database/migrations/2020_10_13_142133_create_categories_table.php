@@ -24,7 +24,6 @@ class CreateCategoriesTable extends Migration
             $table->integer('sort_order')->nullable();
             $table->dateTime('date_added')->nullable();
             $table->dateTime('last_modified')->nullable();
-            $table->string('category_slug');
             $table->boolean('category_status')->default(1);
             $table->boolean("is_feature");
             $table->timestamps();

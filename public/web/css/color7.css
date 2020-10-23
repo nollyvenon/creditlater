@@ -2580,6 +2580,11 @@ button {
     font-size: 20px;
     color: #444;
 }
+.category-header .navbar-menu .category-left .input-block .input-box .big-deal-form .search_btn{
+    border: none;
+    background-color: #fff;
+
+}
 .category-header .navbar-menu .category-left .input-block .input-box .big-deal-form .input-group select {
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -20851,4 +20856,44 @@ body.rtl {
     .p-l-md-0 {
         padding-left: 0;
     }
+}
+
+
+/* ==================================================== */
+/*                 addition css                        */
+/* ================================================== */
+#formField button{
+    color: #fff;
+    border: none;
+    background-color: #ff6000;
+    width: 100%;
+    padding: 5px 0px;
+}
+.media-banner-box a{
+    color: #ff6000;
+}
+
+/* quickl view image preloader */
+#quick-view .modal-body{
+    position: relative;
+}
+.quick-view-preloader{
+    top: 0px;
+    width: 100%;
+    z-index: 100;
+    height: 100%;   
+    border-radius: 3px;
+    text-align: center;
+    position: absolute;
+    background-color: #fff;
+}
+.quick-view-preloader img{
+    width: 250;
+    height: 250px;
+    margin-top: 15%;
+}
+
+/* hot deal media box  */
+.media-banner-box .media img{
+    height: 110px;
 }

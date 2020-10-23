@@ -13,33 +13,25 @@
                                         back <i class="fa fa-angle-right pl-2"></i>
                                     </div>
                                 </li>
-                                <li><a href="#">western ware</a></li>
-                                <li><a href="#">TV, Appliances</a></li>
-                                <li><a href="#">Pets Products</a></li>
-                                <li><a href="#">Car, Motorbike</a></li>
-                                <li><a href="#">Industrial Products</a></li>
-                                <li><a href="#">Beauty, Health Products</a></li>
-                                <li><a href="#">Grocery Products </a></li>
-                                <li><a href="#">Sports</a></li>
-                                <li><a href="#">Bags, Luggage</a></li>
-                                <li><a href="#">Movies, Music </a></li>
-                                <li><a href="#">Video Games</a></li>
-                                <li><a href="#">Toys, Baby Products</a></li>
+                                @php($counter = 0)
+                                @foreach($sideCategories as $key=>$category)
+                                @php($counter++)
+                                @if($counter <= 12)
+                                <li><a href="{{ url('category/'.$category->category_name) }}">{{$category->category_name}}</a></li>
+                                @endif
+                                @endforeach
                                 <li class="mor-slide-open">
                                     <ul>
-                                        <li><a href="#">Bags, Luggage</a></li>
-                                        <li><a href="#">Movies, Music </a></li>
-                                        <li><a href="#">Video Games</a></li>
-                                        <li><a href="#">Toys, Baby Products</a></li>
+                                    @php($counter = 0)
+                                    @foreach($sideCategories as $key=>$category)
+                                    @php($counter++)
+                                    @if($counter > 12 && $counter == $key+1)
+                                    <li><a href="{{ url('category/'.$category->category_name) }}">{{$category->category_name}}</a></li>
+                                    @endif
+                                    @endforeach
                                     </ul>
                                 </li>
-                                <li>
-                                    <a class="mor-slide-click">
-                                        more categories
-                                        <i class="fa fa-angle-down pro-down" ></i>
-                                        <i class="fa fa-angle-up pro-up" ></i>
-                                    </a>
-                                </li>
+                                <li> <a class="mor-slide-click">mor category <i class="fa fa-angle-down pro-down"></i><i class="fa fa-angle-up pro-up"></i></a></li>
                             </ul>
                         </div>
                         <div class="brand-logo">
@@ -58,8 +50,8 @@
                                     </li>
                                     <!--HOME-->
                                     <li><a href="{{ url('/') }}">Home</a> </li>
-                                    <li><a href="#">Products</a> </li>
-                                    <li><a href="#">Helps</a> </li>
+                                    <li><a href="{{ url('/products') }}">Products</a> </li>
+                                    <li><a href="{{ url('/cart') }}">Cart</a> </li>
                                     <!--HOME-END-->
 
                                     <!--SHOP-->
@@ -70,11 +62,11 @@
                         <div>
                             <div class="icon-nav">
                                 <ul>
-                                    <li class="mobile-user onhover-dropdown" onclick="openAccount()"><a href="#"><i class="fa fa-user"></i></a>
+                                    <li class="mobile-user onhover-dropdown" onclick="openAccount()"><a href="#"><i class="fa fa-user-o"></i></a>
                                     </li>
                                     <li class="mobile-wishlist" onclick="openWishlist()">
                                         <a href="#">
-                                            <i class="fa fa-heart"></i>
+                                            <i class="fa fa-heart-o"></i>
                                             <div class="cart-item"><div>0 item<span>wishlist</span></div></div></a></li>
                                     <li class="mobile-search"><a href="#"><i class="fa fa-search"></i></a>
                                         <div class ="search-overlay">
@@ -98,7 +90,7 @@
                                     </li>
                                 </ul>
                                 <div class="cart-block mobile-cart cart-hover-div" onclick="openCart()">
-                                    <a href="#"><span class="cart-product">0</span><i class="fa fa-shopping-cart"></i></a>
+                                    <a href="#"><span class="cart-product" id="shopping_cart_quantity">{{ get_cart_quantity(1) }}</span><i class="fa fa-shopping-cart"></i></a>
                                 </div>
                             </div>
                         </div>

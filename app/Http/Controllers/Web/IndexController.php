@@ -5,10 +5,11 @@ namespace App\Http\Controllers\Web;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Models\Web\Product;
-use App\Models\Web\Category;
 use App\Models\Web\Slider;
 use App\Models\Web\Brand;
+use App\Models\Web\Cart;
 use App\Models\Web\Rating;
+use App\Models\Web\Category;
 use App\Models\Web\ProductSold;
 use DB;
 
@@ -23,10 +24,15 @@ class IndexController extends Controller
 
     public function index(Request $request){
         $sideCategories = Category::where('is_feature', 1)->get(); //get all category
+
         $sliders = Slider::where('is_feature', 1)->get(); //get all slider
+        
         $tab_categories = Category::where('is_feature', 1)->limit(6)->get(); //get six tab category
+        
         $specialProducts = DB::table('products')->where('is_feature', 1)->where('is_special', 1)->inRandomOrder()->limit(6)->get();   // special products
+        
         $brands = Brand::where('is_feature', 1)->limit(6)->get(); //get all slider
+        
         $featuredProducts = Product::where('is_feature', 1)->inRandomOrder()->limit(2)->get();  //get two featurd products
 
         // best sellers
@@ -47,16 +53,18 @@ class IndexController extends Controller
         $productsArray = array();
         foreach($fiftyPercentOff as $product)
         {
-            $price = $product->products_price;
-            if($this->half($price, 2) == $product->products_price_slash){
+            if(($product->products_price / 2) == $product->products_price_slash){
                 if(count($productsArray) == 2)break;
                 $productsArray[] = $product;
             }
         }
         $fiftyPercentOff = $productsArray;
 
+
+    
        
-    // $this->star_rating(7);
+
+        
 
         return view("web.index", compact(
                                 'sideCategories', 'sliders', 'tab_categories', 'specialProducts', 
@@ -65,36 +73,16 @@ class IndexController extends Controller
     }
 
 
-    public function half($values, $amount)
-    {
-        if(!empty($values) && !empty($amount))
-        {
-            if(is_int($amount))
-            {
-                return $percentage = $values / $amount;
-            }
-        }
-        return false;
-    }
 
-   
+
+
+  
+
     
-    public function star_rating($id){
-        $ratings = Rating::where('product_id', $id)->first();
-        $star = ceil($ratings["rating_total"] / $ratings["rating_count"]);
-        
-        for($i = 1; $i <= 5; $i++){
-            if($i <= $star){
-                $values[] = $i;
-            }else{
-                $values[] ="yes";
-            }
-        }
-        
-       dd($values);
-    }
-
+    
   
 
     // end
 }
+
+

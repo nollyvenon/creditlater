@@ -7,7 +7,7 @@
                     @foreach($tab_categories as $tab_category)
                     <div>
                         <div class="category-contain">
-                            <a href="{{ url('category/'.$tab_category->id) }}">
+                            <a href="{{ url('category/'.$tab_category->category_name) }}">
                                 <div class="img-wrapper">
                                     <img src="{{ asset($tab_category->round_cat_image) }}" alt="{{$tab_category->category_name}}" class="img-fluid">
                                 </div>

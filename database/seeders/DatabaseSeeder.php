@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             PaymentMethodtableSeeder::class,
             CategoryBrandTableSeeder::class,
             RatingTableSeeder::class,
+            PriceRangeTableSeeder::class,
         ]);
         
     }

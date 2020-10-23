@@ -18,9 +18,13 @@ class DetailController extends Controller
     public function show($product_id)
     {
         $sideCategories = Category::where('is_feature', 1)->get(); //get all category
+
         $product = Product::where('id', $product_id)->first();
+
         $category_id = $product->category_id;
+
         $paymentMethods = DB::table('payment_methods')->where('active', '=', 1)->get();
+
         $relatedProducts = DB::table('products')->where('category_id', $category_id)->where('is_feature', 1)->inRandomOrder()->limit(6)->get();   // special products                
 
         

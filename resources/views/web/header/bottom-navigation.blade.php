@@ -14,40 +14,42 @@
                                     <h5 class="mb-0 ml-3 text-white title-font">Shop by category</h5>
                                 </nav>
                                 <div class="collapse nav-desk {{ Request::path() == '/' ? 'show' : '' }}" id="navbarToggleExternalContent">
-                                <ul class="nav-cat title-font ">
+                                    <ul class="nav-cat title-font ">
+                                        @php($counter = 0)
+                                        @foreach($sideCategories as $key=>$category)
+                                        @php($counter++)
+                                        @if($counter <= 12)
+                                        <li> <a href="{{ url('category/'.$category->category_name) }}"><img src="{{ asset($category->category_image) }}" alt="{{$category->name}}"></a> 
+                                        <a href="{{ url('category/'.$category->category_name) }}">{{$category->category_name}}</a></li>
+                                        @endif
+                                        @endforeach
+                                        <li class="mor-slide-open">
+                                            <ul>
                                             @php($counter = 0)
                                             @foreach($sideCategories as $key=>$category)
                                             @php($counter++)
-                                            @if($counter <= 12)
-                                            <li> <a href="{{ url('category/'.$category->id) }}"><img src="{{ asset($category->category_image) }}" alt="{{$category->name}}"></a> 
-                                            <a href="{{ url('category/'.$category->id) }}">{{$category->category_name}}</a></li>
+                                            @if($counter > 12 && $counter == $key+1)
+                                            <li> <a href="{{ url('category/'.$category->category_name) }}"><img src="{{ asset($category->category_image) }}" alt="{{$category->image}}"></a> 
+                                            <a href="{{ url('category/'.$category->category_name) }}">{{$category->category_name}}</a></li>
                                             @endif
                                             @endforeach
-                                            <li class="mor-slide-open">
-                                                <ul>
-                                                @php($counter = 0)
-                                                @foreach($sideCategories as $key=>$category)
-                                                @php($counter++)
-                                                @if($counter > 12 && $counter == $key+1)
-                                                <li> <a href="{{ url('category/'.$category->id) }}"><img src="{{ asset($category->category_image) }}" alt="{{$category->image}}"></a> 
-                                                <a href="{{ url('category/'.$category->id) }}">{{$category->category_name}}</a></li>
-                                                @endif
-                                                @endforeach
-                                                </ul>
-                                            </li>
-                                            <li> <a class="mor-slide-click">mor category <i class="fa fa-angle-down pro-down"></i><i class="fa fa-angle-up pro-up"></i></a></li>
-                                        </ul>
+                                            </ul>
+                                        </li>
+                                        <li> <a class="mor-slide-click">mor category <i class="fa fa-angle-down pro-down"></i><i class="fa fa-angle-up pro-up"></i></a></li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
                         <div class="input-block">
                             <div class="input-box">
-                                <form action="" method="post" class="big-deal-form">
+                                <form action="{{ url('products') }}" method="post" class="big-deal-form">
                                     <div class="input-group ">
+                                        <input type="text" class="form-control" name="product_search" placeholder="Search a Product" >
                                         <div class="input-group-prepend">
-                                            <span class="search"><i class="fa fa-search"></i></span>
+                                           <button type="submit" class="search_btn"><span class="search"><i class="fa fa-search"></i></span></button>
+                                            @csrf
+                                            
                                         </div>
-                                        <input type="text" class="form-control" placeholder="Search a Product" >
                                         <div class="input-group-prepend">
                                             <!-- <select>
                                                 <option>All Category</option>
