@@ -6,12 +6,15 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Models\Web\Product;
 use App\Models\Web\Category;
+
 use DB;
+use Session;
 
 class DetailController extends Controller
 {
     public function index(){
         $categories = Category::where('is_feature', 1)->get(); //get all category
+
         return view("web.detail", compact('categories'));
     }
 
@@ -30,6 +33,13 @@ class DetailController extends Controller
         
         return view('web.detail', compact('product', 'sideCategories', 'relatedProducts', 'paymentMethods'));
     }
+
+
+
+
+    
+
+    // end
 }
 
 

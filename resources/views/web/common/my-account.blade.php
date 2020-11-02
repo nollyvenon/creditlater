@@ -10,21 +10,24 @@
                 </a>
             </div>
         </div>
-        <form class="theme-form">
+        <div class="error-container p-3">
+            <div class="alert-danger p-2 text-center side-login-error"></div>
+        </div>
+        <form action="{{ url('/login-ajax') }}" method="post" id="ajax_login_form" class="theme-form">
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="text" class="form-control" id="email" placeholder="Email" required="">
+                <input type="text" class="form-control" id="email" placeholder="Email" required>
             </div>
             <div class="form-group">
                 <label for="review">Password</label>
-                <input type="password" class="form-control" id="review" placeholder="Enter your password" required="">
+                <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
             </div>
             <div class="form-group">
-                <a href="#" class="btn btn-rounded btn-block ">Login</a>
+                <a href="{{ url('/login-ajax') }}" id="side_login_btn" class="btn btn-rounded btn-block ">Login</a>
             </div>
             <div>
-                <h5 class="forget-class"><a href="forget-pwd.html" class="d-block">forget password?</a></h5>
-                <h6 class="forget-class"><a href="register.html" class="d-block">new to store? Signup now</a></h6>
+                <h5 class="forget-class"><a href="{{ url('forget-password') }}" class="d-block">forget password?</a></h5>
+                <h6 class="forget-class"><a href="{{ url('/register') }}" class="d-block">new to store? Signup now</a></h6>
             </div>
         </form>
     </div>

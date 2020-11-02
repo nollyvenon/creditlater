@@ -213,13 +213,13 @@
                                                                 </div>
                                                             </div>
                                                             <div class="icon-detail">
-                                                                <button data-toggle="modal" data-target="#addtocart" title="Add to cart">
-                                                                    <i class="fa fa-shopping-cart" ></i>
+                                                                <button data-toggle="modal" class="quick-add-to-cartBtn" id="{{ $category->id }}" data-url="{{ url('/quick-add-to-cart') }}" data-target="#addtocart" title="Add to cart">
+                                                                    <i class="ti-bag"></i>
                                                                 </button>
-                                                                <a href="javascript:void(0)" title="Add to Wishlist">
+                                                                <a href="javascript:void(0)" title="Add to Wishlist" id="{{ $category->id }}" data-url="{{ url('/quick-add-to-wishlist') }}" class="quick-add-to-wishlist">
                                                                     <i class="fa fa-heart" aria-hidden="true"></i>
                                                                 </a>
-                                                                <a href="{{ url('/') }}" data-toggle="modal" class="quick-view-btn" data-target="#quick-view" title="Quick View" id="{{ $category->id }}">
+                                                                <a href="{{ url('/quick-view') }}" data-toggle="modal" class="quick-view-btn" data-target="#quick-view" title="Quick View" id="{{ $category->id }}">
                                                                     <i class="fa fa-search" aria-hidden="true"></i>
                                                                 </a>
                                                                 <!-- <a href="" title="Compare">

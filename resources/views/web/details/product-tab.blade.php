@@ -77,11 +77,11 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label for="email">Email</label>
-                                        <input type="text" class="form-control" id="email" placeholder="Email" required>
+                                        <input type="text" class="form-control" id="emai" placeholder="Email" required>
                                     </div>
                                     <div class="col-md-12">
                                         <label for="review">Review Title</label>
-                                        <input type="text" class="form-control" id="review" placeholder="Enter your Review Subjects" required>
+                                        <input type="text" class="form-control" id="revie" placeholder="Enter your Review Subjects" required>
                                     </div>
                                     <div class="col-md-12">
                                         <label for="review">Review Title</label>

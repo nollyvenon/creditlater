@@ -3,7 +3,6 @@
 
 
 <!-- Add to cart bar -->
-<div id="cart_side" class=" add_to_cart bottom cart_item_container">
     <a href="javascript:void(0)" class="overlay" onclick="closeCart()"></a>
     <div class="cart-inner">
         <div class="cart_top">
@@ -63,5 +62,4 @@
             </div>
         @endif
     </div>
-</div>
 <!-- Add to cart bar end-->

@@ -1,4 +1,3 @@
-
 <!-- breadcrumb start -->
 <div class="breadcrumb-main ">
     <div class="container">
@@ -6,11 +5,11 @@
             <div class="col">
                 <div class="breadcrumb-contain">
                     <div>
-                        <h2>category</h2>
+                        <h2>Wishlist</h2>
                         <ul>
                             <li><a href="{{ url('/') }}">home</a></li>
                             <li><i class="fa fa-angle-double-right"></i></li>
-                            <li><a href="{{ url('category/'.$categories->category_name) }}">Category</a></li>
+                            <li><a href="{{ url('/wishlist') }}">wishlist</a></li>
                         </ul>
                     </div>
                 </div>

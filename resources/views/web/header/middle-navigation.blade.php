@@ -51,7 +51,14 @@
                                     <!--HOME-->
                                     <li><a href="{{ url('/') }}">Home</a> </li>
                                     <li><a href="{{ url('/products') }}">Products</a> </li>
+                                    <li><a href="{{ url('/wishlist') }}">wishlist</a> </li>
                                     <li><a href="{{ url('/cart') }}">Cart</a> </li>
+                                    @if(Session::has('user'))
+                                    <li><a href="{{ url('/logout') }}">logout</a> </li>
+                                    @else
+                                    <li><a href="{{ url('/login') }}">login</a> </li>
+                                    <li><a href="{{ url('/register') }}">register</a> </li>
+                                    @endif
                                     <!--HOME-END-->
 
                                     <!--SHOP-->
@@ -67,7 +74,7 @@
                                     <li class="mobile-wishlist" onclick="openWishlist()">
                                         <a href="#">
                                             <i class="fa fa-heart-o"></i>
-                                            <div class="cart-item"><div>0 item<span>wishlist</span></div></div></a></li>
+                                            <div class="cart-item"><div> <span class="get-wishlist-qty" style="color: orangered;">{{ wishlist_quantity() }} item</span><span>wishlist</span></div></div></a></li>
                                     <li class="mobile-search"><a href="#"><i class="fa fa-search"></i></a>
                                         <div class ="search-overlay">
                                             <div>
@@ -90,7 +97,7 @@
                                     </li>
                                 </ul>
                                 <div class="cart-block mobile-cart cart-hover-div" onclick="openCart()">
-                                    <a href="#"><span class="cart-product" id="shopping_cart_quantity">{{ get_cart_quantity(1) }}</span><i class="fa fa-shopping-cart"></i></a>
+                                    <a href="#"><span class="cart-product" id="shopping_cart_quantity">{{ Session::has('cart')? Session::get('cart')->_totalQty : '0' }}</span><i class="fa fa-shopping-cart"></i></a>
                                 </div>
                             </div>
                         </div>

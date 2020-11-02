@@ -2,6 +2,7 @@
 
 
 <!--section start-->
+@if(Session::has('cart'))
 <section class="cart-section section-big-py-space bg-light">
     <div class="custom-container">
         <div class="row">
@@ -17,41 +18,40 @@
                         <th scope="col">total</th>
                     </tr>
                     </thead>
-                    @php($total_price = 0)
-                    @foreach($cart as $cart_items)
-                    @php($total_price += $cart_items->total )
+                    @foreach(Session::get('cart')->_items as $values)
+                    @php($cart_item = $values['product'])
                     <tbody>
                     <tr>
                         <td>
-                            <a href="{{ url('detail/'.$cart_items->product_id) }}"><img src="{{ asset(image($cart_items->products_image, 0)) }}" alt="cart"  class=" "></a>
+                            <a href="{{ url('detail/'.$cart_item['id']) }}"><img src="{{ asset(image($cart_item['products_image'], 0)) }}" alt="{{ $cart_item['products_name'] }}"  class=" "></a>
                         </td>
-                        <td><a href="{{ url('detail/'.$cart_items->product_id) }}">{{ $cart_items->products_name }}</a>
+                        <td><a href="{{ url('detail/'.$cart_item['id']) }}">{{ $cart_item['products_name'] }}</a>
                             <div class="mobile-cart-content row">
                                 <div class="col-xs-3">
                                     <div class="qty-box">
                                         <div class="input-group">
-                                            <input type="text" name="quantity" class="form-control input-number" value="{{ $cart_items->quantity }}">
+                                           <input type="number" name="quantity" class="form-control input-number" value="{{ $values['quantity'] }}">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-xs-3">
-                                    <h2 class="td-color">@money($cart_items->products_price)</h2></div>
+                                    <h2 class="td-color">@money($cart_item['products_price'])</h2></div>
                                 <div class="col-xs-3">
-                                    <h2 class="td-color"><a href="#" class="icon"><i class="fa fa-times"></i></a></h2></div>
+                                    <h2 class="td-color"><a href="{{ url('/cart-item-delete') }}" class="icon delete-cart-item" id="{{ $cart_item['id'] }}"><i class="fa fa-times"></i></a></h2></div>
                             </div>
                         </td>
                         <td>
-                            <h2>@money($cart_items->products_price)</h2></td>
+                            <h2>@money($cart_item['products_price'])</h2></td>
                         <td>
                             <div class="qty-box">
                                 <div class="input-group">
-                                    <input type="number" name="quantity" class="form-control input-number" value="{{ $cart_items->quantity }}">
+                                    <input type="number" name="quantity" class="form-control input-number" value="{{ $values['quantity'] }}">
                                 </div>
                             </div>
                         </td>
-                        <td><a href="#" class="icon"><i class="fa fa-times"></i></a></td>
+                        <td><a href="{{ url('/cart-item-delete') }}" class="icon delete-cart-item" id="{{ $cart_item['id'] }}"><i class="fa fa-times"></i></a></td>
                         <td>
-                            <h2 class="td-color">@money($cart_items->total)</h2></td>
+                            <h2 class="td-color">@money($values['price'])</h2></td>
                     </tr>
                     </tbody>
                     @endforeach
@@ -61,7 +61,7 @@
                     <tr>
                         <td>total price :</td>
                         <td>
-                            <h2>@money($total_price)</h2></td>
+                            <h2>@money(Session::get('cart')->_totalPrice)</h2></td>
                     </tr>
                     </tfoot>
                 </table>
@@ -72,5 +72,8 @@
         </div>
     </div>
 </section>
+@else
+   @include("web.carts.empty-cart")
+@endif
 <!--section end-->
 

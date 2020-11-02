@@ -7,6 +7,11 @@
                 <div class="breadcrumb-contain">
                     <div>
                         <h2>Products</h2>
+                        <ul>
+                            <li><a href="{{ url('/') }}">home</a></li>
+                            <li><i class="fa fa-angle-double-right"></i></li>
+                            <li><a href="{{ url('/products') }}">Products</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>

@@ -9,4 +9,4 @@
 @include("web.common.my-account");
 
 
-@include("web.errors.alert-success");
+@include("web.alerts.alert-success");

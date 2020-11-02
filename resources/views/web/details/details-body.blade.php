@@ -6,7 +6,12 @@
             <div class="col">
                 <div class="breadcrumb-contain">
                     <div>
-                        <h2>product</h2>
+                        <h2>Detail</h2>
+                        <ul>
+                            <li><a href="{{ url('/') }}">home</a></li>
+                            <li><i class="fa fa-angle-double-right"></i></li>
+                            <li><a href="{{ url('detail/'.$product->id) }}">detail</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -47,24 +52,6 @@
                             <h6 class="product-title">product details</h6>
                             <p>{{ $product->products_detail}}</p>
                         </div>
-                        <!-- <div class="single-product-tables border-product detail-section">
-                            <table>
-                                <tbody>
-                                <tr>
-                                    <td>Febric:</td>
-                                    <td>Chiffon</td>
-                                </tr>
-                                <tr>
-                                    <td>Color:</td>
-                                    <td>Red</td>
-                                </tr>
-                                <tr>
-                                    <td>Material:</td>
-                                    <td>Crepe printed</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div> -->
                         <div class="border-product">
                             <div class="product-icon">
                                 <ul class="product-social">
@@ -74,8 +61,8 @@
                                     <li><a href="#"><i class="fa fa-instagram"></i></a></li>
                                     <li><a href="#"><i class="fa fa-rss"></i></a></li>
                                 </ul>
-                                <form class="d-inline-block">
-                                    <button class="wishlist-btn"><i class="fa fa-heart"></i><span class="title-font">Add To WishList</span></button>
+                                <form action="{{ url('/add-to-wishlist') }}" method="post" class="d-inline-block">
+                                    <button class="wishlist-btn add-to-wishlist-btn" id="{{ $product->id }}" data-url="{{ url('/add-to-wishlist') }}"><i class="fa fa-heart"></i><span class="title-font">Add To WishList</span></button>
                                 </form>
                             </div>
                         </div>
@@ -129,7 +116,7 @@
                                     <li class="{{ $sizes[0] == $size ? 'active' : ''}}"><a href="#" id="{{ $size }}">{{ first_letter($size) }}</a></li>
                                     @endforeach
                                 </ul>
-                                <input type="text" class="form-control text-center mt-2" id="detail_product_size" value="{{ $sizes[0]}}" disabled>
+                                <input type="hidden" class="form-control text-center mt-2" id="detail_product_size" value="{{ $sizes[0] }}">
                             </div>
                             @endif
                             <h6 class="product-title md-3">qty available: {{ $product->products_quantity }}</h6>
@@ -141,7 +128,7 @@
                             </div>
                         </div>
                         <div class="product-buttons">
-                            <a href="{{ url('/cart') }}" class="btn btn-normal" data-size="small" data-id="{{ $product->id }}" id="add_to_cart">add to cart</a> 
+                            <a href="{{ url('/add-to-cart') }}" class="btn btn-normal" data-size="small" data-id="{{ $product->id }}" id="add_to_cart">add to cart</a> 
                             <a href="#" class="btn btn-normal" id="buy-now">buy now</a></div>
                     </div>
                 </div>

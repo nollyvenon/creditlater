@@ -11,7 +11,7 @@
                         </div>
                         <div class="app-link">
                             <h6>
-                                Download aap
+                                Download app
                             </h6>
                             <ul>
                                 <li><a><i class="fa fa-apple" ></i></a></li>
@@ -36,25 +36,10 @@
                         </div>
                         <div class="language-block">
                             <div class="language-dropdown">
-                                <span  class="language-dropdown-click">
-                                    english <i class="fa fa-angle-down" aria-hidden="true"></i>
-                                </span>
-                                <ul class="language-dropdown-open">
-                                    <li><a href="#">hindi</a></li>
-                                    <li><a href="#">english</a></li>
-                                    <li><a href="#">marathi</a></li>
-                                    <li><a href="#">spanish</a></li>
-                                </ul>
+                                <span  class="language-dropdown-click">english</span>
                             </div>
                             <div class="curroncy-dropdown">
-                                <span class="curroncy-dropdown-click">
-                                    usd<i class="fa fa-angle-down" aria-hidden="true"></i>
-                                </span>
-                                <ul class="curroncy-dropdown-open">
-                                    <li><a href="#"><i class="fa fa-inr"></i>inr</a></li>
-                                    <li><a href="#"><i class="fa fa-usd"></i>usd</a></li>
-                                    <li><a href="#"><i class="fa fa-eur"></i>eur</a></li>
-                                </ul>
+                                <span class="curroncy-dropdown-click">Naira</span>
                             </div>
                         </div>
                     </div>
