@@ -1,4 +1,7 @@
 
 
-<!-- cart alert success -->
-<div class="wishlist-redirect-error">{{ Session::get('error') }}</div>
+<!-- cart alert  error -->
+<div class="alert-content-bar">{{ Session::get('alert') }}</div>
+
+<!-- alert content success -->
+<div class="alert-success-content">{{ Session::get('alert-success') }}</div>

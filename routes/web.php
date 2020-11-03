@@ -11,6 +11,18 @@ use App\Http\Controllers\Web\LogoutController;
 use App\Http\Controllers\Web\CartController;
 use App\Http\Controllers\Web\UserController;
 use App\Http\Controllers\Web\loginController;
+use App\Http\Controllers\Web\ProductReviewController;
+
+// admin controller section
+use App\Http\Controllers\Admin\VendorController;
+use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\DeliveryController;
+use App\Http\Controllers\Admin\BuyerController;
+use App\Http\Controllers\Admin\ProfileController;
+
+
+
+
 
 
 
@@ -33,7 +45,6 @@ use App\Http\Controllers\Web\loginController;
 
 
 Route::get("/", [IndexController::class, "index"]);
-// Route::post("/", [IndexController::class, "quick_view_ajax"]);
 
 
 Route::get("/detail", [DetailController::class, "index"]);
@@ -50,6 +61,9 @@ Route::post("/products", [ProductController::class, "show"]);
 Route::post("/quick-view", [ProductController::class, "quick_view_ajax"]);
 
 
+Route::post("/product-review", [ProductReviewController::class, "product_review_ajax"]);
+
+
 Route::get("/cart", [CartController::class, "index"]);
 Route::post("/add-to-cart", [CartController::class, "add_to_cart_ajax"]);
 Route::post("/cart-item-delete", [CartController::class, "cart_item_delete_ajax"]);
@@ -57,6 +71,7 @@ Route::post("/get-cart-quantity", [CartController::class, "get_cart_quantity_aja
 Route::post("/quick-add-to-cart", [CartController::class, "quick_add_to_cart_ajax"]);
 Route::post("/get-cart-dropdown", [CartController::class, "get_cart_dropdown_ajax"]);
 Route::post("/delete-cart-dropdown", [CartController::class, "delete_cart_dropdown_ajax"]);
+Route::post("/quick-view-add-to-cart", [CartController::class, "quick_view_add_to_cart_ajax"]);
 
 
 Route::get("/wishlist", [WishlistController::class, "index"])->middleware('guest');
@@ -78,3 +93,27 @@ Route::post("/login", [loginController::class, "show"]);
 Route::post("/login-ajax", [loginController::class, "login_ajax"]);
 
 Route::get("/logout", [LogoutController::class, "create"]);
+
+
+
+
+
+
+
+
+
+// -----------------------------------------------------------------------------------------------------
+//                    VENDOR ROUTE
+// -----------------------------------------------------------------------------------------------------
+
+
+Route::get("/delivery", [DeliveryController::class, "index"]);
+
+
+Route::get("/payment", [PaymentController::class, "index"]);
+
+Route::get("/buyers", [BuyerController::class, "index"]);
+
+
+Route::get("/profile", [ProfileController::class, "index"]);
+Route::get("/profile/{buyer_id}", [ProfileController::class, "create"]);

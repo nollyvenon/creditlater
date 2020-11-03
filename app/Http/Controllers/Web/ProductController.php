@@ -10,7 +10,11 @@ use App\Models\Web\Product;
 use App\Models\Web\Category;
 use App\Models\Web\priceRange;
 use App\Models\Web\ProductSold;
+use App\Models\Web\Auth;
+
 use DB;
+use Session;
+use Validator;
 
 
 class ProductController extends Controller
@@ -143,7 +147,7 @@ class ProductController extends Controller
 
 
 
-
+  
 
 
 

@@ -20930,7 +20930,7 @@ body.rtl {
 }
 
 /* wishlist redirect error */
-.wishlist-redirect-error{
+.alert-content-bar{
     top: 2px;
     right: 0px;
     z-index: 100;
@@ -20946,7 +20946,7 @@ body.rtl {
     transition: all 0.5s ease;
 }
 @media only screen and (max-width: 767px){
-    .wishlist-redirect-error{
+    .alert-content-bar{
         top: -70px;
         width: 100%;
         border: none;
@@ -20954,3 +20954,32 @@ body.rtl {
         transform: translate(0);
     }
 }
+
+.alert-success-content{
+    top: 2px;
+    right: 0px;
+    z-index: 100;
+    width: 400px;
+    padding: 20px 0px;
+    position: fixed;
+    color: green;
+    font-weight: 600;
+    text-align: center;
+    background-color: white;
+    border: 1px solid green;
+    transform: translate(400px);
+    transition: all 0.5s ease;
+}
+@media only screen and (max-width: 767px){
+    .alert-success-content{
+        top: -70px;
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid green;
+        transform: translate(0);
+    }
+}
+
+
+
+

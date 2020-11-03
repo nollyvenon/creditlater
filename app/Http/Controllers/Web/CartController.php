@@ -179,5 +179,22 @@ class CartController extends Controller
 
 
 
+
+
+    public function quick_view_add_to_cart_ajax(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            if($this->add_cart($request))
+            {
+                $data = true;
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
     // end
 }

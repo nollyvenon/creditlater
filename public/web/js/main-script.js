@@ -2,13 +2,15 @@ $(document).ready(function(){
 
 // GET WISHLIST ALERT ERROR 
 // ----------------------------------------------
-var wishlistError = $(".wishlist-redirect-error");
+var wishlistError = $(".alert-content-bar");
+
 if($(wishlistError).text().length > 0){
    // display error when screen is greater than 767px
     if($(window).width() > 767){
         $(wishlistError).css({
             transform: 'translate(0)'
         });
+
         setTimeout(remove_alert_size, 4000);
     
         function remove_alert_size(){
@@ -18,11 +20,13 @@ if($(wishlistError).text().length > 0){
         }
     }
     
+    
     // display error when screen is less than 767px
     if($(window).width() < 767){
         $(wishlistError).css({
             top: '0px'
         });
+
         setTimeout(remove_alert_top, 4000);
     
         function remove_alert_top(){
@@ -33,6 +37,48 @@ if($(wishlistError).text().length > 0){
     }
 
 }
+
+
+
+
+// GET ALERT SUCCESS MESSAGE 
+// ----------------------------------------------
+var alertSuccess = $(".alert-success-content");
+if($(alertSuccess).text().length > 0){
+    // display error when screen is greater than 767px
+     if($(window).width() > 767){
+         $(alertSuccess).css({
+             transform: 'translate(0)'
+         });
+ 
+         setTimeout(remove_succss_side, 4000);
+     
+         function remove_succss_side(){
+             $(alertSuccess).css({
+                 transform: 'translate(400px)'
+             });
+         }
+     }
+     
+     
+     // display error when screen is less than 767px
+     if($(window).width() < 767){
+         $(alertSuccess).css({
+             top: '0px'
+         });
+ 
+         setTimeout(remove_success_top, 4000);
+     
+         function remove_success_top(){
+             $(alertSuccess).css({
+                 top: '-70px'
+             });
+         }
+     }
+ 
+ }
+
+
 
 
 
@@ -176,6 +222,71 @@ $(closeBtn).click(function(){
 });
 
 
+// QUICK VIEW QUANTITY BUTTONS
+// -------------------------------------------
+var quickViewQtyBtn = $("#quick_view_dropdown_modal");
+var quantity = 1;
+
+    // quntity plus  
+    $(quickViewQtyBtn).on('click', '.quantity-right-plus', function(e){
+        e.preventDefault();
+        quantity++;
+        $("#quick_view_qty_container input").val(quantity);
+    });
+
+
+     // quntity minus
+     $(quickViewQtyBtn).on('click', '.quantity-left-minus', function(e){
+        e.preventDefault();
+       if(quantity > 0){
+            quantity--;
+            $("#quick_view_qty_container input").val(quantity);
+       }
+    });
+
+
+// click to activate quick view sizes buttons
+var quickViewSizeBtn = $("#quick_view_dropdown_modal");
+    $(quickViewSizeBtn).on('click', 'ul li', function(e){
+        e.preventDefault();
+        $(quickViewSizeBtn).find("ul li").removeClass('active');
+        $(this).addClass('active');
+        var size  = $(this).children().attr('id');
+
+        $(quickViewSizeBtn).find("#detail_product_size").val(size); 
+    });
+
+   
+
+// quick view add to cart
+$(quickViewSizeBtn).on('click', '.quick-view-addToCart', function(e){
+         e.preventDefault();
+         var url = $(this).attr('href');
+         var product_id = $(this).attr('id');
+         var qty = $("#quick_view_quantity").val();
+         var size = $(quickViewSizeBtn).find("#detail_product_size").val(); 
+
+         csrf_token()   // gets page csrf token
+
+        $.ajax({
+             url: url,
+             method: "post",
+             data: {
+                size: size,
+                quantity: qty,
+                product_id: product_id,
+             },
+             success: function (response){
+                if(response.data){
+                    location.reload();
+                }
+             }
+        });
+});
+
+
+
+
 
 // REMMOVE NEW LABEL HOVER ON MOBILE SCREENS
 // --------------------------------------------
@@ -183,6 +294,102 @@ $(closeBtn).click(function(){
 
 
 
+
+
+
+//  PRODUCT STAR RATING SYSTEM
+// --------------------------------------------
+var starRating = $("#product_star_ratings i");
+var ratingForm = $("#product_rating_form");
+
+    $(starRating).click(function(e){
+        var id = $(this).attr("id");
+
+        remove_stars() //resets stars to none
+
+        for(var i = 0; i < id; i++){
+            $(starRating[i]).addClass('text-warning');
+        }
+    
+        $(ratingForm).find('#star_rating_amount').val(id); //collects star value
+    });
+
+    function remove_stars(){
+        $.each($(starRating), function(index, current){
+            $(this).removeClass('text-warning');
+            $(this).addClass('text-primary');
+        });
+    }
+
+
+
+    
+
+
+
+
+//  PRODUCT REVIEW
+// ------------------------------------------
+var addReview = $("#review_product_btn");
+var productRatingForm = $('#product_rating_form');
+
+    $(addReview).click(function(e){
+        e.preventDefault();
+      
+        var url = $(this).attr("data-url");
+        var star = $(productRatingForm).find(".star").val();
+        var product_id = $(productRatingForm).find(".product_id").val();
+        var name = $(productRatingForm).find(".product_review_name").val();
+        var email = $(productRatingForm).find(".product_review_email").val();
+        var title = $(productRatingForm).find(".product_review_title").val();
+        var review = $(productRatingForm).find(".product_review_review").val();
+
+
+        clear_alert_fields();
+            
+        csrf_token()   // gets page csrf token
+    
+        $.ajax({
+            url: url,
+            method: "post",
+            data: {
+                product_id: product_id,
+                star: star,
+                name: name,
+                email: email,
+                title: title,
+                review: review
+            },
+            success: function (response){
+               if(response.data == "quest"){
+                   location.reload();
+               }
+               if(response.data == "reviewed"){
+                    location.reload();
+               }else if(response.data == "not-reviewed"){
+                    location.reload();
+               }
+
+               $(".review-email").html(response.data.email);
+               $(".review-name").html(response.data.name);
+               $(".review-title").html(response.data.title);
+               $(".review-review").html(response.data.review);
+               
+            }
+        });
+
+    });
+
+
+
+
+// clears all input field errors on review form
+function clear_alert_fields(){
+    $(".review-email").html('');
+    $(".review-name").html('');
+    $(".review-title").html('');
+    $(".review-review").html('');
+}
 
 
 
@@ -307,6 +514,7 @@ function get_cart_quantity(){
         },
         success: function (response){
             $("#shopping_cart_quantity").html(response.cart_quantity);
+            get_cart_dropdown(); //get cart dropdown
         }
     });
 }
@@ -334,7 +542,6 @@ var quickAddToCartBtn = $(".quick-add-to-cartBtn");
             success: function (response){
                 if(response.data){
                     get_cart_quantity()   //gets cart quantity
-                    get_cart_dropdown(); //get cart dropdown
                 }
                
             }
@@ -388,7 +595,6 @@ var deleteDropdownCartItem =    $('.cart_item_container');
             success: function (response){
                if(response.data){
                     get_cart_quantity()   //gets cart quantity
-                    get_cart_dropdown(); //get cart dropdown
                }
             }
         });

@@ -33,10 +33,6 @@ class DetailController extends Controller
         
         return view('web.detail', compact('product', 'sideCategories', 'relatedProducts', 'paymentMethods'));
     }
-
-
-
-
     
 
     // end

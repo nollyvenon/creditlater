@@ -19,7 +19,7 @@ class WislistMiddleware
     {
         if(!Auth::user())
         {
-            return redirect('/')->with('error', 'Signup or Login to access that page!');
+            return redirect('/')->with('alert', 'Signup or Login to access that page!');
         }
         return $next($request);
     }

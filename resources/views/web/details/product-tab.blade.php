@@ -61,34 +61,46 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="top-review" role="tabpanel" aria-labelledby="review-top-tab">
-                            <form class="theme-form">
+                            <form  action="{{ url('/product-rating/'.$product->id) }}" method="post" class="theme-form" id="product_rating_form">
                                 <div class="form-row">
                                     <div class="col-md-12">
                                         <div class="media">
                                             <label>Rating</label>
                                             <div class="media-body ml-3">
-                                                <div class="rating three-star"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i></div>
+                                                <div class="rating three-star" id="product_star_ratings">
+                                                    <i class="fa fa-star text-secondary" id="1"></i> 
+                                                    <i class="fa fa-star text-secondary" id="2"></i> 
+                                                    <i class="fa fa-star text-secondary" id="3"></i> 
+                                                    <i class="fa fa-star text-secondary" id="4"></i> 
+                                                    <i class="fa fa-star text-secondary" id="5"></i> 
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
+                                        <div class="text-danger review-name"></div>
                                         <label for="name">Name</label>
-                                        <input type="text" class="form-control" id="name" placeholder="Enter Your name" required>
+                                        <input type="text" class="form-control product_review_name" id="name" placeholder="Enter Your name" required>
                                     </div>
                                     <div class="col-md-6">
+                                        <div class="text-danger review-email"></div>
                                         <label for="email">Email</label>
-                                        <input type="text" class="form-control" id="emai" placeholder="Email" required>
+                                        <input type="text" class="form-control product_review_email" id="emai" placeholder="Email" required>
                                     </div>
                                     <div class="col-md-12">
+                                        <div class="text-danger review-title"></div>
                                         <label for="review">Review Title</label>
-                                        <input type="text" class="form-control" id="revie" placeholder="Enter your Review Subjects" required>
+                                        <input type="text" class="form-control product_review_title" id="title" placeholder="Enter your Review Subjects" required>
                                     </div>
                                     <div class="col-md-12">
-                                        <label for="review">Review Title</label>
-                                        <textarea class="form-control" placeholder="Wrire Your Testimonial Here" id="exampleFormControlTextarea1" rows="6"></textarea>
+                                        <div class="text-danger review-review"></div>
+                                        <label for="review">Review</label>
+                                        <textarea class="form-control product_review_review" placeholder="Wrire Your Testimonial Here" id="review" rows="6"></textarea>
                                     </div>
                                     <div class="col-md-12">
-                                        <button class="btn btn-normal" type="submit">Submit YOur Review</button>
+                                        <input type="hidden" class="product_id" value="{{ $product->id }}">
+                                        <input type="hidden" class="star" id="star_rating_amount" value="">
+                                        <button class="btn btn-normal" type="button" id="review_product_btn" data-url="{{ url('/product-review') }}">Submit Your Review</button>
                                     </div>
                                 </div>
                             </form>

@@ -29,12 +29,12 @@
                                     </ul>
                                 </div>
                                 <h6 class="product-title">quantity</h6>
-                                <div class="qty-box">
+                                <div class="qty-box" id="quick_view_qty_container">
                                     <div class="input-group"><span class="input-group-prepend"><button type="button" class="btn quantity-left-minus" data-type="minus" data-field=""><i class="fa fa-angle-left"></i></button> </span>
-                                    <input type="text" name="quantity" class="form-control input-number" value="1"> <span class="input-group-prepend"><button type="button" class="btn quantity-right-plus" data-type="plus" data-field=""><i class="fa fa-angle-right"></i></button></span></div>
+                                    <input type="text" id="quick_view_quantity" class="form-control input-number" value="1" min="0"> <span class="input-group-prepend"><button type="button" class="btn quantity-right-plus" data-type="plus" data-field=""><i class="fa fa-angle-right"></i></button></span></div>
                                 </div>
                             </div>
-                            <div class="product-buttons"><a href="#" class="btn btn-normal">add to cart</a> <a href="" class="btn btn-normal quick-view-id">view detail</a></div>
+                            <div class="product-buttons"><a href="{{ url('/quick-view-add-to-cart') }}" id="" class="btn btn-normal quick-view-addToCart">add to cart</a> <a href="" class="btn btn-normal quick-view-id">view detail</a></div>
                         </div>
                     </div>
                 </div>
