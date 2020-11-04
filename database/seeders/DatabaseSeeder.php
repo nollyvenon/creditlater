@@ -26,6 +26,8 @@ class DatabaseSeeder extends Seeder
             PriceRangeTableSeeder::class,
             PaymentTableSeeder::class,
             BuyerTableSeeder::class,
+            GuarantorTableSeeder::class,
+            VaerificationTableSeeder::class,
         ]);
         
     }

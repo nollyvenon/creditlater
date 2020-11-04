@@ -20981,5 +20981,13 @@ body.rtl {
 }
 
 
-
+/* verification */
+.verification-alert{
+    font-size: 70%;
+}
+.registration-form-anchor{
+    background-color: orangered;
+    color: #fff;
+    padding: 5px 10px;
+}
 

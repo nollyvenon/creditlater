@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>@yield("title")</title>
     @include("web.header.meta")
-    <title>Document</title>
+   
 </head>
 <body class="bg-light ">
     <section>
-        @include("web.header.top-navigation")
-        @include("web.header.middle-navigation")
-        @include("web.header.bottom-navigation")
+       @yield("navigations")
     </section>
     
     <!-- body -->

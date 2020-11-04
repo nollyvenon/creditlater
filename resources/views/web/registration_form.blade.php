@@ -10,6 +10,6 @@
 
 <!-- about page contents-->
 @section("content")
-    @include("web.product.product-header")
-    @include("web.product.product-body")
+    @include("web.registration_form.registration-page-header")
+    @include("web.registration_form.registration-page-body")
 @endsection

@@ -10,18 +10,6 @@
         
         <!-- App favicon -->
         <!-- <link rel="shortcut icon" href="{{ asset('admin/images/favicon.ico') }}"> -->
- 
-        <!-- App favicon -->
-        <link rel="shortcut icon" href="{{ asset('admin/images/favicon.ico') }}">
-
-        <!-- plugin css -->
-        <link href="{{ asset('admin/libs/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('admin/libs/datatables/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('admin/libs/datatables/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('admin/libs/datatables/select.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" /> 
-
-
-
 
         <!-- App css -->
         <link href="{{ asset('admin/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />

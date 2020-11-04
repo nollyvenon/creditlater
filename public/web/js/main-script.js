@@ -829,6 +829,57 @@ var quickDeleteWishList = $(".side-wishlist-container");
 
 
 
+// VERIFICATION AND REGISTRATION
+// ----------------------------------------------------
+// var verification = $('.verification-forms');
+// var nextFormBtn = $('.verification-next-btn');
+// var prevFormBtn = $('.verification-prev-btn');
+// var registerBtn = $('.verification-register-btn');
+// var  n  = 0;
+//     function reset_form(n){
+//         for(var i = 0; i < verification.length; i++){
+//             $(verification[i]).hide();
+//         }
+//         $(verification[n]).show();
+//     }
+    // reset_form(n);
+   
+    // $(nextFormBtn).click(function(e){
+    //     e.preventDefault();
+    //     reset_form(1);
+    // });
+
+     
+    // $(prevFormBtn).click(function(e){
+    //     e.preventDefault();
+    //     reset_form(0);
+    // });
+
+
+
+// SUBMIT VERIFICATION
+// ------------------------------------------------------
+// var verificationContainer = $("#verification_form_container");
+//     $(nextFormBtn).click(function(e){
+//         e.preventDefault();
+//         var firts_name = $(verificationContainer).find('#first_name').val();
+
+//         console.log(first_name)
+//     })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

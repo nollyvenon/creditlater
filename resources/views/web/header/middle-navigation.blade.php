@@ -54,6 +54,7 @@
                                     <li><a href="{{ url('/wishlist') }}">wishlist</a> </li>
                                     <li><a href="{{ url('/cart') }}">Cart</a> </li>
                                     @if(Session::has('user'))
+                                    <li><a href="{{ url('/account') }}">Account</a> </li>
                                     <li><a href="{{ url('/logout') }}">logout</a> </li>
                                     @else
                                     <li><a href="{{ url('/login') }}">login</a> </li>

@@ -7,9 +7,8 @@
     @include("web.header.bottom-navigation")
 @endsection
 
-
 <!-- about page contents-->
 @section("content")
-    @include("web.product.product-header")
-    @include("web.product.product-body")
+    @include("web.edit_password.edit-password-header")
+    @include("web.edit_password.edit-password-body")
 @endsection

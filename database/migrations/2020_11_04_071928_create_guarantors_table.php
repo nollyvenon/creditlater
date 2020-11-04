@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBuyersTable extends Migration
+class CreateGuarantorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,28 +13,23 @@ class CreateBuyersTable extends Migration
      */
     public function up()
     {
-        Schema::create('buyers', function (Blueprint $table) {
+        Schema::create('guarantors', function (Blueprint $table) {
             $table->id('id');
-            $table->string('buyer_name');
             $table->integer('buyer_id');
-            $table->string('valid_id');
-            $table->string('date_of_birth');
-            $table->string('state_of_origin');
+            $table->string('name');
+            $table->string('valid_id')->nullable();
+            $table->dateTime('date_of_birth');
             $table->string('image');
             $table->string('phone_one');
             $table->string('phone_two')->nullable();
-            $table->text('email');
-            $table->text('passport')->nullable();
-            $table->string('state');
+            $table->string('email');
             $table->string('lga');
-            $table->string('country');
+            $table->string('occupation');
             $table->string('marital_status');
-            $table->text('occupation');
-            $table->text('company_name');
-            $table->text('company_address');
-            $table->text('address');
+            $table->text('address')->nullable();
+            $table->string('state_of_origin')->nullable();
+            $table->string('country');
             $table->dateTime('date_registered');
-            $table->timestamps();
         });
     }
 
@@ -45,6 +40,6 @@ class CreateBuyersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('buyers');
+        Schema::dropIfExists('guarantors');
     }
 }

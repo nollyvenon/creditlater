@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Models\Admin\Buyer;
+use App\Models\Admin\Guarantor;
 
 class BuyerController extends Controller
 {

@@ -87,6 +87,18 @@ Route::post("/quick-delete-wishlist-item", [WishlistController::class, "quick_de
 
 Route::get("/register", [UserController::class, "index"]);
 Route::post("/register", [UserController::class, "store"]);
+Route::get("/account", [UserController::class, "account"])->middleware('guest');
+Route::get("/edit-info", [UserController::class, "edit_info"]);
+Route::post("/edit-info/{user_id}", [UserController::class, "edit_user_info"]);
+Route::get("/registration-form", [UserController::class, "registration_form"])->middleware('guest');
+Route::post("/registration-form/{user_id}", [UserController::class, "registration_form_store"]);
+Route::get("/verification", [UserController::class, "verification"])->middleware('guest');
+Route::get("/registration-form/{user_id}/edit", [UserController::class, "registration_form_edit"]);
+Route::get("/registration-success", [UserController::class, "registration_success"])->middleware('thankyou');
+Route::get("/change-password", [UserController::class, "change_password"]);
+Route::post("/change-password/{user_id}", [UserController::class, "change_password_update"]);
+
+
 
 Route::get("/login", [loginController::class, "index"]);
 Route::post("/login", [loginController::class, "show"]);

@@ -1,6 +1,5 @@
 
-<head>
-    <title>Bigdeal - Multi-purpopse E-commerce Html Template</title>
+
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -37,7 +36,7 @@
 
     <!-- latest jquery-->
     <script src="{{ asset('web/js/jquery-3.3.1.min.js') }}"></script>
-</head>
+
 
 
 <!-- paths to pages used in main-script.js -->
