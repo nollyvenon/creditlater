@@ -46,3 +46,26 @@
 <div class="wishlist-url" id="get_wishlist_items" data-url="{{ url('/wishlist') }}"></div>     <!-- get wishlist url-->
 <div class="wishlist-url" id="get_wishlist_items_quantity" data-url="{{ url('/get-wishlist-quantity') }}"></div>     <!-- get wishlist url-->
 <div class="wishlist-url" id="get_quick_wishlist_items" data-url="{{ url('/get-quick-wishlist-items') }}"></div>     <!-- get quick wishlist url-->
+<div class="logged-url" id="get_logged_in_user" data-url="{{ url('/get-loggedin-user') }}"></div>     <!-- get loggedin user  url-->
+<div class="validate-form-url" id="get_validate_form" data-url="{{ url('/get-checkout-form-validation') }}"></div>     <!-- get checkout form validation url-->
+<div class="check-form-url" id="get_checkout_page_url" data-url="{{ url('/checkout') }}"></div>     <!-- get checkout url-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -15,15 +15,14 @@ use App\Http\Controllers\Web\ProductReviewController;
 
 // admin controller section
 use App\Http\Controllers\Admin\VendorController;
-use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\PaymentsController;
 use App\Http\Controllers\Admin\DeliveryController;
 use App\Http\Controllers\Admin\BuyerController;
 use App\Http\Controllers\Admin\ProfileController;
 
 
-
-
-
+// paystack payment controller class
+use App\Http\Controllers\Web\PaymentController;
 
 
 
@@ -109,9 +108,16 @@ Route::get("/logout", [LogoutController::class, "create"]);
 
 
 
+// PAYSTACK PAYMENT ROUTES
+Route::post('/pay', [PaymentController::class,'redirectToGateway'])->name('pay');
+Route::get('/payment/callback', [PaymentController::class, 'handleGatewayCallback']);
 
 
-
+// PAYSTACK INLINE 
+Route::get('/checkout', [PaymentController::class, 'checkout_view']);
+Route::post('/paystack-payment', [PaymentController::class, 'paystack_payment']);
+Route::post('/get-loggedin-user', [PaymentController::class, 'get_loggedin_user_ajax']);
+Route::post('/get-checkout-form-validation', [PaymentController::class, 'get_checkout_form_validationajax']);
 
 
 // -----------------------------------------------------------------------------------------------------
@@ -122,7 +128,7 @@ Route::get("/logout", [LogoutController::class, "create"]);
 Route::get("/delivery", [DeliveryController::class, "index"]);
 
 
-Route::get("/payment", [PaymentController::class, "index"]);
+Route::get("/payment", [PaymentsController::class, "index"]);
 
 Route::get("/buyers", [BuyerController::class, "index"]);
 

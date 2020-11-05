@@ -20991,3 +20991,16 @@ body.rtl {
     padding: 5px 10px;
 }
 
+
+/* checkout section */
+.checkout-alert-box{
+   width: 50%;
+   margin-left: 25%;
+}
+@media only screen and (max-width: 767px){
+    .checkout-alert-box{
+        width: 100%;
+        margin-left: 0px;
+        margin-bottom: 20px;
+     }
+}

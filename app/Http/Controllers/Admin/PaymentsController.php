@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Models\Admin\Payment;
 
-class PaymentController extends Controller
+class PaymentsController extends Controller
 {
     public function index()
     {

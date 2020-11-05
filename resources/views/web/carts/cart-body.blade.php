@@ -30,7 +30,7 @@
                                 <div class="col-xs-3">
                                     <div class="qty-box">
                                         <div class="input-group">
-                                           <input type="number" name="quantity" class="form-control input-number" value="{{ $values['quantity'] }}">
+                                           <input type="number" id="cart_item_quantity" class="form-control input-number" value="{{ $values['quantity'] }}">
                                         </div>
                                     </div>
                                 </div>
@@ -45,7 +45,7 @@
                         <td>
                             <div class="qty-box">
                                 <div class="input-group">
-                                    <input type="number" name="quantity" class="form-control input-number" value="{{ $values['quantity'] }}">
+                                    <input type="number" id="cart_item_quantity" class="form-control input-number" value="{{ $values['quantity'] }}">
                                 </div>
                             </div>
                         </td>
@@ -68,9 +68,68 @@
             </div>
         </div>
         <div class="row cart-buttons">
-            <div class="col-12"><a href="{{ url('/products') }}" class="btn btn-normal">continue shopping</a> <a href="#" class="btn btn-normal ml-3">check out</a></div>
+            <div class="col-12"><a href="{{ url('/products') }}" class="btn btn-normal">continue shopping</a> <a href="#" class="btn btn-normal ml-3" id="payWithPaystackBtn" >check out</a></div>
         </div>
     </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+<!-- pay stack -->
+<section>
+    
+
+   
+    <script>
+
+
+// CHECK IF USER IS LOGGED IN
+// ----------------------------------------------
+var payWithPaystackBtn = $("#payWithPaystackBtn");
+
+    $(payWithPaystackBtn).click(function(e){
+        e.preventDefault();
+        var url = $("#get_logged_in_user").attr('data-url');
+        var checkout = $("#get_checkout_page_url").attr('data-url');
+
+        csrf_token() //laravel csfr token
+
+        $.ajax({
+            url: url,
+            method: 'post',
+            data: {
+               loggedin: 'loggedin'
+            },
+            success: function(response){
+                if(!response.data){
+                    location.reload();
+                    // payWithPaystack();
+                }else{
+                    location.assign(checkout)
+                }
+            }
+        });
+    
+    });
+
+
+        // laravel  csrf token 
+        function csrf_token(){
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": $("meta[name='csrf_token']").attr("content")
+                }
+            });
+        }
+
+     </script>
 </section>
 @else
    @include("web.carts.empty-cart")

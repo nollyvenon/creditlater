@@ -828,66 +828,63 @@ var quickDeleteWishList = $(".side-wishlist-container");
 
 
 
+// // PAYSTACT PAYMENT
+// // ----------------------------------------------
+// var payWithPaystackBtn = $("#payWithPaystackBtn")
+//      $(payWithPaystackBtn).click(function(){
+//          payWithPaystack();
+//      })
 
-// VERIFICATION AND REGISTRATION
-// ----------------------------------------------------
-// var verification = $('.verification-forms');
-// var nextFormBtn = $('.verification-next-btn');
-// var prevFormBtn = $('.verification-prev-btn');
-// var registerBtn = $('.verification-register-btn');
-// var  n  = 0;
-//     function reset_form(n){
-//         for(var i = 0; i < verification.length; i++){
-//             $(verification[i]).hide();
+
+
+//      function payWithPaystack(e) {
+//         // e.preventDefault();
+//         let handler = PaystackPop.setup({
+//         key: 'pk_test_42550ade26808bb2d47dde8ab5f2f897fce81eea', // Replace with your public key
+//         email: 'anonyecharles@gmail.com',
+//         amount: 1000 * 100,
+//         ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+//         // label: "Optional string that replaces customer email"
+//         onClose: function(){
+//         alert('Window closed.');
+//         },
+
+//         callback: function(response){
+//         let message = 'Payment complete! Reference: ' + response.reference;
+//         alert(message);
 //         }
-//         $(verification[n]).show();
+
+//        });
+//         handler.openIframe();
 //     }
-    // reset_form(n);
+
+
+
+
+
+
+
+
+
+
+
+
+// GET SHIPPING METHOD
+// ------------------------------------------------------------
+var shiipingMethod = $(".shipping-method-check-box");
+var hiddenShippingMethod = $("#hidden_shipping_method");
+    
+    $(shiipingMethod).click(function(e){
+            $(shiipingMethod).prop("checked", false)
+            $(this).prop("checked", true);
+            var value = $(this).attr("id").split('-');
+            var id = value[0]+" "+value[1];
+           $(hiddenShippingMethod).val(id);
+    });
+
+
+    
    
-    // $(nextFormBtn).click(function(e){
-    //     e.preventDefault();
-    //     reset_form(1);
-    // });
-
-     
-    // $(prevFormBtn).click(function(e){
-    //     e.preventDefault();
-    //     reset_form(0);
-    // });
-
-
-
-// SUBMIT VERIFICATION
-// ------------------------------------------------------
-// var verificationContainer = $("#verification_form_container");
-//     $(nextFormBtn).click(function(e){
-//         e.preventDefault();
-//         var firts_name = $(verificationContainer).find('#first_name').val();
-
-//         console.log(first_name)
-//     })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     // end
 });

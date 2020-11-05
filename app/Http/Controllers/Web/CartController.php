@@ -10,6 +10,8 @@ use App\Models\Web\Brand;
 use App\Models\Web\Product;
 use App\Models\Web\Category;
 use App\Models\Web\priceRange;
+use App\Models\Web\Auth;
+use App\Models\Web\User;
 
 use DB;
 use Session;
@@ -20,9 +22,20 @@ class CartController extends Controller
     
 
     public function index()
-    {     
+    {   
         //  side categories
         $sideCategories = Category::where('is_feature', 1)->get();
+
+       
+       if($user = Auth::user())
+       {
+            $loggedin = User::where('id', $user['id'])->where('email', $user['email'])->where('active', 1)->first();
+            if(!$loggedin)
+            {
+                Auth::logout();
+                return back();
+            }
+       }
 
         return view("web.cart", compact('sideCategories'));
     }
