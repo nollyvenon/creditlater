@@ -21004,3 +21004,11 @@ body.rtl {
         margin-bottom: 20px;
      }
 }
+
+
+
+
+/* verification */
+.verification-div-hidden, .verification-not-approved-div-hidden{
+    display: none;
+}

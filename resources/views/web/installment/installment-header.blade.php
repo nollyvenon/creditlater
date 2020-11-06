@@ -6,11 +6,11 @@
             <div class="col">
                 <div class="breadcrumb-contain">
                     <div>
-                        <h2>checkout</h2>
+                        <h2>Installments</h2>
                         <ul>
                             <li><a href="{{ url('/') }}">home</a></li>
                             <li><i class="fa fa-angle-double-right"></i></li>
-                            <li><a href="{{ url('/checkout') }}">checkout</a></li>
+                            <li><a href="{{ url('/installments') }}">Installments</a></li>
                         </ul>
                     </div>
                 </div>

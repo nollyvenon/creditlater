@@ -120,7 +120,7 @@ class UserController extends Controller
        $sideCategories = Category::where('is_feature', 1)->get(); 
        
        // get my registration
-       $verification = Verification::where('user_id', Auth::user('user')['id'])->first();
+       $verification = Verification::where('user_id', Auth::user('user')['id'])->where('is_approved', 1)->first();
        if(!$verification)
        {
             $verification = null;

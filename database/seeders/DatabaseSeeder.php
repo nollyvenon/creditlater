@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
             PaymentTableSeeder::class,
             BuyerTableSeeder::class,
             GuarantorTableSeeder::class,
-            VaerificationTableSeeder::class,
+            VerificationTableSeeder::class,
         ]);
         
     }

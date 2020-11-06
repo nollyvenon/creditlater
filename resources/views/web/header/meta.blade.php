@@ -49,8 +49,10 @@
 <div class="logged-url" id="get_logged_in_user" data-url="{{ url('/get-loggedin-user') }}"></div>     <!-- get loggedin user  url-->
 <div class="validate-form-url" id="get_validate_form" data-url="{{ url('/get-checkout-form-validation') }}"></div>     <!-- get checkout form validation url-->
 <div class="check-form-url" id="get_checkout_page_url" data-url="{{ url('/checkout') }}"></div>     <!-- get checkout url-->
-
-
+<div class="order-success-url" id="get_order_success_page_url" data-url="{{ url('/order-success') }}"></div>     <!-- get order-success url-->
+<div class="installment-method-url" id="get_installment_method_url" data-url="{{ url('/installment-method') }}"></div>     <!-- get installment method url-->
+<div class="verification-check-url" id="get_installment_verification_url" data-url="{{ url('/verification-check') }}"></div>     <!-- get verification check url-->
+<div class="installment-payment-url" id="get_installment_payment_url" data-url="{{ url('/intallment-paymanet') }}"></div>     <!-- get verification check url-->
 
 
 

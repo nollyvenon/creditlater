@@ -13,6 +13,8 @@ use App\Models\Web\Category;
 use App\Models\Web\ProductSold;
 use DB;
 
+use Session;
+
 
 
 class IndexController extends Controller
@@ -61,8 +63,17 @@ class IndexController extends Controller
         $fiftyPercentOff = $productsArray;
 
 
-    
+        // deletes checkout session
+        if(Session::has('reference'))
+        {
+            Session::forget('reference');
+        }
        
+
+        // $items = Session::get('cart')->_items;
+        // foreach($items as $item){
+        //     dd($item);
+        // }
 
         
 

@@ -37,6 +37,8 @@ class CreateVerificationsTable extends Migration
             $table->string('guarantor_relationship');
             $table->string('guarantor_address');
             $table->dateTime('date_registered')->default(Carbon::now());
+            $table->boolean('is_approved')->default('0');
+            $table->dateTime('date_approved')->nullable();
             $table->timestamps();
         });
     }

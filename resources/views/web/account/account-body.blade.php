@@ -9,11 +9,12 @@
                     <div class="collection-mobile-back"><span class="filter-back"><i class="fa fa-angle-left" aria-hidden="true"></i> back</span></div>
                     <div class="block-content ">
                         <ul>
-                            <li class="active"><a href="{{ url('/verification') }}">Verification</a></li>
-                            <li><a href="#">My Orders</a></li>
+                            <li class="active"><a href="{{ url('/account') }}">My Account</a></li>
+                            <li><a href="{{ url('/order-history') }}">My Orders</a></li>
                             <li><a href="{{ url('/wishlist') }}">My Wishlist</a></li>
+                            <li><a href="{{ url('/cart') }}">My Cart</a></li>
                             <li><a href="#">Newsletter</a></li>
-                            <li><a href="{{ url('/account') }}">My Account</a></li>
+                            <li><a href="{{ url('/verification') }}">Verification</a></li>
                             <li><a href="{{ url('/change-password') }}">Change Password</a></li>
                             <li class="last"><a href="{{ url('/logout') }}">Log Out</a></li>
                         </ul>
@@ -31,7 +32,11 @@
                             <h2>My Dashboard</h2></div>
                         <div class="welcome-msg">
                             <p>Hello,  {{ Session::get('user')['first_name'] }} !</p>
-                            <p>From your My Account Dashboard you have the ability to view a snapshot of your recent account activity and update your account information. Select a link below to view or edit information.</p>
+                            <p>From your My Account Dashboard you have the ability to view a snapshot of 
+                                your recent account activity and update your account information. Select a 
+                                link below to view or edit information.<br>
+                                click on<a href="{{ url('/verification') }}" style="color: orangered;"> verification</a> link to register for installments payment.    
+                            </p>
                         </div>
                         <div class="box-account box-info">
                             <div class="box-head">

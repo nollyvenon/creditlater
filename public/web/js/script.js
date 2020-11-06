@@ -1314,7 +1314,7 @@
     /*=====================
      15. Add to cart
      ==========================*/
-    $('.product-box button .ti-bag').on('click', function () {
+    $('.product-box button .fa-shopping-cart').on('click', function () {
         $.notify({
             icon: 'fa fa-check',
             title: 'Success!',

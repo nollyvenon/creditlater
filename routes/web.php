@@ -12,6 +12,8 @@ use App\Http\Controllers\Web\CartController;
 use App\Http\Controllers\Web\UserController;
 use App\Http\Controllers\Web\loginController;
 use App\Http\Controllers\Web\ProductReviewController;
+use App\Http\Controllers\Web\OrderController;
+use App\Http\Controllers\Web\InstallmentController;
 
 // admin controller section
 use App\Http\Controllers\Admin\VendorController;
@@ -115,9 +117,27 @@ Route::get('/payment/callback', [PaymentController::class, 'handleGatewayCallbac
 
 // PAYSTACK INLINE 
 Route::get('/checkout', [PaymentController::class, 'checkout_view']);
-Route::post('/paystack-payment', [PaymentController::class, 'paystack_payment']);
+Route::post('/paystack-payment', [PaymentController::class, '_store_paid_products']);
 Route::post('/get-loggedin-user', [PaymentController::class, 'get_loggedin_user_ajax']);
 Route::post('/get-checkout-form-validation', [PaymentController::class, 'get_checkout_form_validationajax']);
+
+
+// ORDER SUCCESS PAGE
+Route::get('/order-success', [PaymentController::class, 'order_success']);
+Route::post('/order-success', [PaymentController::class, 'get_order_success_ajax']);
+
+
+// ORDER HISTORY PAGE
+Route::get('/order-history', [OrderController::class, 'index']);
+Route::get('/order-history/all', [OrderController::class, 'show']);
+
+
+// INSTALLMENT PAGE
+Route::get('/installments', [InstallmentController::class, 'index']);
+Route::post('/verification-check', [InstallmentController::class, 'get_verification_check_ajax']);
+Route::post('/intallment-paymanet', [InstallmentController::class, 'intallment_paymane_ajax']);
+
+
 
 
 // -----------------------------------------------------------------------------------------------------

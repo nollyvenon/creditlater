@@ -886,6 +886,21 @@ var hiddenShippingMethod = $("#hidden_shipping_method");
     
    
 
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
     // end
 });
 

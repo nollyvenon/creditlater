@@ -49,7 +49,7 @@
                 <li>
                     <div class="buttons">
                         <a href="{{ url('/cart') }}" class="btn btn-normal btn-xs view-cart">view cart</a>
-                        <a href="#" class="btn btn-normal btn-xs checkout">checkout</a>
+                        <a href="{{ url('/checkout') }}" class="btn btn-normal btn-xs checkout">checkout</a>
                     </div>
                 </li>
             </ul>

@@ -228,7 +228,7 @@
                                                             </div>
                                                             <div class="icon-detail">
                                                                 <button data-toggle="modal" class="quick-add-to-cartBtn" id="{{ $category->id }}" data-url="{{ url('/quick-add-to-cart') }}" data-target="#addtocart" title="Add to cart">
-                                                                    <i class="ti-bag"></i>
+                                                                    <i class="fa fa-shopping-cart"></i>
                                                                 </button>
                                                                 @if(Session::has('user'))
                                                                 <a href="javascript:void(0)" title="Add to Wishlist" id="{{ $category->id }}" data-url="{{ url('/quick-add-to-wishlist') }}" class="quick-add-to-wishlist">

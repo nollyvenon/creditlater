@@ -9,9 +9,13 @@ use App\Models\Web\User;
 use App\Models\Web\Auth;
 use App\Models\Web\Paid;
 use App\Models\Web\Category;
+use App\Models\Web\PaidBuyer;
 use Illuminate\Support\Facades\Hash;
 
+
+use DB;
 use Session;
+use Carbon\Carbon;
 use Paystack;
 use Redirect;
 use Validator;
@@ -54,11 +58,16 @@ class PaymentController extends Controller
     // checkout view
     public function checkout_view()
     {
-        if(!Session::has('cart'))
+        if(Session::has('reference'))
         {
-            Session::flash('alert', 'You have no item in Cart!');
-            return redirect('/');
+            return redirect('order-success');
         }
+
+        if(!Auth::user())
+        {
+            return redirect('/')->with('alert', 'Signup or login to access that page!');
+        }
+       
         //get all category
         $sideCategories = Category::where('is_feature', 1)->get();  
 
@@ -67,7 +76,16 @@ class PaymentController extends Controller
 
 
 
-    public function paystack_payment(Request $request)
+
+
+
+
+
+
+
+
+
+    public function _store_paid_products(Request $request)
     {
         if($request->ajax())
         {
@@ -94,13 +112,48 @@ class PaymentController extends Controller
                         'unspecified' =>  $items['unspecified'],
                     ]);
                 }
-
+                $this->store_buyers_details($request->reference);
+                Session::put('reference', $request->reference);
                 Session::forget('cart');
                 $data = true;
             }
         }
         return response()->json(['data' => $data]);
     }
+
+
+
+
+
+
+
+
+    public function store_buyers_details($reference)
+    {
+        if(Session::has("buyer_details"))
+        {
+            $buyer_details = Session::get('buyer_details');
+
+            $store = new PaidBuyer();
+            $store->user_id = Auth::user()['id'];
+            $store->reference = $reference;
+            $store->first_name = $buyer_details['first_name'];
+            $store->last_name = $buyer_details['last_name'];
+            $store->phone = $buyer_details['phone'];
+            $store->state = $buyer_details['state'];
+            $store->city = $buyer_details['city'];
+            $store->address = $buyer_details['address'];
+            $store->country = $buyer_details['country'];
+            $store->email = $buyer_details['email'];
+            $store->shipping = $buyer_details['shipping'];
+            $store->postal_code = $buyer_details['postal_code'];
+            $store->save();
+
+            Session::forget('buyer_details');
+            return true;
+        }
+    }
+
 
 
 
@@ -132,10 +185,6 @@ class PaymentController extends Controller
         if($request->ajax())
         {
             $data = true; 
-        //    $buyer_details = ['first_name' => $request->first_name, 'last_name' => $request->last_name, 'phone' => $request->phone,
-        //                     'state' => $request->state, 'city' => $request->city, 'country' => $request->country, 
-        //                     'email' => $request->email, 'shipping' => $request->shipping, 'postal_code' => $request->postal_code];
-         
             $first_name = null;
             $last_name = null;
             $phone = null;
@@ -251,8 +300,25 @@ class PaymentController extends Controller
 
 
 
+    public function order_success()
+    {
+        $sideCategories = Category::where('is_feature', 1)->get();  
+        if(Session::has('reference'))
+        {
+            $reference = Session::get('reference');
+            $order = DB::table('paid_buyers')->where('reference', $reference)->leftJoin('paids', 'paid_buyers.reference', '=', 'paids.reference_number')
+                    ->leftJoin('products', 'paids.product_id' , '=', 'products.id')->get();
+        }else{
+            return redirect('/')->with('alert', "You are not allowed to view that page");
+        }
+
+        return view('web.order-success', compact('sideCategories', 'order'));
+    }
 
 
+
+
+  
 
 
     // end

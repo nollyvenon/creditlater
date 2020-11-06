@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Session;
 
-class VaerificationTableSeeder extends Seeder
+class VerificationTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -38,7 +38,8 @@ class VaerificationTableSeeder extends Seeder
                 'guarantor_occupation' => 'business man',
                 'guarantor_relationship' => 'unknown',
                 'guarantor_address' => 'klhflsvhbkrvkurgbvku,gbvubgfr',
-                'date_registered' => $date
+                'date_registered' => $date,
+                'is_approved' => 1
             )
         ));
     }

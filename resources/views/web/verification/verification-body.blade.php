@@ -12,10 +12,11 @@
                     <div class="block-content ">
                         <ul>
                             <li><a href="{{ url('/account') }}">My Account</a></li>
-                            <li><a href="#">My Orders</a></li>
+                            <li><a href="{{ url('/order-history') }}">My Orders</a></li>
                             <li><a href="{{ url('/wishlist') }}">My Wishlist</a></li>
+                            <li><a href="{{ url('/cart') }}">My Cart</a></li>
                             <li><a href="#">Newsletter</a></li>
-                            <li><a href="{{ url('/account') }}">My Account</a></li>
+                            <li class="active"><a href="{{ url('/verification') }}">Verification</a></li>
                             <li><a href="{{ url('/change-password') }}">Change Password</a></li>
                             <li class="last"><a href="{{ url('/logout') }}">Log Out</a></li>
                         </ul>
