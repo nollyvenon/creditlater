@@ -203,7 +203,6 @@
                             }
                        }else if(response.data){
                            payWithPaystack();
-                        // location.reload()
                        }
                     }
                 });
@@ -260,7 +259,7 @@
             success: function(response){
                 if(response.data){
                     location.reload();
-                    _show_order_succss(message);
+                    // _show_order_succss(message);
                 }
             }
         });
@@ -269,30 +268,30 @@
 
 
 
-  var orderSuccess = $("#get_order_success_page");
-      $(orderSuccess).click(function(e){
-          e.preventDefault();
+//   var orderSuccess = $("#get_order_success_page");
+//       $(orderSuccess).click(function(e){
+//           e.preventDefault();
 
-          _show_order_succss()
-      })
-    function _show_order_succss(){
-        var url = $("#get_order_success_page_url").attr('data-url');
+//           _show_order_succss()
+//       })
+//     function _show_order_succss(){
+//         var url = $("#get_order_success_page_url").attr('data-url');
 
-        csrf_token() //laravel csfr token
+//         csrf_token() //laravel csfr token
 
-        $.ajax({
-            url: url,
-            method: 'post',
-            data: {
-            reference: '773431461'
-            },
-            success: function(response){
-               console.log(response)
-            }
-        });
-    }
+//         $.ajax({
+//             url: url,
+//             method: 'post',
+//             data: {
+//             reference: '773431461'
+//             },
+//             success: function(response){
+//                console.log(response)
+//             }
+//         });
+//     }
 
-_show_order_succss();
+// _show_order_succss();
 </script>
 
 

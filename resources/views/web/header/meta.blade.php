@@ -53,6 +53,7 @@
 <div class="installment-method-url" id="get_installment_method_url" data-url="{{ url('/installment-method') }}"></div>     <!-- get installment method url-->
 <div class="verification-check-url" id="get_installment_verification_url" data-url="{{ url('/verification-check') }}"></div>     <!-- get verification check url-->
 <div class="installment-payment-url" id="get_installment_payment_url" data-url="{{ url('/intallment-paymanet') }}"></div>     <!-- get verification check url-->
+<div class="store-installment-items-url" id="store_intallment_items_url" data-url="{{ url('/store-intallment-items') }}"></div>     <!-- store installment items url-->
 
 
 

@@ -8,9 +8,12 @@ use App\Models\Web\Category;
 use App\Models\Web\Auth;
 use App\Models\Web\Verification;
 use App\Models\Web\User;
+use App\Models\Web\Installment;
+use App\Models\Web\InstallmentProduct;
 
 
 
+use DB;
 use Session;
 
 
@@ -26,6 +29,17 @@ class InstallmentController extends Controller
 //   dd(Session::get('installmentDetal'));
         //get all category
         $sideCategories = Category::where('is_feature', 1)->get();
+
+        // check for reference id and redirect to success page
+        if(Session::has('installment_reference'))
+        {
+            return redirect('installment-success');
+        }
+        
+        if(!Auth::user())
+        {
+            return redirect('/')->with('alert', 'Signup or login to access that page!');
+        }
 
         if(Auth::user())
         {
@@ -116,7 +130,7 @@ class InstallmentController extends Controller
 
     
 
-    public function intallment_paymane_ajax(Request $request)
+    public function intallment_payment_ajax(Request $request)
     {
         if($request->ajax())
         {
@@ -131,20 +145,37 @@ class InstallmentController extends Controller
             $country = null;
             $postal_code = null;
             $shipping = null;
+            $initial_payment = null;
             $error_array = array();
+
+            $installments = 0;
+            $total_price = Session::get('cart')->_totalPrice;
+            if($total_price <= 20000)
+            {
+                $installments = 2;
+            } else if($total_price <= 30000)
+            {
+                $installments = 3;
+            } else if($total_price <= 50000)
+            {
+                $installments = 4;
+            }else{
+                $installments = 6;
+            }
+            $payment_percentage = (35 / 100) * $total_price;
+            $balance = $total_price - $request->initial_payment;
+
 
              if(empty($request->first_name))
              {
                  $first_name = "First name field is required";
              }else if(strlen($request->first_name) < 3)
-                 {
-                    $first_name = "First name must be minimum of 3 characters";
-                 }else if(strlen($request->first_name) > 50){
+             {
+                 $first_name = "First name must be minimum of 3 characters";
+              }else if(strlen($request->first_name) > 50){
                     $first_name = "First name must be maximum of 50 characters";
-                 }
+             }
              
-
-
              if(empty($request->last_name))
              {
                  $last_name = "last name field is required";
@@ -201,6 +232,21 @@ class InstallmentController extends Controller
              {
                 $country = "country field is required";
              }
+             if(empty($request->initial_payment))
+             {
+                $initial_payment = "Initial payment field is required";
+             }else if(!is_numeric($request->initial_payment))
+             {
+                $initial_payment = "Invalid payment format";
+             }else if($request->initial_payment < $payment_percentage)
+             {
+                $money = "&#x20A6;".number_format($payment_percentage);
+                $initial_payment = "Initial payment must be minimum of ".$money;
+             }else if($request->initial_payment > $total_price)
+             {
+                $money =  $money = "&#x20A6;".number_format($total_price);
+                $initial_payment = "Payment must be maximum of ".$money;
+             }
 
 
 
@@ -208,7 +254,7 @@ class InstallmentController extends Controller
 
              $error_message = ['first_name' => $first_name, 'last_name'=>$last_name,'phone' => $phone,
                               'email'=>$email, 'address'=>$address,'city'=>$city,'country'=>$country,
-                              'postal_code'=>$postal_code, 'shipping' => $shipping];
+                              'postal_code'=>$postal_code, 'shipping' => $shipping, 'initial_payment' => $initial_payment];
              foreach($error_message as $values)
              {
                  if(!empty($values))
@@ -221,34 +267,17 @@ class InstallmentController extends Controller
             {
                 return response()->json(['errors' => $error_message]);
             }else{
-
-                $installments = 0;
-                $total_price = Session::get('cart')->_totalPrice;
-                if($total_price <= 20000)
-                {
-                    $installments = 2;
-                } else if($total_price <= 30000)
-                {
-                    $installments = 3;
-                } else if($total_price <= 50000)
-                {
-                    $installments = 4;
-                }else{
-                    $installments = 6;
-                }
-                $initial_payment = (35 / 100) * $total_price;
-                $balance = $total_price - $initial_payment;
-
                     $installmentDetail = ['first_name' => $request->first_name, 'last_name' => $request->last_name, 'phone' => $request->phone,
                             'state' => $request->state, 'city' => $request->city, 'country' => $request->country, 'address' => $request->address, 
                             'email' => $request->email, 'shipping' => $request->shipping, 'postal_code' => $request->postal_code,
-                             'installment' => $installments, 'initial_payment'=> $initial_payment, 'balance' => $balance
+                            'installment' => $installments, 'balance' => $balance, 'initial_payment'=> $request->initial_payment,
+                            'total_price' => $total_price
                         ];
 
-                    Session::put('installmentDetal', $installmentDetail);
+                    Session::put('installmentDetail', $installmentDetail);
             }
         }
-        return response()->json(['data' => $data, 'initial_payment' => $installmentDetail['initial_payment']]);
+        return response()->json(['data' => $data, 'initial_payment' => $request->initial_payment]);
     }
 
 
@@ -259,19 +288,24 @@ class InstallmentController extends Controller
 
 
 
-    public function order_success()
+    public function installment_success()
     {
-        $sideCategories = Category::where('is_feature', 1)->get();  
-        if(Session::has('reference'))
+        // get subcategories
+        $sideCategories = Category::where('is_feature', 1)->get(); 
+
+
+        if(Session::has('installment_reference'))
         {
-            $reference = Session::get('reference');
-            $order = DB::table('paid_buyers')->where('reference', $reference)->leftJoin('paids', 'paid_buyers.reference', '=', 'paids.reference_number')
-                    ->leftJoin('products', 'paids.product_id' , '=', 'products.id')->get();
+            $reference = Session::get('installment_reference');
+            $order = DB::table('installments')->where('reference', $reference)->leftJoin('installment_products', 'installments.reference', '=', 'installment_products.reference_number')
+                    ->leftJoin('products', 'installment_products.product_id' , '=', 'products.id')->get();
+
+                    Session::forget('installment_reference'); //deletes the reference from session
         }else{
-            return redirect('/')->with('alert', "You are not allowed to view that page");
+            return redirect('/');
         }
 
-        return response()->json(['data' => $data]);
+        return view('web.order-success', compact('sideCategories', 'order'));
     }
 
 
@@ -281,70 +315,74 @@ class InstallmentController extends Controller
 
 
 
-    // public function store_buyers_details($reference)
-    // {
-    //     if(Session::has("buyer_details"))
-    //     {
-    //         $buyer_details = Session::get('buyer_details');
+    public function store_installment_buyers_details($reference)
+    {
+        if(Session::has("installmentDetail"))
+        {
+            $installmentDetails = Session::get('installmentDetail');
 
-    //         $store = new PaidBuyer();
-    //         $store->user_id = Auth::user()['id'];
-    //         $store->reference = $reference;
-    //         $store->first_name = $buyer_details['first_name'];
-    //         $store->last_name = $buyer_details['last_name'];
-    //         $store->phone = $buyer_details['phone'];
-    //         $store->state = $buyer_details['state'];
-    //         $store->city = $buyer_details['city'];
-    //         $store->address = $buyer_details['address'];
-    //         $store->country = $buyer_details['country'];
-    //         $store->email = $buyer_details['email'];
-    //         $store->shipping = $buyer_details['shipping'];
-    //         $store->postal_code = $buyer_details['postal_code'];
-    //         $store->save();
+            $store = new Installment();
+            $store->user_id = Auth::user()['id'];
+            $store->reference = $reference;
+            $store->first_name = $installmentDetails['first_name'];
+            $store->last_name = $installmentDetails['last_name'];
+            $store->phone = $installmentDetails['phone'];
+            $store->state = $installmentDetails['state'];
+            $store->city = $installmentDetails['city'];
+            $store->address = $installmentDetails['address'];
+            $store->country = $installmentDetails['country'];
+            $store->email = $installmentDetails['email'];
+            $store->shipping = $installmentDetails['shipping'];
+            $store->postal_code = $installmentDetails['postal_code'];
+            $store->installment = $installmentDetails['installment'];
+            $store->balance = $installmentDetails['balance'];
+            $store->total_price = $installmentDetails['total_price'];
+            $store->initial_payment = $installmentDetails['initial_payment'];
+            $store->save();
 
-    //         Session::forget('buyer_details');
-    //         return true;
-    //     }
-    // }
+            Session::forget('installmentDetail');
+            return true;
+        }
+    }
 
 
 
 
-    // public function _store_paid_products(Request $request)
-    // {
-    //     if($request->ajax())
-    //     {
-    //         $user = Auth::user();
-    //         $stored_user = User::where('id', $user['id'])->where('email', $user['email'])->first();
-    //         if($user)
-    //         {
-    //             $cart_items = Session::get('cart')->_items;
-    //             foreach($cart_items as $items)
-    //             {
-    //                 $paid = new Paid();
-    //                 $total = $items['price'] * $items['quantity'];
-    //                 $paid->create([
-    //                     'user_id' => $user['id'],
-    //                     'reference_number' => $request->reference,
-    //                     'product_id' => $items['product_id'],
-    //                     'price' =>  $items['price'],
-    //                     'quantity' =>  $items['quantity'],
-    //                     'total' =>  $total,
-    //                     'small' =>  $items['small'],
-    //                     'medium' =>  $items['medium'],
-    //                     'large' =>  $items['large'],
-    //                     'xtra_large' =>  $items['xtra large'],
-    //                     'unspecified' =>  $items['unspecified'],
-    //                 ]);
-    //             }
-    //             $this->store_buyers_details($request->reference);
-    //             Session::put('reference', $request->reference);
-    //             Session::forget('cart');
-    //             $data = true;
-    //         }
-    //     }
-    //     return response()->json(['data' => $data]);
-    // }
+    public function store_intallment_items_ajax(Request $request)
+    {
+        if($request->ajax())
+        {
+            $user = Auth::user();
+            $stored_user = User::where('id', $user['id'])->where('email', $user['email'])->first();
+            if($user)
+            {
+                $cart_items = Session::get('cart')->_items;
+                foreach($cart_items as $items)
+                {
+                    $paid = new InstallmentProduct();
+                    $total = $items['price'] * $items['quantity'];
+                    $paid->create([
+                        'user_id' => $user['id'],
+                        'reference_number' => $request->reference,
+                        'product_id' => $items['product_id'],
+                        'price' =>  $items['price'],
+                        'quantity' =>  $items['quantity'],
+                        'total' =>  $total,
+                        'small' =>  $items['small'],
+                        'medium' =>  $items['medium'],
+                        'large' =>  $items['large'],
+                        'xtra_large' =>  $items['xtra large'],
+                        'unspecified' =>  $items['unspecified'],
+                    ]);
+                }
+                $this->store_installment_buyers_details($request->reference);
+                Session::put('installment_reference', $request->reference);
+                Session::forget('cart');
+                $data = true;
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
 
 
 

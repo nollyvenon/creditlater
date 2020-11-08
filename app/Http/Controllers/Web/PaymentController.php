@@ -308,8 +308,10 @@ class PaymentController extends Controller
             $reference = Session::get('reference');
             $order = DB::table('paid_buyers')->where('reference', $reference)->leftJoin('paids', 'paid_buyers.reference', '=', 'paids.reference_number')
                     ->leftJoin('products', 'paids.product_id' , '=', 'products.id')->get();
+
+            Session::forget('reference'); //deletes the reference from session
         }else{
-            return redirect('/')->with('alert', "You are not allowed to view that page");
+            return redirect('/');
         }
 
         return view('web.order-success', compact('sideCategories', 'order'));

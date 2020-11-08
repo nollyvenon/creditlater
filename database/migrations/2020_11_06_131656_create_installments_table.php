@@ -29,6 +29,7 @@ class CreateInstallmentsTable extends Migration
             $table->string('country');
             $table->string('postal_code');
             $table->string('shipping');
+            $table->integer('total_price');
             $table->integer('installment');
             $table->integer('initial_payment');
             $table->integer('balance');

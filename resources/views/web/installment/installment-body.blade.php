@@ -90,7 +90,6 @@
                                         <li>Shipping
                                             <div class="shipping">
                                                 <div class="text-danger verification-alert checkout_alert_9"></div>
-                                               
                                                 <div class="shopping-option">
                                                     <input type="checkbox" id="free-shipping"  class="shipping-method-check-box">
                                                     <label for="free-shipping">Free Shipping</label>
@@ -100,8 +99,8 @@
                                                     <label for="local-pickup">Local Pickup</label>
                                                 </div>
                                                 <div class="">
-                                                    <input type="text" id="hidden_shipping_method" value="">
-                                                    <input type="text" id="total_amount" value="{{ Session::get('cart')->_totalPrice }}">
+                                                    <input type="hidden" id="hidden_shipping_method" value="">
+                                                    <input type="hidden" id="total_amount" value="{{ Session::get('cart')->_totalPrice }}">
                                                 </div>
                                             </div>
                                         </li>
@@ -109,9 +108,14 @@
                                     <ul class="total">
                                         <li>Total: <span class="count">@money(Session::get('cart')->_totalPrice)</span></li>
                                         <li>Maximum installments: <span class="count">{{ $installments }}</span></li>
-                                        <li>Initial payment: <span class="count">@money($initial_payment)</span></li>
-                                        <li><b>To balance:</b> <span class="count"><b>@money($balance)</b></span></li>
+                                        <li>Initial payment allowed: <span class="count">@money($initial_payment)</span></li>
+                                        <!-- <li><b>To balance:</b> <span class="count"><b>@money($balance)</b></span></li> -->
                                     </ul>
+                                    <div class="form-group">
+                                        <div class="text-danger verification-alert checkout_alert_10"></div>
+                                        <label for="amount">Amount:</label>
+                                        <input type="number" min="0" class="form-controll" id="installment_initial_payment_field" value="" placeholder="Amount">
+                                    </div>
                                 </div>
                                     <div class="alert-danger p-3 mb-3 text-center verification-div-hidden">
                                         You have not registered for installment yet.
@@ -144,7 +148,7 @@
 
 
 
-
+<button id="click_me">click me</button>
 
 <!--pay stack popup -->
  <script src="https://js.paystack.co/v1/inline.js"></script>  
@@ -211,6 +215,7 @@ var installmentBtn = ("#pay_installment_btn");
         var country = $("#installment_country").val();
         var postal_code = $("#installment_postal_code").val();
         var shipping = $("#hidden_shipping_method").val();
+        var initial_payment = $("#installment_initial_payment_field").val();
 
         csrf_token()   // gets page csrf token
 
@@ -227,7 +232,8 @@ var installmentBtn = ("#pay_installment_btn");
                          address: address,
                          country: country,
                          postal_code: postal_code,
-                         shipping: shipping
+                         shipping: shipping,
+                         initial_payment: initial_payment
                     },
                     success: function(response){
                         if(response.errors){
@@ -257,6 +263,9 @@ var installmentBtn = ("#pay_installment_btn");
                             }
                             if(response.errors.shipping){
                                 $(".checkout_alert_9").html("*"+response.errors.shipping);
+                            }
+                            if(response.errors.initial_payment){
+                                $(".checkout_alert_10").html("*"+response.errors.initial_payment);
                             }
                        }else if(response.data){
                             payWithPaystack(response.initial_payment);
@@ -288,8 +297,7 @@ function payWithPaystack(initial_payment) {
 
         callback: function(response){
         let message = response.reference;
-        // __store_paid_products(message);
-        alert('successful....')
+        __store_paid_products(message);
         }
 
     });
@@ -298,6 +306,28 @@ function payWithPaystack(initial_payment) {
 
 
 
+
+ // store paid  items after payment have been made 
+ function __store_paid_products(reference){
+        var url = $("#store_intallment_items_url").attr('data-url');
+
+        csrf_token() //laravel csfr token
+
+        $.ajax({
+            url: url,
+            method: 'post',
+            data: {
+               installment: 'installment',
+               reference: reference
+            },
+            success: function(response){
+               if(response.data){
+                   location.reload();
+               }
+            }
+        });
+        
+    }
 
 
 </script>

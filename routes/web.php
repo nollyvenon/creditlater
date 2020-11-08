@@ -132,11 +132,13 @@ Route::get('/order-history', [OrderController::class, 'index']);
 Route::get('/order-history/all', [OrderController::class, 'show']);
 
 
+
 // INSTALLMENT PAGE
 Route::get('/installments', [InstallmentController::class, 'index']);
 Route::post('/verification-check', [InstallmentController::class, 'get_verification_check_ajax']);
-Route::post('/intallment-paymanet', [InstallmentController::class, 'intallment_paymane_ajax']);
-
+Route::post('/intallment-paymanet', [InstallmentController::class, 'intallment_payment_ajax']);
+Route::post('/store-intallment-items', [InstallmentController::class, 'store_intallment_items_ajax']);
+Route::get('/installment-success', [InstallmentController::class, 'installment_success']);
 
 
 
