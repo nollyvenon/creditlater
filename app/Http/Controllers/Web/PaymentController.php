@@ -272,7 +272,8 @@ class PaymentController extends Controller
 
              $error_message = ['first_name' => $first_name, 'last_name'=>$last_name,'phone' => $phone,
                               'email'=>$email, 'address'=>$address,'city'=>$city,'country'=>$country,
-                              'postal_code'=>$postal_code, 'shipping' => $shipping];
+                              'postal_code'=>$postal_code, 'shipping' => $shipping
+                            ];
              foreach($error_message as $values)
              {
                  if(!empty($values))

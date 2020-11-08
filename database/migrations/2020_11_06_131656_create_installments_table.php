@@ -17,7 +17,7 @@ class CreateInstallmentsTable extends Migration
     {
         Schema::create('installments', function (Blueprint $table) {
             $table->id('id');
-            $table->string('user_id');
+            $table->string('installment_user_id');
             $table->string('reference');
             $table->string('first_name');
             $table->string('last_name');
@@ -33,6 +33,8 @@ class CreateInstallmentsTable extends Migration
             $table->integer('installment');
             $table->integer('initial_payment');
             $table->integer('balance');
+            $table->text('installment_payments')->nullable();
+            $table->boolean('is_complete')->default('0');
             $table->dateTime('paid_date')->default(Carbon::now()->toDateTimeString());
             $table->timestamps();
         });

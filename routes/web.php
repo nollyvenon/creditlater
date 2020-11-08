@@ -139,6 +139,11 @@ Route::post('/verification-check', [InstallmentController::class, 'get_verificat
 Route::post('/intallment-paymanet', [InstallmentController::class, 'intallment_payment_ajax']);
 Route::post('/store-intallment-items', [InstallmentController::class, 'store_intallment_items_ajax']);
 Route::get('/installment-success', [InstallmentController::class, 'installment_success']);
+Route::get('/installment-orders', [InstallmentController::class, 'installment_orders']);
+Route::get('/installment-orders/all', [InstallmentController::class, 'installment_orders_all']);
+Route::get('/installment-orders/complete-payment', [InstallmentController::class, 'installment_complete_payment_show']);
+Route::get('/complete-payment', [InstallmentController::class, 'complete_payment_show']);
+Route::post('/complete-payment-now', [InstallmentController::class, 'complete_payment_now_ajax']);
 
 
 

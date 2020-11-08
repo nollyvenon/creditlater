@@ -322,7 +322,7 @@ class InstallmentController extends Controller
             $installmentDetails = Session::get('installmentDetail');
 
             $store = new Installment();
-            $store->user_id = Auth::user()['id'];
+            $store->installment_user_id = Auth::user()['id'];
             $store->reference = $reference;
             $store->first_name = $installmentDetails['first_name'];
             $store->last_name = $installmentDetails['last_name'];
@@ -387,7 +387,128 @@ class InstallmentController extends Controller
 
 
 
+    public function installment_orders()
+    {
+        //get all category
+        $sideCategories = Category::where('is_feature', 1)->get();
 
+        //get buyers orders
+        $buyer_order = null;
+        if(Auth::user())
+        {
+            $user_id = Auth::user()['id'];
+            $installment_orders = DB::table('installments')->where('installment_user_id', $user_id)
+                        ->leftJoin('installment_products', 'installments.reference', '=', 'installment_products.reference_number')
+                        ->leftJoin('products', 'installment_products.product_id', '=', 'products.id')->limit(4)->get();
+        
+            if(count($installment_orders) == "")
+            {
+                $installment_orders = null;
+            }
+        }else{
+            return redirect('/')->with('alert', 'Signup or login to access that page!');
+        }
+
+        return view('web.installment_orders', compact('sideCategories', 'installment_orders'));
+    }
+
+
+    public function installment_orders_all()
+    {
+        //get all category
+        $sideCategories = Category::where('is_feature', 1)->get();
+
+        $user_id = Auth::user()['id'];
+        $installment_orders = DB::table('installments')->where('installment_user_id', $user_id)
+                    ->leftJoin('installment_products', 'installments.reference', '=', 'installment_products.reference_number')
+                    ->leftJoin('products', 'installment_products.product_id', '=', 'products.id')->get();
+
+        return view('web.installment_orders', compact('sideCategories', 'installment_orders'));
+    
+    }
+
+
+
+    public function installment_complete_payment_show()
+    {
+        //get all category
+        $sideCategories = Category::where('is_feature', 1)->get();
+
+        $user_id = Auth::user()['id'];
+        $installment_orders = DB::table('installments')->where('installment_user_id', $user_id)->where('is_complete', 0)
+                    ->leftJoin('installment_products', 'installments.reference', '=', 'installment_products.reference_number')
+                    ->leftJoin('products', 'installment_products.product_id', '=', 'products.id')->get();
+
+
+        return view('web.installment_orders', compact('sideCategories', 'installment_orders'));
+    }
+
+
+
+
+
+    public function complete_payment_show()
+    {
+        //get all category
+        $sideCategories = Category::where('is_feature', 1)->get();
+
+        return view('web.complete_payments', compact('sideCategories'));
+    }
+
+
+
+
+
+    public function complete_payment_now_ajax(Request $request)
+    {
+        if($request->ajax())
+        {
+            if($user_id = Auth::user())
+            {
+                $email = null;
+                $amount = null;
+                $error_array = array();
+                $installmentBuyer = Installment::where('installment_user_id', $user_id['id'])->where('is_complete', 0)->first();
+
+                if(empty($request->email))
+                {
+                    $email = "email field is required";
+                }else if (!filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
+                   $email = "Invalid email format";
+                }else{
+                    $user_email = User::Where('id', Auth::user()['id'])->where('email', $request->email)->first();
+                if(!$user_email){
+                    $email = "Insert your email address";
+                    }
+                }
+
+                if(empty($request->amount))
+                {
+                    $amount = "amount field is required";
+                }else if($request->amount > $installmentBuyer->balance)
+                {
+                    $money =  $money = "&#x20A6;".number_format($installmentBuyer->balance);
+                    $amount = "Payment must be maximum of ".$money;
+                }
+                //   i stopped here
+
+                $error_message = ['email' => $email, 'amount' => $amount ];
+                foreach($error_message as $values)
+                {
+                    if(!empty($values))
+                    {
+                    $error_array[] = $values; 
+                    }
+                }
+                
+                if(!empty($error_array))
+                {
+                    return response()->json(['errors' => $error_message]);
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
 
 
     // end
