@@ -93,5 +93,59 @@ class Cart extends Model
         $this->_totalQty -= $stored_item['quantity'];
     }
 
+
+
+
+
+
+
+    public function wishlist_add_to_cart($id, $product, $wishlist)
+    {
+        $stored_item = ['product_id' => $id, 'product' => $product, 'price' => 0, 'quantity' => 0, 'small' => 0, 'medium' => 0, 'large' => 0, 'xtra large' => 0, 'unspecified' => 0];
+        
+        if($this->_items)
+        {
+            if(array_key_exists($id, $this->_items))
+            {
+                $stored_item = $this->_items[$id];
+            }
+        }
+
+        $stored_item['quantity'] += $wishlist->quantity;
+        $stored_item['price'] += $product->products_price * $wishlist->quantity;
+        $stored_item['small'] += $wishlist->small;
+        $stored_item['medium'] += $wishlist->medium;
+        $stored_item['large'] += $wishlist->large;
+        $stored_item['xtra large'] += $wishlist->xtra_large;
+        $stored_item['unspecified'] += $wishlist->unspecified;
+
+        $this->_items[$id] = $stored_item;
+        $this->_totalPrice += $product->products_price * $wishlist->quantity;
+        $this->_totalQty += $wishlist->quantity;
+
+    }
+
+
+
+
+    
     // end
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

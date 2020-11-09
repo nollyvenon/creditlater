@@ -883,7 +883,39 @@ var hiddenShippingMethod = $("#hidden_shipping_method");
     });
 
 
+
+
+
+
+
     
+// ADD WISHLIST ITEMS TO CART
+// ------------------------------------------------------------
+var wislistCartBtn = $(".add_wishlist-item-to-cart");
+    $(wislistCartBtn).click(function(e){
+        e.preventDefault();
+        var url = $(this).attr('href');
+        var id = $(this).attr('id');
+
+        
+        
+        csrf_token()   // gets page csrf token
+
+        $.ajax({
+            url: url,
+            method: "post",
+            data: {
+               product_id: id
+            },
+            success: function (response){
+                if(response.data)
+                {
+                    location.reload();
+                }
+            }
+        });
+    })
+  
    
 
 

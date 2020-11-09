@@ -8,6 +8,7 @@ use App\Models\Web\Category;
 use App\Models\Web\Product;
 use App\Models\Web\Wishlist;
 use App\Models\Web\Auth;
+use App\Models\Web\Cart;
 
 
 use DB;
@@ -18,6 +19,9 @@ class WishlistController extends Controller
 {
     public function index()
     {
+
+        // dd(Session::get('cart'));
+
         //  side categories
         $sideCategories = Category::where('is_feature', 1)->get();
 
@@ -288,6 +292,38 @@ class WishlistController extends Controller
         return response()->json(['data' => $data]);
     }
 
+
+
+
+
+
+
+
+    public function add_wishlist_item_to_cart_ajax(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            if($user = Auth::user())
+            {
+                $wishlist = WishList::where('user_id', $user['id'])->where('product_id', $request->product_id)->first();
+                $product = Product::where('id', $request->product_id)->first();
+                $oldCart = Session::has('cart')? Session::get('cart') : null;
+
+                $cart = new Cart($oldCart);
+                $cart->wishlist_add_to_cart($request->product_id, $product, $wishlist);
+                Session::put('cart', $cart);
+
+               if( WishList::where('product_id', $request->product_id)->delete())
+               {
+                $data = true;
+               }
+            }
+            
+            // $data = true;
+        }
+        return response()->json(['data' => $data]);
+    }
 
 
     // end

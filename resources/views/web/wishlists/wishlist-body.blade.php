@@ -19,9 +19,9 @@
                     <tbody>
                     <tr>
                         <td>
-                            <a href="#"><img src="{{ asset(image($wishlist->products_image, 0)) }}" alt="product" class="img-fluid  "></a>
+                            <a href="{{ url('detail/'.$wishlist->id) }}"><img src="{{ asset(image($wishlist->products_image, 0)) }}" alt="product" class="img-fluid  "></a>
                         </td>
-                        <td><a href="#">cotton shirt</a>
+                        <td><a href="{{ url('detail/'.$wishlist->id) }}">cotton shirt</a>
                             <div class="mobile-cart-content row">
                                 <div class="col-xs-3">
                                     <p>in stock</p>
@@ -29,15 +29,15 @@
                                 <div class="col-xs-3">
                                     <h2 class="td-color">@money($wishlist->products_price)</h2></div>
                                 <div class="col-xs-3">
-                                    <h2 class="td-color"><a href="{{ url('/delete-wishlist-item') }}" id="{{ $wishlist->id }}" class="icon mr-1 delete_wishlist_item"><i class="fa fa-close"></i> </a></h2></div>
+                                    <h2 class="td-color"><a href="{{ url('/delete-wishlist-item') }}" id="{{ $wishlist->id }}" class="icon mr-1 delete_wishlist_item"><i class="fa fa-close"></i> </a><a href="{{ url('/add-wishlist-item-to-cart') }}" class="cart add_wishlist-item-to-cart" id="{{ $wishlist->id }}"><i class="fa fa-shopping-cart"></i></a></h2></div>
                             </div>
                         </td>
                         <td>
-                            <h2>@money($wishlist->products_price)</h2></td>
+                        <h2>@money($wishlist->products_price)</h2></td>
                         <td>
                             <p>in stock</p>
                         </td>
-                        <td><a href="{{ url('/delete-wishlist-item') }}" id="{{ $wishlist->id }}" class="icon mr-3 delete_wishlist_item"><i class="fa fa-close"></i></a></td>
+                        <td><a href="{{ url('/delete-wishlist-item') }}" id="{{ $wishlist->id }}" class="icon mr-1 delete_wishlist_item"><i class="fa fa-close"></i> </a><a href="{{ url('/add-wishlist-item-to-cart') }}" class="cart add_wishlist-item-to-cart" id="{{ $wishlist->id }}"><i class="fa fa-shopping-cart"></i></a></td>
                     </tr>
                     </tbody>
                     @endforeach
@@ -45,7 +45,7 @@
             </div>
         </div>
         <div class="row wishlist-buttons">
-            <div class="col-12"><a href="{{ url('/products') }}" class="btn btn-normal">continue shopping</a> <a href="#" class="btn btn-normal">check out</a></div>
+            <div class="col-12"><a href="{{ url('/products') }}" class="btn btn-normal">continue shopping</a></div>
         </div>
     </div>
 </section>
@@ -66,3 +66,7 @@
 <!-- Section ends -->
 @endif
 <!--section end-->
+
+
+
+
