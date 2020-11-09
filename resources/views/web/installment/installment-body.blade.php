@@ -148,7 +148,7 @@
 
 
 
-<button id="click_me">click me</button>
+
 
 <!--pay stack popup -->
  <script src="https://js.paystack.co/v1/inline.js"></script>  

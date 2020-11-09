@@ -37,6 +37,9 @@
     <!-- latest jquery-->
     <script src="{{ asset('web/js/jquery-3.3.1.min.js') }}"></script>
 
+    <!-- paystack -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+
 
 
 <!-- paths to pages used in main-script.js -->
@@ -54,6 +57,7 @@
 <div class="verification-check-url" id="get_installment_verification_url" data-url="{{ url('/verification-check') }}"></div>     <!-- get verification check url-->
 <div class="installment-payment-url" id="get_installment_payment_url" data-url="{{ url('/intallment-paymanet') }}"></div>     <!-- get verification check url-->
 <div class="store-installment-items-url" id="store_intallment_items_url" data-url="{{ url('/store-intallment-items') }}"></div>     <!-- store installment items url-->
+<div class="update-installments-url" id="update_installments_url" data-url="{{ url('/update-installments') }}"></div>    <!-- update installment url -->
 
 
 

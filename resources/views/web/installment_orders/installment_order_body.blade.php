@@ -68,7 +68,7 @@
                                <div> <span>Size: Unspecified</span> | <span>Quntity: {{ $order->unspecified }}</span></div>
                                 @endif
                             </div>
-                            <span class="dark-data">Delivered</span> (jul 01, 2019)
+                            <span class="dark-data">Delivered </span>( {{ explode(' ', $order->paid_date)[0] }} )
                         </td>
                     </tr>
                     </tbody>
@@ -78,6 +78,7 @@
         </div>
 <!-- complete payment table start-->
 @if(Request::is("installment-orders/complete-payment"))
+@if($installment_balance)
 <section class="cart-section order-history section-big-py-space">
     <div class="custom-container">
         <div class="row">
@@ -92,12 +93,13 @@
                         <th scope="col">Date Paid</th>
                     </tr>
                     </thead>
+                    @foreach($installment_balance as $installment_paid)
                     <tbody>
                     <tr>
                         <td>
-                            <a href="#"><img src="../assets/images/product-sidebar/001.jpg" alt="product" class="  img-fluid"></a>
+                            <li>@money($installment_paid->balance_total_price)</li>
                         </td>
-                        <td><a href="#">order no: <span class="dark-data">15454841</span> <br>cotton shirt</a>
+                        <td><a href="#">Initial payment: <span class="dark-data">@money($order->initial_payment)</span> <br>Paid: @money($installment_paid->balance_paid)</a>
                             <div class="mobile-cart-content row">
                                 <div class="col-xs-3">
                                     <div class="qty-box">
@@ -107,15 +109,15 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-3">
-                                    <h4 class="td-color">$63.00</h4></div>
+                                    <h4 class="td-color">@money($installment_paid->balance_total_price)</h4></div>
                                 <div class="col-xs-3">
                                     <h2 class="td-color"><a href="#" class="icon"><i class="ti-close"></i></a></h2></div>
                             </div>
                         </td>
                         <td>
-                            <h4>$63.00</h4></td>
+                            <h4>{{ $order->installment }}</h4></td>
                         <td>
-                            <span>Size: L</span>
+                            <span>Balance: @money($installment_paid->balance_balance)</span>
                             <br>
                             <span>Quntity: 1</span>
                         </td>
@@ -124,15 +126,17 @@
                                 <h4 class="price">$63.00</h4>
                                 <span>Size: L</span>|<span>Quntity: 1</span>
                             </div>
-                            <span class="dark-data">Delivered</span> (jul 01, 2019)
+                            <span class="dark-data">Paid on:</span>( {{ explode(' ', $installment_paid->paid_date)[0] }} )
                         </td>
                     </tr>
                     </tbody>
+                    @endforeach
                 </table>
             </div>
         </div>
     </div>
 </section>
+@endif
 @endif
 <!-- complete payment table end-->
         <div class="row cart-buttons">

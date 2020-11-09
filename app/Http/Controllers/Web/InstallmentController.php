@@ -324,6 +324,7 @@ class InstallmentController extends Controller
             $store = new Installment();
             $store->installment_user_id = Auth::user()['id'];
             $store->reference = $reference;
+            $store->unique_key = uniqid(36);
             $store->first_name = $installmentDetails['first_name'];
             $store->last_name = $installmentDetails['last_name'];
             $store->phone = $installmentDetails['phone'];
@@ -413,6 +414,15 @@ class InstallmentController extends Controller
     }
 
 
+
+
+
+
+
+
+
+
+// INSTALLMENT ORDERS
     public function installment_orders_all()
     {
         //get all category
@@ -429,6 +439,14 @@ class InstallmentController extends Controller
 
 
 
+
+
+
+
+
+
+
+
     public function installment_complete_payment_show()
     {
         //get all category
@@ -439,9 +457,31 @@ class InstallmentController extends Controller
                     ->leftJoin('installment_products', 'installments.reference', '=', 'installment_products.reference_number')
                     ->leftJoin('products', 'installment_products.product_id', '=', 'products.id')->get();
 
+        if(count($installment_orders) == "")
+        {
+            $installment_orders = null;
+        }
 
-        return view('web.installment_orders', compact('sideCategories', 'installment_orders'));
+
+        $installment_balance = null;
+        if($installment_orders)
+        {
+            // get installment balance 
+            $installment_balance = DB::table('installment_balance')->where('balance_user_id', $installment_orders[0]->installment_user_id)
+            ->where('balance_unique_key', $installment_orders[0]->unique_key)->get();
+            if(count($installment_balance) == "")
+            {
+            $installment_balance = null;
+
+            }
+
+        }
+       
+
+        return view('web.installment_orders', compact('sideCategories', 'installment_orders', 'installment_balance'));
     }
+
+
 
 
 
@@ -452,8 +492,22 @@ class InstallmentController extends Controller
         //get all category
         $sideCategories = Category::where('is_feature', 1)->get();
 
-        return view('web.complete_payments', compact('sideCategories'));
+        if(Session::has('installments'))
+        {
+            Session::forget('installments');
+        }
+
+        // installment balance
+        $balance = Installment::where('installment_user_id', Auth::user()['id'])->where('is_complete', 0)->first();
+        if(!$balance)
+        {
+          return redirect('account')->with('success', "Congratulations, you have completed this transaction!");
+        }
+    
+        return view('web.complete_payments', compact('sideCategories', 'balance'));
     }
+
+
 
 
 
@@ -470,6 +524,11 @@ class InstallmentController extends Controller
                 $error_array = array();
                 $installmentBuyer = Installment::where('installment_user_id', $user_id['id'])->where('is_complete', 0)->first();
 
+                if(!$installmentBuyer)
+                {
+                    return response()->json(['data' => false]); //cancles payments if installment balance is = 0;
+                }
+
                 if(empty($request->email))
                 {
                     $email = "email field is required";
@@ -485,12 +544,21 @@ class InstallmentController extends Controller
                 if(empty($request->amount))
                 {
                     $amount = "amount field is required";
+                }else if(!is_numeric($request->amount))
+                {
+                    $amount = "Invalid payment format";
                 }else if($request->amount > $installmentBuyer->balance)
                 {
-                    $money =  $money = "&#x20A6;".number_format($installmentBuyer->balance);
+                    $money = "&#x20A6;".number_format($installmentBuyer->balance);
                     $amount = "Payment must be maximum of ".$money;
+                }else if($installmentBuyer->installment == 1)
+                {
+                    if($request->amount != $installmentBuyer->balance)
+                    {
+                        $money = "&#x20A6;".number_format($installmentBuyer->balance);
+                        $amount = "maximum installment has been reached! you are required to pay ".$money;
+                    }
                 }
-                //   i stopped here
 
                 $error_message = ['email' => $email, 'amount' => $amount ];
                 foreach($error_message as $values)
@@ -504,11 +572,61 @@ class InstallmentController extends Controller
                 if(!empty($error_array))
                 {
                     return response()->json(['errors' => $error_message]);
+                }else{
+                    $pay_in = ['email' => $request->email, 'amount' => $request->amount ];
+                    Session::put('installments', $pay_in);
+                    $data = true;
                 }
             }
         }
         return response()->json(['data' => $data]);
     }
+
+
+
+
+
+
+
+
+
+
+    public function update_installments_ajax(Request $request)
+    {
+        if($request->ajax())
+        {
+            $user = Auth::user();
+            $paid_installment = Session::get('installments'); 
+            $installments = Installment::where('installment_user_id', $user['id'])->where('is_complete', 0)->first();
+
+            $balance = $installments['balance'] - $paid_installment['amount'];
+             
+            $update = DB::table("installment_balance")->insert(array(
+               'balance_user_id' => $user['id'],
+               'balance_reference' => $request->reference,
+               'balance_unique_key' => $installments['unique_key'],
+               'balance_paid' => $paid_installment['amount'],
+               'balance_total_price' => $installments['total_price'],
+               'balance_balance' => $balance,
+            ));
+
+            $installments->balance = $balance;
+            $installments->installment =  $installments->installment - 1; 
+            if(!$installments->balance)
+            {
+                $installments->is_complete = 1;
+            }
+
+            Session::flash('success', 'Payment has been made successfully!');
+            $installments->save();
+            $data = true;
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+
 
 
     // end

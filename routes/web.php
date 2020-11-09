@@ -144,6 +144,8 @@ Route::get('/installment-orders/all', [InstallmentController::class, 'installmen
 Route::get('/installment-orders/complete-payment', [InstallmentController::class, 'installment_complete_payment_show']);
 Route::get('/complete-payment', [InstallmentController::class, 'complete_payment_show']);
 Route::post('/complete-payment-now', [InstallmentController::class, 'complete_payment_now_ajax']);
+Route::post('/update-installments', [InstallmentController::class, 'update_installments_ajax']);
+
 
 
 
