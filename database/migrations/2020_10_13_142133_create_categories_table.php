@@ -19,12 +19,8 @@ class CreateCategoriesTable extends Migration
             $table->string('category_banner_image')->nullable();
             $table->text('category_image')->nullable();
             $table->text('round_cat_image')->nullable();
-            $table->text('category_icon');
-            $table->integer('parent_id')->default(0);
-            $table->integer('sort_order')->nullable();
             $table->dateTime('date_added')->nullable();
             $table->dateTime('last_modified')->nullable();
-            $table->boolean('category_status')->default(1);
             $table->boolean("is_feature");
             $table->timestamps();
         });

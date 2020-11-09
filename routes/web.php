@@ -15,16 +15,22 @@ use App\Http\Controllers\Web\ProductReviewController;
 use App\Http\Controllers\Web\OrderController;
 use App\Http\Controllers\Web\InstallmentController;
 
-// admin controller section
-use App\Http\Controllers\Admin\VendorController;
-use App\Http\Controllers\Admin\PaymentsController;
-use App\Http\Controllers\Admin\DeliveryController;
-use App\Http\Controllers\Admin\BuyerController;
-use App\Http\Controllers\Admin\ProfileController;
-
-
 // paystack payment controller class
-use App\Http\Controllers\Web\PaymentController;
+
+
+
+
+
+
+
+
+
+// ADMIN CONTROLLER SECTION
+use App\Http\Controllers\Admin\AdminIndexController;
+use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminProductController;
+use App\Http\Controllers\Admin\AdminBrandController;
+
 
 
 
@@ -152,18 +158,21 @@ Route::post('/update-installments', [InstallmentController::class, 'update_insta
 
 
 
-// -----------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //                    VENDOR ROUTE
-// -----------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-Route::get("/delivery", [DeliveryController::class, "index"]);
+Route::get('/dashboard', [AdminIndexController::class, 'index']);
+
+// CATEGORY ROUTE SECTION
+Route::get('/dashboard/category', [AdminCategoryController::class, 'index']);
+Route::get('/dashboard/category/add', [AdminCategoryController::class, 'category_add']);
 
 
-Route::get("/payment", [PaymentsController::class, "index"]);
+// PRODUCT ROUTE SECTION
+Route::get('/dashboard/products', [AdminProductController::class, 'index']);
+Route::get('/dashboard/products/add', [AdminProductController::class, 'product_add']);
 
-Route::get("/buyers", [BuyerController::class, "index"]);
 
-
-Route::get("/profile", [ProfileController::class, "index"]);
-Route::get("/profile/{buyer_id}", [ProfileController::class, "create"]);
+Route::get('/dashboard/brand', [AdminBrandController::class, 'index']);
