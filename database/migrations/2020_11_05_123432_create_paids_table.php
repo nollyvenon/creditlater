@@ -18,7 +18,7 @@ class CreatePaidsTable extends Migration
     {
         Schema::create('paids', function (Blueprint $table) {
             $table->id('id');
-            $table->integer('user_id');
+            $table->integer('buyer_user_id');
             $table->integer('product_id');
             $table->string('reference_number');
             $table->integer('price');

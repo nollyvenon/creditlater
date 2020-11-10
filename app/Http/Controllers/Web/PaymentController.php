@@ -99,7 +99,7 @@ class PaymentController extends Controller
                     $paid = new Paid();
                     $total = $items['price'] * $items['quantity'];
                     $paid->create([
-                        'user_id' => $user['id'],
+                        'buyer_user_id' => $user['id'],
                         'reference_number' => $request->reference,
                         'product_id' => $items['product_id'],
                         'price' =>  $items['price'],
@@ -147,6 +147,7 @@ class PaymentController extends Controller
             $store->email = $buyer_details['email'];
             $store->shipping = $buyer_details['shipping'];
             $store->postal_code = $buyer_details['postal_code'];
+            $store->amount = $buyer_details['amount'];
             $store->save();
 
             Session::forget('buyer_details');
@@ -288,7 +289,9 @@ class PaymentController extends Controller
             }else{
                     $buyer_details = ['first_name' => $request->first_name, 'last_name' => $request->last_name, 'phone' => $request->phone,
                             'state' => $request->state, 'city' => $request->city, 'country' => $request->country, 'address' => $request->address, 
-                            'email' => $request->email, 'shipping' => $request->shipping, 'postal_code' => $request->postal_code];
+                            'email' => $request->email, 'shipping' => $request->shipping, 'postal_code' => $request->postal_code,
+                            'amount' => $request->amount
+                        ];
                 Session::put('buyer_details', $buyer_details);
             }
         }

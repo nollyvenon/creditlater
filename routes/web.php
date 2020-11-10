@@ -15,6 +15,7 @@ use App\Http\Controllers\Web\ProductReviewController;
 use App\Http\Controllers\Web\OrderController;
 use App\Http\Controllers\Web\InstallmentController;
 use App\Http\Controllers\Web\PaymentController;
+use App\Http\Controllers\Web\ProductReturnController;
 
 
 // paystack payment controller class
@@ -33,8 +34,8 @@ use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Admin\AdminBrandController;
 use App\Http\Controllers\Admin\AdminInstallmentPayment;
-
-
+use App\Http\Controllers\Admin\AdminPaidController;
+use App\Http\Controllers\Admin\AdminProductDelivery;
 
 
 
@@ -160,6 +161,16 @@ Route::post('/complete-payment-now', [InstallmentController::class, 'complete_pa
 Route::post('/update-installments', [InstallmentController::class, 'update_installments_ajax']);
 
 
+// RETURN PRODUCT ROUTE SECTION
+Route::get('/return-product', [ProductReturnController::class, 'index']);
+Route::post('/return-product', [ProductReturnController::class, 'store']);
+
+
+
+
+
+
+
 
 
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -187,3 +198,19 @@ Route::get('/dashboard/brand', [AdminBrandController::class, 'index']);
 Route::get('/dashboard/installments', [AdminInstallmentPayment::class, 'index']);
 Route::get('/dashboard/installments-detial', [AdminInstallmentPayment::class, 'installment_detials']);
 Route::get('/dashboard/installments-detial/{key}', [AdminInstallmentPayment::class, 'installment_detials_create']);
+
+
+// PAID ROUTE SECTION
+Route::get('/dashboard/paid', [AdminPaidController::class, 'index']);
+Route::get('/dashboard/paid-detail/{refernce}', [AdminPaidController::class, 'paid_detail']);
+
+
+
+
+// PRODUCT DELIVERY ROUTE SECTION
+Route::get('/dashboard/product-delivery', [AdminProductDelivery::class, 'index']);
+Route::get('/dashboard/installment-delivery', [AdminProductDelivery::class, 'installment_delivery']);
+
+
+// PRODUCT RETURN ROUTE SECTION
+Route::get('/dashboard/product-return', [AdminProductDelivery::class, 'product_return']);

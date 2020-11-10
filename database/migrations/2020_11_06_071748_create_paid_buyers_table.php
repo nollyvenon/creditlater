@@ -30,7 +30,10 @@ class CreatePaidBuyersTable extends Migration
             $table->string('country');
             $table->string('postal_code');
             $table->string('shipping');
+            $table->integer('amount');
+            $table->boolean('is_delivered')->default('0');
             $table->dateTime('paid_date')->default(Carbon::now()->toDateTimeString());
+            $table->dateTime('date_delivered')->nullable();
             $table->timestamps();
             
         });

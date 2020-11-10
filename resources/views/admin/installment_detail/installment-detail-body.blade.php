@@ -73,7 +73,7 @@
                                             <div class="col-md-6">
                                                 <div class="text-md-right">
                                                      Initial payment: <b>@money($get_installment[0]->initial_payment )</b>
-                                                     <h6 class="font-weight-normal">Total</h6>
+                                                     <h6 class="font-weight-normal">Total: </h6>
                                                     <h2>@money($get_installment[0]->total_price)</h2>
                                                 </div>
                                             </div> <!-- end col -->
@@ -106,7 +106,7 @@
                                                         @php($balance_installment--)
                                                         @php($total_installment += $installment->balance_paid)
                                                         <tr>
-                                                            <td><a href="#" style="color: #717171">{{ $installment->first_name }}</a></td>
+                                                            <td><a href="#" style="color: #717171">product name</a></td>
                                                             <td>#{{ $installment->balance_reference }}</td>
                                                             <td>@money($installment->total_price)</td>
                                                             <td>@money( $installment->balance_paid)</td>

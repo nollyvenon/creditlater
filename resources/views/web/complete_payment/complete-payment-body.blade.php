@@ -34,7 +34,7 @@
                         <div class="form-group">
                             <div class="text-danger verification-alert checkout_alert_0"></div>
                             <label for="email">Email</label>
-                            <input type="text" class="form-control" id="complete_payment_email" placeholder="Email" required="">
+                            <input type="email" class="form-control" id="complete_payment_email" placeholder="Email" required="">
                         </div>
                         <div class="form-group">
                             <div class="text-danger verification-alert checkout_alert_1"></div>

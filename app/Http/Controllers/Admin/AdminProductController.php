@@ -25,6 +25,7 @@ class AdminProductController extends Controller
 
     public function product_add()
     {
+        
         return view('admin.product_add');
     }
 

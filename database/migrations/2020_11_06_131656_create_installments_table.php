@@ -36,7 +36,9 @@ class CreateInstallmentsTable extends Migration
             $table->integer('initial_payment');
             $table->integer('balance');
             $table->boolean('is_complete')->default('0');
+            $table->boolean('is_delivered')->default('0');
             $table->dateTime('paid_date')->default(Carbon::now()->toDateTimeString());
+            $table->dateTime('date_delivered')->nullable();
             $table->timestamps();
         });
     }

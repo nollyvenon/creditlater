@@ -32,7 +32,7 @@ class CreateProductsTable extends Migration
 			$table->string('products_type')->nullable();
 			$table->text('products_video_link')->nullable();
 			$table->boolean('products_status');
-			$table->boolean('is_current');
+			$table->string('warranty');
 			$table->boolean('is_special');
 			$table->integer('manufacturers_id')->nullable();
 			$table->integer('products_ordered')->default(0);

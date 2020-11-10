@@ -23,7 +23,7 @@ class OrderController extends Controller
         if(Auth::user())
         {
             $user_id = Auth::user()['id'];
-            $buyer_order = DB::table('paids')->where('user_id', $user_id)
+            $buyer_order = DB::table('paids')->where('buyer_user_id', $user_id)
                         ->leftJoin('products', 'paids.product_id', '=', 'products.id')->orderBy('product_id', 'desc')->limit(3)->get();
         
             if(count($buyer_order) == "")
@@ -50,7 +50,7 @@ class OrderController extends Controller
         if(Auth::user())
         {
             $user_id = Auth::user()['id'];
-            $buyer_order = DB::table('paids')->where('user_id', $user_id)
+            $buyer_order = DB::table('paids')->where('buyer_user_id', $user_id)
                           ->leftJoin('products', 'paids.product_id', '=', 'products.id')->orderBy('product_id', 'desc')->get();
             if(count($buyer_order) == "")
             {

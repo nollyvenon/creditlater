@@ -170,7 +170,8 @@
                          address: address,
                          country: country,
                          postal_code: postal_code,
-                         shipping: shipping
+                         shipping: shipping,
+                         amount: total_amount
                     },
                     success: function(response){
                        if(response.errors){

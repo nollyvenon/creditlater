@@ -39,13 +39,26 @@
                                 click on<a href="{{ url('/verification') }}" style="color: orangered;"> verification</a> link to register for installments payment.    
                             </p>
                         </div>
-                        <div class="box">
-                            <div class="box-title">
-                                <h3>Complete Transactions</h3>
+                        <br><br>
+                        <div class="row">
+                            <div class="box col-lg-6">
+                                <div class="box-title">
+                                    <h3>Complete Transactions</h3>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h6>Outstanding transactions</h6><address>You have a pending transaction...<br><a href="{{ url('installment-orders/complete-payment') }}">Complete transaction</a></address>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <h6>Outstanding transactions</h6><address>You have a pending transaction...<br><a href="{{ url('installment-orders/complete-payment') }}">Complete transaction</a></address>
+                            <div class="box col-lg-6">
+                                <div class="box-title">
+                                    <h3>Return Products</h3>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h6>Defected Products</h6><address>Click to return...<br><a href="{{ url('return-product') }}">Return Products</a></address>
+                                    </div>
                                 </div>
                             </div>
                         </div>

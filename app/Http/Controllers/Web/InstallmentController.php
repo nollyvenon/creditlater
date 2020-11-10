@@ -26,7 +26,7 @@ class InstallmentController extends Controller
     public function index()
     {
          // dd( (35 / 100) * 120000 ); percentage convertion
-//   dd(Session::get('installmentDetal'));
+
         //get all category
         $sideCategories = Category::where('is_feature', 1)->get();
 
