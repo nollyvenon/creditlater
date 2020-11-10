@@ -14,6 +14,8 @@ use App\Http\Controllers\Web\loginController;
 use App\Http\Controllers\Web\ProductReviewController;
 use App\Http\Controllers\Web\OrderController;
 use App\Http\Controllers\Web\InstallmentController;
+use App\Http\Controllers\Web\PaymentController;
+
 
 // paystack payment controller class
 
@@ -30,6 +32,8 @@ use App\Http\Controllers\Admin\AdminIndexController;
 use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Admin\AdminBrandController;
+use App\Http\Controllers\Admin\AdminInstallmentPayment;
+
 
 
 
@@ -175,4 +179,11 @@ Route::get('/dashboard/products', [AdminProductController::class, 'index']);
 Route::get('/dashboard/products/add', [AdminProductController::class, 'product_add']);
 
 
+// BRAND ROUTE SECTION
 Route::get('/dashboard/brand', [AdminBrandController::class, 'index']);
+
+
+// INSTALLMENTS ROUTE SECTION
+Route::get('/dashboard/installments', [AdminInstallmentPayment::class, 'index']);
+Route::get('/dashboard/installments-detial', [AdminInstallmentPayment::class, 'installment_detials']);
+Route::get('/dashboard/installments-detial/{key}', [AdminInstallmentPayment::class, 'installment_detials_create']);

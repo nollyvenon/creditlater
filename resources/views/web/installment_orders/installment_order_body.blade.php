@@ -126,7 +126,7 @@
                                 <h4 class="price">$63.00</h4>
                                 <span>Size: L</span>|<span>Quntity: 1</span>
                             </div>
-                            <span class="dark-data">Paid on:</span>( {{ explode(' ', $installment_paid->paid_date)[0] }} )
+                            <span class="dark-data">Paid on:</span>( {{ explode(' ', $installment_paid->balance_paid_date)[0] }} )
                         </td>
                     </tr>
                     </tbody>

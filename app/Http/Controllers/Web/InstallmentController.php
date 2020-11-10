@@ -336,6 +336,7 @@ class InstallmentController extends Controller
             $store->shipping = $installmentDetails['shipping'];
             $store->postal_code = $installmentDetails['postal_code'];
             $store->installment = $installmentDetails['installment'];
+            $store->installment_count = $installmentDetails['installment'];  //editted here
             $store->balance = $installmentDetails['balance'];
             $store->total_price = $installmentDetails['total_price'];
             $store->initial_payment = $installmentDetails['initial_payment'];
@@ -551,7 +552,7 @@ class InstallmentController extends Controller
                 {
                     $money = "&#x20A6;".number_format($installmentBuyer->balance);
                     $amount = "Payment must be maximum of ".$money;
-                }else if($installmentBuyer->installment == 1)
+                }else if($installmentBuyer->installment_count == 1)
                 {
                     if($request->amount != $installmentBuyer->balance)
                     {
@@ -611,8 +612,8 @@ class InstallmentController extends Controller
             ));
 
             $installments->balance = $balance;
-            $installments->installment =  $installments->installment - 1; 
-            if(!$installments->balance)
+            $installments->installment_count =  $installments->installment_count - 1; 
+            if($balance == 0)
             {
                 $installments->is_complete = 1;
             }

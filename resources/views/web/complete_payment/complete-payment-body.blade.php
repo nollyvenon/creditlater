@@ -42,7 +42,7 @@
                             <input type="number"  min="0" class="form-control" id="complete_payment_amount" placeholder="Amount" required="">
                         </div>
                         <div class="form-group">
-                            <p style="color: #555;">Installments: {{ $balance->installment }}</p>
+                            <p style="color: #555;">Installments: {{ $balance->installment_count }}</p>
                             <label for="balance">Balance: @money($balance->balance)</label>
                         </div>
                         <a href="{{ url('/complete-payment-now') }}" class="btn btn-normal" id="complete_installment_payment_btn">Pay now</a>

@@ -77,20 +77,17 @@
                             
                             <li>
                                 <a href="javascript: void(0);">
-                                    <i data-feather="inbox"></i>
-                                    <span> Email </span>
+                                    <i class="fa fa-money"></i>
+                                    <span> Transaction </span>
                                     <span class="menu-arrow"></span>
                                 </a>
 
                                 <ul class="nav-second-level" aria-expanded="false">
                                     <li>
-                                        <a href="email-inbox.html">Inbox</a>
+                                        <a href="{{ url('/dashboard/installments') }}">Installment</a>
                                     </li>
                                     <li>
-                                        <a href="email-read.html">Read</a>
-                                    </li>
-                                    <li>
-                                        <a href="email-compose.html">Compose</a>
+                                        <a href="#">One time</a>
                                     </li>
                                 </ul>
                             </li>

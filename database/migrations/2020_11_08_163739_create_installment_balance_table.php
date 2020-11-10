@@ -23,7 +23,7 @@ class CreateInstallmentBalanceTable extends Migration
             $table->integer('balance_total_price');
             $table->integer('balance_paid');
             $table->integer('balance_balance');
-            $table->dateTime('paid_date')->default(Carbon::now()->toDateTimeString());
+            $table->dateTime('balance_paid_date')->default(Carbon::now()->toDateTimeString());
             $table->timestamps();
         });
     }

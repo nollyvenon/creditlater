@@ -71,7 +71,12 @@
                                                     <input type="text" name="model" class="form-control" placeholder="Enter model">
                                                 </div>
                                             </div>
-
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="image">Image</label>
+                                                    <input type="file" name="image" class="form-control" placeholder="">
+                                                </div>
+                                            </div>
                                             <div class="mt-3 col-lg-6">
                                                 <div class="custom-control custom-checkbox mb-2">
                                                     <input type="checkbox" class="custom-control-input" id="customCheck1"checked>
@@ -90,15 +95,19 @@
                                                     <label class="custom-control-label" for="customCheck4">Xtra Large</label>
                                                 </div>
                                             </div>
-
-                                           
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="video_link">Video Link</label>
+                                                    <input type="text" name="video_link" class="form-control" placeholder="Enter video link">
+                                                </div>
+                                            </div>
                                           <div class="col-lg-12">
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div class="card">
                                                         <div class="card-body">
-                                                            <h4 class="header-title mt-0 mb-1">Default Editor</h4>
-                                                            <p class="sub-header">Super simple wysiwyg editor on Bootstrap</p>
+                                                            <h4 class="header-title mt-0 mb-1">Product Detail</h4>
+                                                            <p class="sub-header"></p>
                                                             <div id="summernote-editor">
                                                                 <h6>This is an simple editable area.</h6>
                                                                 <ul>
@@ -116,6 +125,18 @@
                                                         </div>
                                                     </div> <!-- end card-->
                                             </div> <!-- end col-->
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="category_name">Description</label>
+                                                    <textarea name="description" id="description" class="form-control" cols="10" rows="5"></textarea>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <button type="" class="btn btn-primary">Add Product</button>
+                                                </div>
+                                            </div>
                                         </div>
                                           </div>
                         <!-- end row-->

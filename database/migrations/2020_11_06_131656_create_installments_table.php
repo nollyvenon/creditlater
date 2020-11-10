@@ -32,6 +32,7 @@ class CreateInstallmentsTable extends Migration
             $table->string('shipping');
             $table->integer('total_price');
             $table->integer('installment');
+            $table->integer('installment_count');
             $table->integer('initial_payment');
             $table->integer('balance');
             $table->boolean('is_complete')->default('0');
