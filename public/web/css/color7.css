@@ -21012,3 +21012,31 @@ body.rtl {
 .verification-div-hidden, .verification-not-approved-div-hidden{
     display: none;
 }
+
+
+
+/* review */
+.review-container{
+    margin-top: 100px;
+}
+.review-container  h3{
+    width: 70%;
+    margin-left: 15%;
+    text-align: center;
+    padding: 10px 0px;
+}
+.review-container .review{
+    width: 70%;
+    margin-left: 15%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgba(243, 243, 243, 0.453);
+}
+.review-container .review li{
+    width: 100%;
+}
+.review-container .review li span{
+    float: right;
+    color:  rgba(130, 129, 129, 0.453);
+}

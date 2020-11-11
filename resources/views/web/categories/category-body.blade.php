@@ -100,11 +100,6 @@
                         </div>
                     </div>
                     <!-- side-bar single product slider end -->
-                    <!-- side-bar banner start here -->
-                    <div class="collection-sidebar-banner">
-                        <a href="#"><img src="{{ asset('web/images/category/side-banner.png') }}" class="img-fluid " alt=""></a>
-                    </div>
-                    <!-- side-bar banner end here -->
                 </div>
                 <div class="collection-content col">
                     <div class="page-main-content">

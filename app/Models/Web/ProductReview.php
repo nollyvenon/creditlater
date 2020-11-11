@@ -10,4 +10,5 @@ class ProductReview extends Model
     use HasFactory;
 
     protected $guarded = [];
+
 }

@@ -4,6 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+use Carbon\Carbon;
+
 class CreateCategoriesTable extends Migration
 {
     /**
@@ -16,12 +18,12 @@ class CreateCategoriesTable extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id("id");
             $table->string("category_name");
-            $table->string('category_banner_image')->nullable();
             $table->text('category_image')->nullable();
             $table->text('round_cat_image')->nullable();
-            $table->dateTime('date_added')->nullable();
+            $table->dateTime('date_added')->default(Carbon::now()->toDateTimeString());
             $table->dateTime('last_modified')->nullable();
-            $table->boolean("is_feature");
+            $table->boolean("is_feature")->default('0');
+            $table->boolean("is_approved")->default('0');
             $table->timestamps();
         });
     }

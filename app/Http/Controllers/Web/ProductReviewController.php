@@ -8,6 +8,7 @@ use App\Models\Web\Cart;
 use App\Models\Web\User;
 use App\Models\Web\Product;
 use App\Models\Web\ProductReview;
+use App\Models\Web\Rating;
 
 use App\Models\Web\Auth;
 
@@ -33,11 +34,11 @@ class ProductReviewController extends Controller
            Session::flash('alert', 'Signup or Login to review this product!');
            return response()->json(['data' => 'quest']);
         }
-        if(ProductReview::where('user_id', $user_id['id'])->where('product_id', $product_id)->first())
-        {
-            Session::flash('alert', 'You have reviewed this product!');
-            return response()->json(['data' => 'reviewed']);
-        }
+        // if(ProductReview::where('user_id', $user_id['id'])->where('product_id', $product_id)->first())
+        // {
+        //     Session::flash('alert', 'You have reviewed this product!');
+        //     return response()->json(['data' => 'reviewed']);
+        // }
 
      
 
@@ -79,7 +80,23 @@ class ProductReviewController extends Controller
 
         if(empty($message['name']) && empty($message['email']) && empty($message['title']) && empty($message['namDreviewe']))
         {
-            $product_review = ProductReview::create([
+            if(!$this->update_star_ratings($product_id, $star))
+            {
+                Session::flash('alert', "Error in reviewing product");
+                return response()->json(['data' => 'not-reviewed']);
+            }
+            $oldreview  = ProductReview::where('user_id', Auth::user()['id'])->where('product_id', $product_id)->first();
+            if($oldreview)
+            {
+                $oldreview->stars = $star;
+                $oldreview->review_title = $title;
+                $oldreview->review = $review;
+                $oldreview->date_added = $date;
+                $oldreview->save();
+
+                $product_review = true;
+            }else{
+                $product_review = ProductReview::create([
                     'user_id' => $user_id['id'],
                     'name' => $name,
                     'email' => $email,
@@ -90,6 +107,8 @@ class ProductReviewController extends Controller
                     'date_added' => $date
                 ]);
 
+            }
+       
             if($product_review)
             {
                 Session::flash('alert-success', "Product has been reviewed successfully!");
@@ -102,4 +121,31 @@ class ProductReviewController extends Controller
 
          return response()->json(['data' => $message]);
     }
+
+
+
+    public function update_star_ratings($product_id, $star)
+    {
+        if($product_id)
+        {
+            $star_ratings = Rating::where('product_id', $product_id)->first();
+            $oldreview  = ProductReview::where('user_id', Auth::user()['id'])->where('product_id', $product_id)->first();
+            if($oldreview)
+            {
+                $star = $star - $oldreview->stars;
+                $star_ratings->rating_total += $star;
+                $star_ratings->save();
+            }else{
+                if($star_ratings)
+                {
+                    $star_ratings->rating_count += 1;
+                    $star_ratings->rating_total += $star;
+                    $star_ratings->save();
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
 }

@@ -104,6 +104,29 @@
                                     </div>
                                 </div>
                             </form>
+                            <!-- review comment start-->
+                            @if($product_review)
+                            <div class="typo-content review-container">
+                                <h3>Customer Reviews</h3>
+                                <div class="col-lg-12">
+                                    @foreach($product_review as $review)
+                                    <ul class="review">
+                                        <li>
+                                            <b>Name:</b> {{ $review->name }}  
+                                            @for($i = 0; $i < $review->stars; $i++)
+                                            <i class="fa fa-star text-warning"></i>
+                                            @endfor
+                                            <span>{{ explode(' ', $review->date_added)[0] }}</span>
+                                        </li>
+                                        <li><b>Email: </b>{{ $review->email }}</li>
+                                        <li><b>Title: </b>{{ $review->review_title }}</li>
+                                        <li><b>Review:</b> {{ $review->review }}</li>
+                                    </ul>  
+                                    @endforeach 
+                                </div>
+                            </div>
+                            @endif
+                            <!-- review comment end -->
                         </div>
                     </div>
                 </div>

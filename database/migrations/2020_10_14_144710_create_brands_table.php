@@ -18,8 +18,8 @@ class CreateBrandsTable extends Migration
             $table->string("brand_name");
             $table->dateTime('brand_date_added');
 			$table->dateTime('brand_last_modified')->nullable();
-			$table->dateTime('brand_date_available')->nullable();
-            $table->boolean("is_feature");
+			$table->boolean('is_approved')->default('0');
+            $table->boolean("is_feature")->default('1');
             $table->timestamps();
         });
     }

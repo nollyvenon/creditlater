@@ -22,24 +22,6 @@ use App\Http\Controllers\Web\ProductReturnController;
 
 
 
-
-
-
-
-
-
-// ADMIN CONTROLLER SECTION
-use App\Http\Controllers\Admin\AdminIndexController;
-use App\Http\Controllers\Admin\AdminCategoryController;
-use App\Http\Controllers\Admin\AdminProductController;
-use App\Http\Controllers\Admin\AdminBrandController;
-use App\Http\Controllers\Admin\AdminInstallmentPayment;
-use App\Http\Controllers\Admin\AdminPaidController;
-use App\Http\Controllers\Admin\AdminProductDelivery;
-
-
-
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -73,7 +55,9 @@ Route::post("/products", [ProductController::class, "show"]);
 Route::post("/quick-view", [ProductController::class, "quick_view_ajax"]);
 
 
+// PRODUCT REVIEW ROUTE
 Route::post("/product-review", [ProductReviewController::class, "product_review_ajax"]);
+
 
 // CART SECTION ROUTE
 Route::get("/cart", [CartController::class, "index"]);
@@ -174,8 +158,17 @@ Route::post('/return-product', [ProductReturnController::class, 'store']);
 
 
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//                    VENDOR ROUTE
+//                    ADMIN ROUTE
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// ADMIN CONTROLLER SECTION
+use App\Http\Controllers\Admin\AdminIndexController;
+use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminProductController;
+use App\Http\Controllers\Admin\AdminBrandController;
+use App\Http\Controllers\Admin\AdminInstallmentPayment;
+use App\Http\Controllers\Admin\AdminPaidController;
+use App\Http\Controllers\Admin\AdminProductDelivery;
+
 
 
 Route::get('/dashboard', [AdminIndexController::class, 'index']);
@@ -214,3 +207,79 @@ Route::get('/dashboard/installment-delivery', [AdminProductDelivery::class, 'ins
 
 // PRODUCT RETURN ROUTE SECTION
 Route::get('/dashboard/product-return', [AdminProductDelivery::class, 'product_return']);
+
+
+
+
+
+
+
+
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//                    VENDOR ROUTE
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+use App\Http\Controllers\Vendor\VendorIndexController;
+use App\Http\Controllers\Vendor\VendorBrandController;
+use App\Http\Controllers\Vendor\VendorCategoryController;
+use App\Http\Controllers\Vendor\VendorProductController;
+
+
+
+
+
+
+// VENDOR DASHBOARD ROUTE SECTION
+Route::get('/vendor', [VendorIndexController::class, 'index']);
+
+
+// BRAND ROUTE SECTION
+Route::get('/vendor/brand', [VendorBrandController::class, 'index']);
+Route::post('/vendor/brand/add', [VendorBrandController::class, 'store']);
+Route::post('/vendor/brand-delete', [VendorBrandController::class, 'vendor_brand_delete_ajax']);
+Route::post('/vendor/brand-feature', [VendorBrandController::class, 'vendor_brand_feature_ajax']);
+Route::post('/vendor/brand-edit', [VendorBrandController::class, 'vendor_brand_edit_ajax']);
+
+
+
+
+// CATEGROY ROUTE SECTION
+Route::get('/vendor/category', [VendorCategoryController::class, 'index']);
+Route::get('/vendor/category/add', [VendorCategoryController::class, 'category_add']);
+Route::post('/vendor/category-feature', [VendorCategoryController::class, 'vendor_category_feature_ajax']);
+Route::post('/vendor/category-delete', [VendorCategoryController::class, 'vendor_category_delete_ajax']);
+Route::post('/vendor/category/add', [VendorCategoryController::class, 'store']);
+Route::post('/vendor/category-edit', [VendorCategoryController::class, 'update']);
+
+
+
+
+// PRODUCT ROUTE SECTION
+Route::get('/vendor/products', [VendorProductController::class, 'index']);
+Route::get('/vendor/products/add', [VendorProductController::class, 'product_add']);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -29,7 +29,7 @@
                                             @foreach($sideCategories as $key=>$category)
                                             @php($counter++)
                                             @if($counter > 12 && $counter == $key+1)
-                                            <li> <a href="{{ url('category/'.$category->category_name) }}"><img src="{{ asset($category->category_image) }}" alt="{{$category->image}}"></a> 
+                                            <li> <a href="{{ url('category/'.$category->category_name) }}"><img src="{{ asset('storage/'.$category->category_image) }}" alt="{{$category->image}}"></a> 
                                             <a href="{{ url('category/'.$category->category_name) }}">{{$category->category_name}}</a></li>
                                             @endif
                                             @endforeach

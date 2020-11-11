@@ -17,8 +17,8 @@ class CreateInstallmentMethodsTable extends Migration
     {
         Schema::create('installment_methods', function (Blueprint $table) {
             $table->id('id');
-            $table->integer('start_range');
-            $table->integer('end_range');
+            $table->integer('start_range')->nullable();
+            $table->integer('end_range')->nullable();
             $table->integer('count');
             $table->dateTime('date_added')->default(Carbon::now()->toDateTimeString());
             $table->timestamps();
