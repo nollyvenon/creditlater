@@ -10,6 +10,9 @@ use App\Models\Web\Verification;
 use App\Models\Web\User;
 use App\Models\Web\Installment;
 use App\Models\Web\InstallmentProduct;
+use App\Models\Web\Product;
+use App\Models\Web\Paystack;
+
 
 
 
@@ -29,12 +32,6 @@ class InstallmentController extends Controller
 
         //get all category
         $sideCategories = Category::where('is_feature', 1)->get();
-
-        // check for reference id and redirect to success page
-        if(Session::has('installment_reference'))
-        {
-            return redirect('installment-success');
-        }
         
         if(!Auth::user())
         {
@@ -47,238 +44,66 @@ class InstallmentController extends Controller
             {
                 $installments = 0;
                 $total_price = Session::get('cart')->_totalPrice;
-                if($total_price <= 20000)
-                {
-                    $installments = 2;
-                } else if($total_price <= 30000)
-                {
-                    $installments = 3;
-                } else if($total_price <= 50000)
-                {
-                    $installments = 4;
-                }else{
-                    $installments = 6;
-                }
+                $installments = DB::table('installment_methods')->where('range', '<=', $total_price)->orderBy('range', 'desc')->first()->count;
+                
                 $initial_payment = (35 / 100) * $total_price;
-                $balance = $total_price - $initial_payment;
                 // dd( (35/100) * $total_price );
             }
         }else{
             return redirect('/')->with('alert', 'Signup or login to view that page!');
         }
 
-        return view('web.installments', compact('sideCategories', 'installments', 'initial_payment', 'balance'));
+        return view('web.installments', compact('sideCategories', 'installments', 'initial_payment'));
     }
 
 
 
 
 
-
-
-
-    
-
-
-
-
-
-
-    public function installment_method_ajax(Request $request)
+    public function pay_installment(Request $request)
     {
+        if(!Auth::user())
+        {
+            return back()->with('error', 'Something went wrong');
+        }
+
+        $Verification = Verification::where('user_id', Auth::user('user')['id'])->first();
+        if(!$Verification)
+        {
+            return back()->with('verification_error', 1);
+        }
         
-        if($request->ajax())
+        $payment_fields = $request->validate([
+            'first_name' => 'required|min:3|max:50',
+            'last_name' => 'required|min:3|max:50',
+            'email' => 'required|email',
+            'phone' => 'required|min:11|max:15',
+            'address' => 'required|min:3|max:200',
+            'city' => 'required|min:3|max:200',
+            'state' => 'required|min:3|max:200',
+            'country' => 'required|min:3|max:200',
+            'postal_code' => 'required|min:3|max:100',
+            'amount' => 'required',
+            'shipping' => 'required',
+        ]);
+    
+        $total_price = Session::get('cart')->_totalPrice;
+        $initial_payment = (35 / 100) * $total_price;
+       
+        if($request->amount < $initial_payment)
         {
            
+            return back()->with('amount_error', '*amount must be minimum of '.$initial_payment);
         }
-        return response()->json(['data' => $data]);
+        
+        Session::put('insatllment_details', $request->all());
+        
+        $callback_url = url('/installment-success');        
+        Paystack::initialize($request->email, $request->amount, $callback_url);
     }
-
-
-
-
-
-    public function get_verification_check_ajax(Request $request)
-    {
-       if($request->ajax())
-       {
-            $data = true;
-            $Verification = Verification::where('user_id', Auth::user('user')['id'])->first();
-            if(!$Verification)
-            {
-               $data = false;
-            }else if(!$Verification->is_approved)
-            {
-                $data = 'not_approved';
-            }
-         
-       }
-       return response()->json(['data' => $data]);
-    }
-
-
-
-
-
-
-
-
-
-
-
-
 
     
 
-    public function intallment_payment_ajax(Request $request)
-    {
-        if($request->ajax())
-        {
-            $data = true; 
-            $first_name = null;
-            $last_name = null;
-            $phone = null;
-            $email = null;
-            $address = null;
-            $city = null;
-            $state = null;
-            $country = null;
-            $postal_code = null;
-            $shipping = null;
-            $initial_payment = null;
-            $error_array = array();
-
-            $installments = 0;
-            $total_price = Session::get('cart')->_totalPrice;
-            if($total_price <= 20000)
-            {
-                $installments = 2;
-            } else if($total_price <= 30000)
-            {
-                $installments = 3;
-            } else if($total_price <= 50000)
-            {
-                $installments = 4;
-            }else{
-                $installments = 6;
-            }
-            $payment_percentage = (35 / 100) * $total_price;
-            $balance = $total_price - $request->initial_payment;
-
-
-             if(empty($request->first_name))
-             {
-                 $first_name = "First name field is required";
-             }else if(strlen($request->first_name) < 3)
-             {
-                 $first_name = "First name must be minimum of 3 characters";
-              }else if(strlen($request->first_name) > 50){
-                    $first_name = "First name must be maximum of 50 characters";
-             }
-             
-             if(empty($request->last_name))
-             {
-                 $last_name = "last name field is required";
-             }else if(strlen($request->last_name) < 3)
-             {
-                $last_name = "Last name must be minimum of 3 characters";
-             }else if(strlen($request->last_name) > 50){
-                $last_name = "Last name must be maximum of 50 characters";
-             }
-
-             if(empty($request->phone))
-             {
-                 $phone = "phone field is required";
-             }else if(strlen($request->phone) != 11){
-                $phone = "phone must be 11 characters long";
-             }
-
-             if(empty($request->email))
-             {
-                 $email = "email field is required";
-             }else if (!filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
-                $email = "Invalid email format";
-              }else{
-                  $user_email = User::Where('id', Auth::user()['id'])->where('email', $request->email)->first();
-                  if(!$user_email){
-                      $email = "Insert your email address";
-                  }
-              }
-
-             if(empty($request->address))
-             {
-                 $address = "address field is required";
-             }else if(strlen($request->address) > 400){
-                $address = "address must be a maximum of 400 characters";
-             }else  if(strlen($request->address) < 10){
-                $address = "address must be a minimum of 10 characters";
-             }
-
-             if(empty($request->city))
-             {
-                 $city = "city field is required";
-             }else if(is_numeric($request->city)){
-                 $city = "Wrong city name";
-             }
-             if(empty($request->postal_code))
-             {
-                 $postal_code = "postal_code field is required";
-             }
-             if(empty($request->shipping))
-             {
-                $shipping = "shipping field is required";
-             }
-             if(empty($request->country))
-             {
-                $country = "country field is required";
-             }
-             if(empty($request->initial_payment))
-             {
-                $initial_payment = "Initial payment field is required";
-             }else if(!is_numeric($request->initial_payment))
-             {
-                $initial_payment = "Invalid payment format";
-             }else if($request->initial_payment < $payment_percentage)
-             {
-                $money = "&#x20A6;".number_format($payment_percentage);
-                $initial_payment = "Initial payment must be minimum of ".$money;
-             }else if($request->initial_payment > $total_price)
-             {
-                $money =  $money = "&#x20A6;".number_format($total_price);
-                $initial_payment = "Payment must be maximum of ".$money;
-             }
-
-
-
-
-
-             $error_message = ['first_name' => $first_name, 'last_name'=>$last_name,'phone' => $phone,
-                              'email'=>$email, 'address'=>$address,'city'=>$city,'country'=>$country,
-                              'postal_code'=>$postal_code, 'shipping' => $shipping, 'initial_payment' => $initial_payment];
-             foreach($error_message as $values)
-             {
-                 if(!empty($values))
-                 {
-                    $error_array[] = $values; 
-                 }
-             }
-            
-            if(!empty($error_array))
-            {
-                return response()->json(['errors' => $error_message]);
-            }else{
-                    $installmentDetail = ['first_name' => $request->first_name, 'last_name' => $request->last_name, 'phone' => $request->phone,
-                            'state' => $request->state, 'city' => $request->city, 'country' => $request->country, 'address' => $request->address, 
-                            'email' => $request->email, 'shipping' => $request->shipping, 'postal_code' => $request->postal_code,
-                            'installment' => $installments, 'balance' => $balance, 'initial_payment'=> $request->initial_payment,
-                            'total_price' => $total_price
-                        ];
-
-                    Session::put('installmentDetail', $installmentDetail);
-            }
-        }
-        return response()->json(['data' => $data, 'initial_payment' => $request->initial_payment]);
-    }
 
 
 
@@ -290,17 +115,13 @@ class InstallmentController extends Controller
 
     public function installment_success()
     {
-        // get subcategories
-        $sideCategories = Category::where('is_feature', 1)->get(); 
-
-
-        if(Session::has('installment_reference'))
+        $sideCategories = Category::where('is_feature', 1)->get();  
+        if(Session::has('insatllment_details'))
         {
-            $reference = Session::get('installment_reference');
-            $order = DB::table('installments')->where('reference', $reference)->leftJoin('installment_products', 'installments.reference', '=', 'installment_products.reference_number')
-                    ->leftJoin('products', 'installment_products.product_id' , '=', 'products.id')->get();
+            $reference = Paystack::call_back(); //paystack call back 
+            $this->store_installment_buyers_details($reference);  //store buyers details
 
-                    Session::forget('installment_reference'); //deletes the reference from session
+            $order = DB::table('installments')->where('reference', $reference)->where('installment_user_id', '=', Auth::user()['id'])->get();
         }else{
             return redirect('/');
         }
@@ -317,14 +138,16 @@ class InstallmentController extends Controller
 
     public function store_installment_buyers_details($reference)
     {
-        if(Session::has("installmentDetail"))
+        if(Session::has("insatllment_details"))
         {
-            $installmentDetails = Session::get('installmentDetail');
+            $installmentDetails = Session::get('insatllment_details');
+            $total_price = Session::get('cart')->_totalPrice;
+            $uniqID = uniqid(36);
 
             $store = new Installment();
             $store->installment_user_id = Auth::user()['id'];
             $store->reference = $reference;
-            $store->unique_key = uniqid(36);
+            $store->unique_key = $uniqID;
             $store->first_name = $installmentDetails['first_name'];
             $store->last_name = $installmentDetails['last_name'];
             $store->phone = $installmentDetails['phone'];
@@ -335,14 +158,14 @@ class InstallmentController extends Controller
             $store->email = $installmentDetails['email'];
             $store->shipping = $installmentDetails['shipping'];
             $store->postal_code = $installmentDetails['postal_code'];
-            $store->installment = $installmentDetails['installment'];
-            $store->installment_count = $installmentDetails['installment'];  //editted here
-            $store->balance = $installmentDetails['balance'];
-            $store->total_price = $installmentDetails['total_price'];
-            $store->initial_payment = $installmentDetails['initial_payment'];
+            $store->installment = $installmentDetails['count'];
+            $store->installment_count =  $installmentDetails['count']; //editted here
+            $store->balance = $total_price - $installmentDetails['amount'];
+            $store->total_price = $total_price;
+            $store->initial_payment = $installmentDetails['amount'];
             $store->save();
 
-            Session::forget('installmentDetail');
+            $this->store_installments($reference, $uniqID,  $installmentDetails);
             return true;
         }
     }
@@ -350,9 +173,51 @@ class InstallmentController extends Controller
 
 
 
-    public function store_intallment_items_ajax(Request $request)
+
+
+
+
+
+
+    public function store_installments($reference ,$uniqID, $installmentDetails)
     {
-        if($request->ajax())
+        $user = Auth::user();
+    
+        $total_price = Session::get('cart')->_totalPrice;
+        $balance = $total_price - $installmentDetails['amount'];
+         
+        $update = DB::table("installment_balance")->insert(array(
+           'balance_user_id' => $user['id'],
+           'balance_reference' => $reference,
+           'balance_unique_key' => $uniqID,
+           'balance_total_price' => $total_price,
+           'balance_paid' => $installmentDetails['amount'],
+           'balance_balance' => $balance,
+        ));
+
+       
+        if($installmentDetails['amount'] >= $total_price)
+        {
+            $installments = Installment::where('installment_user_id', $user['id'])->where('is_complete', 0)->first();
+            $installments->is_complete = 1;
+            $installments->save();
+        } 
+
+        $this->store_installment_paid_products($reference); //store installment paid products
+    }
+
+
+
+
+
+
+
+
+
+  
+    public function store_installment_paid_products($reference)
+    {
+        if($reference)
         {
             $user = Auth::user();
             $stored_user = User::where('id', $user['id'])->where('email', $user['email'])->first();
@@ -361,30 +226,36 @@ class InstallmentController extends Controller
                 $cart_items = Session::get('cart')->_items;
                 foreach($cart_items as $items)
                 {
-                    $paid = new InstallmentProduct();
-                    $total = $items['price'] * $items['quantity'];
-                    $paid->create([
+                    $paid = DB::table('installment_products')->insert(array(
                         'user_id' => $user['id'],
-                        'reference_number' => $request->reference,
                         'product_id' => $items['product_id'],
+                        'reference_number' => $reference,
                         'price' =>  $items['price'],
                         'quantity' =>  $items['quantity'],
-                        'total' =>  $total,
-                        'small' =>  $items['small'],
-                        'medium' =>  $items['medium'],
-                        'large' =>  $items['large'],
-                        'xtra_large' =>  $items['xtra large'],
-                        'unspecified' =>  $items['unspecified'],
-                    ]);
+                        'total' =>  $items['total'],
+                        'size' => $items['size']
+                    ));
                 }
-                $this->store_installment_buyers_details($request->reference);
-                Session::put('installment_reference', $request->reference);
+
+                foreach($cart_items as $items)
+                {
+                    $product = Product::where('id', $items['product_id'])->first();
+                    $product->products_quantity -= $items['quantity'];
+                    $product->quantity_sold  += $items['quantity'];
+                    $product->save();
+                }
                 Session::forget('cart');
-                $data = true;
+                Session::forget('insatllment_details');
+                return true;
             }
         }
-        return response()->json(['data' => $data]);
+        return false;
     }
+
+
+
+
+
 
 
 
@@ -410,6 +281,7 @@ class InstallmentController extends Controller
         }else{
             return redirect('/')->with('alert', 'Signup or login to access that page!');
         }
+       
 
         return view('web.installment_orders', compact('sideCategories', 'installment_orders'));
     }
@@ -424,19 +296,20 @@ class InstallmentController extends Controller
 
 
 // INSTALLMENT ORDERS
-    public function installment_orders_all()
-    {
-        //get all category
-        $sideCategories = Category::where('is_feature', 1)->get();
+    // public function installment_orders_all()
+    // {
+    //     //get all category
+    //     $sideCategories = Category::where('is_feature', 1)->get();
 
-        $user_id = Auth::user()['id'];
-        $installment_orders = DB::table('installments')->where('installment_user_id', $user_id)
-                    ->leftJoin('installment_products', 'installments.reference', '=', 'installment_products.reference_number')
-                    ->leftJoin('products', 'installment_products.product_id', '=', 'products.id')->get();
+    //     $user_id = Auth::user()['id'];
+    //     $installment_orders = DB::table('installments')->where('installment_user_id', $user_id)
+    //                 ->leftJoin('installment_products', 'installments.reference', '=', 'installment_products.reference_number')
+    //                 ->leftJoin('products', 'installment_products.product_id', '=', 'products.id')->get();
 
-        return view('web.installment_orders', compact('sideCategories', 'installment_orders'));
+                    
+    //     return view('web.installment_orders', compact('sideCategories', 'installment_orders'));
     
-    }
+    // }
 
 
 
@@ -454,32 +327,31 @@ class InstallmentController extends Controller
         $sideCategories = Category::where('is_feature', 1)->get();
 
         $user_id = Auth::user()['id'];
-        $installment_orders = DB::table('installments')->where('installment_user_id', $user_id)->where('is_complete', 0)
-                    ->leftJoin('installment_products', 'installments.reference', '=', 'installment_products.reference_number')
-                    ->leftJoin('products', 'installment_products.product_id', '=', 'products.id')->get();
+        $installment_orders = DB::table('installments')->where('installment_user_id', $user_id)->where('is_complete', 0)->get();
 
         if(count($installment_orders) == "")
         {
             $installment_orders = null;
         }
 
+        return view('web.installment_orders', compact('sideCategories', 'installment_orders'));
+    }
 
-        $installment_balance = null;
-        if($installment_orders)
-        {
-            // get installment balance 
-            $installment_balance = DB::table('installment_balance')->where('balance_user_id', $installment_orders[0]->installment_user_id)
-            ->where('balance_unique_key', $installment_orders[0]->unique_key)->get();
-            if(count($installment_balance) == "")
-            {
-            $installment_balance = null;
 
-            }
 
-        }
-       
 
-        return view('web.installment_orders', compact('sideCategories', 'installment_orders', 'installment_balance'));
+
+
+    public function complete_installment_payment(Request $request)
+    {
+        $payment_fields = $request->validate([
+            'email' => 'required|email',
+            'amount' => 'required',
+        ]);
+
+        //i stopped here
+
+        Session::put('insatllment_balance', $request->all());
     }
 
 
@@ -488,7 +360,7 @@ class InstallmentController extends Controller
 
 
 
-    public function complete_payment_show()
+    public function complete_payment_show($reference)
     {
         //get all category
         $sideCategories = Category::where('is_feature', 1)->get();
@@ -504,8 +376,20 @@ class InstallmentController extends Controller
         {
           return redirect('account')->with('success', "Congratulations, you have completed this transaction!");
         }
-    
-        return view('web.complete_payments', compact('sideCategories', 'balance'));
+
+        // get installment balance
+        $installment_balance = DB::table('installment_balance')->where('balance_reference', $reference)->get();
+
+
+        // get installment products
+        $installment_products = DB::table('installment_products')->where('reference_number', $reference)
+                        ->leftJoin('products', 'installment_products.product_id', '=', 'products.id')->get();
+
+        $payment_balance = Installment::where('reference', $reference)->where('is_complete', 0)->first();
+
+       
+
+        return view('web.complete_payments', compact('sideCategories', 'payment_balance', 'installment_balance', 'installment_products'));
     }
 
 
@@ -514,77 +398,12 @@ class InstallmentController extends Controller
 
 
 
-    public function complete_payment_now_ajax(Request $request)
-    {
-        if($request->ajax())
-        {
-            if($user_id = Auth::user())
-            {
-                $email = null;
-                $amount = null;
-                $error_array = array();
-                $installmentBuyer = Installment::where('installment_user_id', $user_id['id'])->where('is_complete', 0)->first();
-
-                if(!$installmentBuyer)
-                {
-                    return response()->json(['data' => false]); //cancles payments if installment balance is = 0;
-                }
-
-                if(empty($request->email))
-                {
-                    $email = "email field is required";
-                }else if (!filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
-                   $email = "Invalid email format";
-                }else{
-                    $user_email = User::Where('id', Auth::user()['id'])->where('email', $request->email)->first();
-                if(!$user_email){
-                    $email = "Insert your email address";
-                    }
-                }
-
-                if(empty($request->amount))
-                {
-                    $amount = "amount field is required";
-                }else if(!is_numeric($request->amount))
-                {
-                    $amount = "Invalid payment format";
-                }else if($request->amount > $installmentBuyer->balance)
-                {
-                    $money = "&#x20A6;".number_format($installmentBuyer->balance);
-                    $amount = "Payment must be maximum of ".$money;
-                }else if($installmentBuyer->installment_count == 1)
-                {
-                    if($request->amount != $installmentBuyer->balance)
-                    {
-                        $money = "&#x20A6;".number_format($installmentBuyer->balance);
-                        $amount = "maximum installment has been reached! you are required to pay ".$money;
-                    }
-                }
-
-                $error_message = ['email' => $email, 'amount' => $amount ];
-                foreach($error_message as $values)
-                {
-                    if(!empty($values))
-                    {
-                    $error_array[] = $values; 
-                    }
-                }
-                
-                if(!empty($error_array))
-                {
-                    return response()->json(['errors' => $error_message]);
-                }else{
-                    $pay_in = ['email' => $request->email, 'amount' => $request->amount ];
-                    Session::put('installments', $pay_in);
-                    $data = true;
-                }
-            }
-        }
-        return response()->json(['data' => $data]);
-    }
 
 
 
+
+
+  
 
 
 

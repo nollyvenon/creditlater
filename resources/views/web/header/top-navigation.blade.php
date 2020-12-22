@@ -7,7 +7,7 @@
                 <div class="col-xl-5 col-md-7 col-sm-6">
                     <div class="top-header-left">
                         <div class="shpping-order">
-                            <h6>free shipping on order over $99 </h6>
+                            <h6>{{ settings()->top_banner }} @money(settings()->top_nav_amount) </h6>
                         </div>
                         <div class="app-link">
                             <h6>

@@ -225,22 +225,23 @@ $(closeBtn).click(function(){
 // QUICK VIEW QUANTITY BUTTONS
 // -------------------------------------------
 var quickViewQtyBtn = $("#quick_view_dropdown_modal");
-var quantity = 1;
+var quick_view_quantity = 1;
 
     // quntity plus  
     $(quickViewQtyBtn).on('click', '.quantity-right-plus', function(e){
         e.preventDefault();
-        quantity++;
-        $("#quick_view_qty_container input").val(quantity);
+        quick_view_quantity++;
+
+        $("#quick_view_qty_container input").val(quick_view_quantity);
     });
 
 
-     // quntity minus
+     // quantity minus
      $(quickViewQtyBtn).on('click', '.quantity-left-minus', function(e){
         e.preventDefault();
-       if(quantity > 0){
-            quantity--;
-            $("#quick_view_qty_container input").val(quantity);
+       if(quick_view_quantity > 1){
+            quick_view_quantity--;
+            $("#quick_view_qty_container input").val(quick_view_quantity);
        }
     });
 
@@ -258,7 +259,7 @@ var quickViewSizeBtn = $("#quick_view_dropdown_modal");
 
    
 
-// quick view add to cart
+// QUICK VIEW ADD TO CART
 $(quickViewSizeBtn).on('click', '.quick-view-addToCart', function(e){
          e.preventDefault();
          var url = $(this).attr('href');
@@ -427,7 +428,7 @@ function csrf_token(){
 
 
 
-// ADD TO CART FUNCTION USING AJAX
+// ADD TO CART  USING AJAX
 // --------------------------------------------
 var addToCart = $(".product-buttons #add_to_cart");
 var productQty = $("#detail_qty_box #product_qty");
@@ -435,6 +436,7 @@ $(addToCart).click(function(e){
     e.preventDefault();
     
     var qty = parseInt($(productQty).val());
+
     var url = $(this).attr("href");
     var product_id = $(this).attr("data-id");
     var size = $("#detail_product_size").val();
@@ -475,6 +477,7 @@ $(DeleteCartBtn).click(function(e){
     e.preventDefault();
     var id = $(this).attr('id');
     var url = $(this).attr('href');
+    var size = $(this).attr('data-size');
 
     csrf_token()   // gets page csrf token
 
@@ -483,7 +486,8 @@ $(DeleteCartBtn).click(function(e){
         url: url,
         method: "post",
         data: {
-            product_id: id
+            product_id: id,
+            size: size
         },
         success: function (response){
            if(response.data)
@@ -495,6 +499,42 @@ $(DeleteCartBtn).click(function(e){
     });
     
 });
+
+
+
+
+
+
+// INCREASE OR DECREASE CART QUNATITY
+// -------------------------------------------
+
+var quantity = $(".cart_item_quantity");
+    $(quantity).click(function(e){
+            var qty = $(this).val();
+            var id = $(this).parent().attr('id');
+            var url = $(this).parent().attr('data-url');
+            var size = $(this).attr('data-size');
+           
+
+            csrf_token();
+
+             $.ajax({
+            url: url,
+            method: 'post',
+            data: {
+              product_id: id,
+              quantity: qty,
+              size: size
+            },
+            success: function(response){
+                if(response.data)
+                {
+                    location.reload();
+                }
+            }
+        });
+    }); 
+
 
 
 
@@ -576,13 +616,15 @@ function get_cart_dropdown(){
 
 
 
-// DELETE CART DROPDOWN ITEM
+// QUICK DELETE CART DROPDOWN ITEM
 // -------------------------------------------------
 var deleteDropdownCartItem =    $('.cart_item_container');
     $(deleteDropdownCartItem).on('click', '.delete-cart-dropdown-item', function(e){
         e.preventDefault();
         var id = $(this).attr('id');
         var url = $(this).attr('href');
+        var size = $(this).attr('data-size');
+
 
         csrf_token()   // gets page csrf token
 
@@ -590,7 +632,8 @@ var deleteDropdownCartItem =    $('.cart_item_container');
             url: url,
             method: "post",
             data: {
-               product_id: id
+               product_id: id,
+               size: size
             },
             success: function (response){
                if(response.data){
@@ -688,6 +731,7 @@ var deleteWishlistItem = $(".delete_wishlist_item");
 
         var id = $(this).attr('id');
         var url = $(this).attr('href');
+        var size = $(this).attr('data-size');
 
         csrf_token()   // gets page csrf token
 
@@ -696,6 +740,7 @@ var deleteWishlistItem = $(".delete_wishlist_item");
             method: "post",
             data: {
               product_id: id,
+              size: size
             },
             success: function (response){
                 if(response.data){
@@ -754,14 +799,14 @@ var quickAddToWishList = $(".quick-add-to-wishlist");
        csrf_token()   // gets page csrf token
 
        $.ajax({
-           url: url,
-           method: "post",
-           data: {
-              quantity: 'quantity'
-           },
-           success: function (response){
-                $(".get-wishlist-qty").html(response.quantity+" item")
-           }
+            url: url,
+            method: "post",
+            data: {
+                quantity: 'quantity'
+            },
+            success: function (response){
+                    $(".get-wishlist-qty").html(response.quantity+" item")
+            }
        });
    }
 
@@ -798,7 +843,7 @@ function get_wish_list(){
 
 
    
-// GET WISH LIST
+// QUICK DELETE WISHLIST ITEM
 // ------------------------------------------------------
 var quickDeleteWishList = $(".side-wishlist-container");
     $(quickDeleteWishList).on("click", ".quick-delete-wishlist-item", function(e){
@@ -806,6 +851,8 @@ var quickDeleteWishList = $(".side-wishlist-container");
 
         var url = $(this).attr('href');
         var id = $(this).attr('id');
+        var size = $(this).attr('data-size');
+
 
         csrf_token()   // gets page csrf token
 
@@ -813,7 +860,8 @@ var quickDeleteWishList = $(".side-wishlist-container");
             url: url,
             method: "post",
             data: {
-               product_id: id
+               product_id: id,
+               size: size
             },
             success: function (response){
                 if(response.data){
@@ -828,42 +876,6 @@ var quickDeleteWishList = $(".side-wishlist-container");
 
 
 
-// // PAYSTACT PAYMENT
-// // ----------------------------------------------
-// var payWithPaystackBtn = $("#payWithPaystackBtn")
-//      $(payWithPaystackBtn).click(function(){
-//          payWithPaystack();
-//      })
-
-
-
-//      function payWithPaystack(e) {
-//         // e.preventDefault();
-//         let handler = PaystackPop.setup({
-//         key: 'pk_test_42550ade26808bb2d47dde8ab5f2f897fce81eea', // Replace with your public key
-//         email: 'anonyecharles@gmail.com',
-//         amount: 1000 * 100,
-//         ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
-//         // label: "Optional string that replaces customer email"
-//         onClose: function(){
-//         alert('Window closed.');
-//         },
-
-//         callback: function(response){
-//         let message = 'Payment complete! Reference: ' + response.reference;
-//         alert(message);
-//         }
-
-//        });
-//         handler.openIframe();
-//     }
-
-
-
-
-
-
-
 
 
 
@@ -871,16 +883,16 @@ var quickDeleteWishList = $(".side-wishlist-container");
 
 // GET SHIPPING METHOD
 // ------------------------------------------------------------
-var shiipingMethod = $(".shipping-method-check-box");
-var hiddenShippingMethod = $("#hidden_shipping_method");
+// var shiipingMethod = $(".shipping-method-check-box");
+// var hiddenShippingMethod = $("#hidden_shipping_method");
     
-    $(shiipingMethod).click(function(e){
-            $(shiipingMethod).prop("checked", false)
-            $(this).prop("checked", true);
-            var value = $(this).attr("id").split('-');
-            var id = value[0]+" "+value[1];
-           $(hiddenShippingMethod).val(id);
-    });
+//     $(shiipingMethod).click(function(e){
+//             $(shiipingMethod).prop("checked", false)
+//             $(this).prop("checked", true);
+//             var value = $(this).attr("id").split('-');
+//             var id = value[0]+" "+value[1];
+//            $(hiddenShippingMethod).val(id);
+//     });
 
 
 
@@ -896,8 +908,8 @@ var wislistCartBtn = $(".add_wishlist-item-to-cart");
         e.preventDefault();
         var url = $(this).attr('href');
         var id = $(this).attr('id');
+        var size = $(this).attr('data-size');
 
-        
         
         csrf_token()   // gets page csrf token
 
@@ -905,7 +917,8 @@ var wislistCartBtn = $(".add_wishlist-item-to-cart");
             url: url,
             method: "post",
             data: {
-               product_id: id
+               product_id: id,
+               size: size
             },
             success: function (response){
                 if(response.data)

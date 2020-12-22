@@ -31,44 +31,22 @@
                         <td>
                             <h4>@money( $order->price)</h4></td>
                         <td>
-                            @if($order->small)
-                            <span>Size: S </span>
+                            @if($order->size != 'unspecified')
+                            <span>
+                                Size: {{ $order->size }}
+                            </span><br>
                             @endif
-                            @if($order->medium)
-                            <span>Size: M </span>
-                            @endif
-                            @if($order->large)
-                            <span>Size: L</span>
-                            @endif
-                            @if($order->xtra_large)
-                            <span>Size: XL </span>
-                            @endif
-                            @if($order->unspecified)
-                            <span>Size: Unspecified</span>
-                            @endif
-                            <br>
                             <span>Quntity: {{ $order->quantity }}</span>
                         </td>
                         <td>
                             <div class="responsive-data">
-                                <h4 class="price">$63.00</h4>
-                                @if($order->small)
-                                <div><span>Size: S </span> |  <span>Quntity: {{ $order->small }}</span></div>
-                                @endif
-                                @if($order->medium)
-                               <div> <span>Size: M </span> | <span>Quntity: {{ $order->medium }}</span></div>
-                                @endif
-                                @if($order->large)
-                                <div><span>Size: L</span> | <span>Quntity: {{ $order->large }}</span></div>
-                                @endif
-                                @if($order->xtra_large)
-                                <div> <span>Size: XL </span> | <span>Quntity: {{ $order->xtra_large }}</span></div>
-                                @endif
-                                @if($order->unspecified)
-                               <div> <span>Size: Unspecified</span> | <span>Quntity: {{ $order->unspecified }}</span></div>
+                                @if($order->size)
+                                <div>
+                                    <span>Size: {{ $order->size }}</span>
+                                </div>
                                 @endif
                             </div>
-                            <span class="dark-data">Delivered</span> (jul 01, 2019)
+                            <span class="dark-data">Paid date </span>( {{ date('d M Y', strtotime($order->paid_date)) }} )
                         </td>
                     </tr>
                     </tbody>

@@ -31,12 +31,12 @@
                                     @endforeach
                                     </ul>
                                 </li>
-                                <li> <a class="mor-slide-click">mor category <i class="fa fa-angle-down pro-down"></i><i class="fa fa-angle-up pro-up"></i></a></li>
+                                <li> <a class="mor-slide-click">more category <i class="fa fa-angle-down pro-down"></i><i class="fa fa-angle-up pro-up"></i></a></li>
                             </ul>
                         </div>
                         <div class="brand-logo">
                             <a href="{{ url('/') }}">
-                                <img src="{{asset('web/images/layout-1/logo/logo.png') }}" class="img-fluid  " alt="logo-header">
+                                <img src="{{asset(settings()->logo) }}" class="img-fluid  " alt="logo-header">
                             </a>
                         </div>
                     </div>

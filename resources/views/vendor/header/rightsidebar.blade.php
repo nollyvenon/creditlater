@@ -1,5 +1,5 @@
 <div class="right-bar">
-    <div class="rightbar-title">
+    <!-- <div class="rightbar-title">
         <a href="javascript:void(0);" class="right-bar-toggle float-right">
             <i data-feather="x-circle"></i>
         </a>
@@ -29,6 +29,6 @@
             <h6>Fixed Width (Boxed)</h6>
             <a href="layouts-boxed.html"><img src="assets/images/layouts/boxed.jpg" alt="boxed"
                     class="img-thumbnail demo-img" /></a>
-        </div>
+        </div> -->
     </div> <!-- end slimscroll-menu-->
 </div>

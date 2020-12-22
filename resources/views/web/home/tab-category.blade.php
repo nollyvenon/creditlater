@@ -6,7 +6,7 @@
             <div class="tab-prodcut-contain">
                 <ul class="tabs tab-title">
                 @foreach($tab_categories as $key => $tab_category)
-                    <li class="{{ $key == 0? 'current' : '' }}"><a href="tab-{{ $tab_category->id }}" class="tab_anchor">{{ $tab_category->category_name }}</a></li>
+                    <li class="{{ $key == 0? 'current' : '' }}"><a href="tab-{{ $tab_category->category_id }}" class="tab_anchor">{{ $tab_category->category_name }}</a></li>
                 @endforeach
                 </ul>
             </div>
@@ -20,8 +20,8 @@
                     <div class="tab-content-cls">
                        <!-- tab start -->
                        @foreach($tab_categories as $key => $tab_category)
-                        <div id="tab-{{ $tab_category->id }}" class="tab-content {{ $key == 0? 'default' : '' }}">
-                         
+                        <div id="tab-{{ $tab_category->category_id }}" class="tab-content {{ $key == 0? 'default' : '' }}">
+                      
                             <div class="product-slide-6 product-m no-arrow">
                                 @foreach($tab_category->products as $product)
                                 <div>
@@ -34,9 +34,11 @@
                                                 <a href="{{ url('/detail/'.$product->id)}}"><img src="{{ asset(explode(',', $product->products_image)[1]) }}" class="img-fluid  " alt="product"></a>
                                             </div>
                                             <div class="product-icon">
+                                                @if($product->products_quantity)
                                                 <button data-toggle="modal" class="quick-add-to-cartBtn" id="{{ $product->id }}" data-url="{{ url('/quick-add-to-cart') }}" data-target="#addtocart" title="Add to cart">
                                                     <i class="fa fa-shopping-cart"></i>
                                                 </button>
+                                                @endif
                                                 @if(Session::has('user'))
                                                 <a href="javascript:void(0)" title="Add to Wishlist" id="{{ $product->id }}" data-url="{{ url('/quick-add-to-wishlist') }}" class="quick-add-to-wishlist">
                                                     <i class="fa fa-heart" aria-hidden="true"></i>
@@ -75,6 +77,10 @@
                                                     <a href="#">
                                                         <h6 class="price-title">
                                                            {{ $product->products_name}}
+
+                                                            @if(!$product->products_quantity)
+                                                            <i class="text-danger">out of stock</i>
+                                                            @endif
                                                         </h6>
                                                     </a>
                                                 </div>

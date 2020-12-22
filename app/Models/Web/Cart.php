@@ -32,42 +32,21 @@ class Cart extends Model
     public function add($id, $product, $size, $quantity)
     {
         $size = $size ? trim($size) : 'unspecified';
-        $stored_item = ['product_id' => $id, 'product' => $product, 'price' => 0, 'quantity' => 0, 'small' => 0, 'medium' => 0, 'large' => 0, 'xtra large' => 0, 'unspecified' => 0];
+        $stored_item = ['product_id' => $id, 'product' => $product, 'size' => $size, 'price' => $product->products_price, 'quantity' => 0 , 'total' => 0];
+       
+        $key = $size.'_'.$id;
         if($this->_items)
         {
-            if(array_key_exists($id, $this->_items))
+            if(array_key_exists($key, $this->_items))
             {
-                $stored_item = $this->_items[$id];
+                $stored_item = $this->_items[$key];
             }
-        }
-
-        switch($size)
-        {
-            case 'small':
-                $stored_item['small'] += $quantity;
-            break;
-
-            case 'medium':
-                $stored_item['medium'] += $quantity;
-            break;
-
-            case 'large':
-                $stored_item['large'] += $quantity;
-            break;
-
-            case 'xtra large':
-                $stored_item['xtra large'] += $quantity;
-            break;
-
-            case 'unspecified':
-                $stored_item['unspecified'] += $quantity;
-            break;
         }
 
         
         $stored_item['quantity'] += $quantity;
-        $stored_item['price'] += $product->products_price * $quantity;
-        $this->_items[$id] = $stored_item;
+        $stored_item['total'] += $product->products_price * $quantity;
+        $this->_items[$key] = $stored_item;
         $this->_totalPrice += $product->products_price * $quantity;
         $this->_totalQty += $quantity;
     }
@@ -77,15 +56,47 @@ class Cart extends Model
 
 
 
-    public function delete_cart($id)
+    public function update_quantity($id, $product, $size, $quantity)
     {
-        $stored_item = ['product_id' => '', 'product' => '', 'price' => 0, 'quantity' => 0, 'small' => 0, 'medium' => 0, 'large' => 0, 'xtra large' => 0, 'unspecified' => 0];        
+        $storedd_item = ['product_id' => $id, 'product' => $product, 'size' => $size, 'price' => $product->products_price, 'quantity' => 0 , 'total' => 0];
+       
+        $key = $size.'_'.$id;
         if($this->_items)
         {
-            if(array_key_exists($id, $this->_items))
+            if(array_key_exists($key, $this->_items))
             {
-                $stored_item = $this->_items[$id];
-                unset($this->_items[$id]);
+                $stored_item = $this->_items[$key];
+                $oldTotal = $stored_item['total'];
+                $oldQuantity = $stored_item['quantity'];
+
+                $stored_item['quantity'] = $quantity;
+                $stored_item['total'] = $product->products_price * $quantity;
+                $this->_items[$key] = $stored_item;
+
+                $this->_totalPrice -= $oldTotal;
+                $this->_totalPrice += $product->products_price * $quantity;
+
+                $this->_totalQty -= $oldQuantity;
+                $this->_totalQty += $quantity;
+            }
+        }
+    }
+
+
+
+
+
+    public function delete_cart($id, $size)
+    {       
+        $stored_item = [];
+        
+        $key = $size.'_'.$id;
+        if($this->_items)
+        {
+            if(array_key_exists($key, $this->_items))
+            {
+                $stored_item = $this->_items[$key];
+                unset($this->_items[$key]);
             }
         }
 
@@ -99,30 +110,24 @@ class Cart extends Model
 
 
 
-    public function wishlist_add_to_cart($id, $product, $wishlist)
+    public function wishlist_add_to_cart($id, $product, $wishlist, $size)
     {
-        $stored_item = ['product_id' => $id, 'product' => $product, 'price' => 0, 'quantity' => 0, 'small' => 0, 'medium' => 0, 'large' => 0, 'xtra large' => 0, 'unspecified' => 0];
+        $storedd_item = ['product_id' => $id, 'product' => $product, 'size' => $size, 'price' => $product->products_price, 'quantity' => 0 , 'total' => 0];        
         
+        $key = $size.'_'.$id;
         if($this->_items)
         {
-            if(array_key_exists($id, $this->_items))
+            if(array_key_exists($key, $this->_items))
             {
-                $stored_item = $this->_items[$id];
+                $stored_item = $this->_items[$key];
             }
         }
 
-        $stored_item['quantity'] += $wishlist->quantity;
-        $stored_item['price'] += $product->products_price * $wishlist->quantity;
-        $stored_item['small'] += $wishlist->small;
-        $stored_item['medium'] += $wishlist->medium;
-        $stored_item['large'] += $wishlist->large;
-        $stored_item['xtra large'] += $wishlist->xtra_large;
-        $stored_item['unspecified'] += $wishlist->unspecified;
-
-        $this->_items[$id] = $stored_item;
-        $this->_totalPrice += $product->products_price * $wishlist->quantity;
-        $this->_totalQty += $wishlist->quantity;
-
+        $stored_item['quantity'] += $quantity;
+        $stored_item['total'] += $product->products_price * $quantity;
+        $this->_items[$key] = $stored_item;
+        $this->_totalPrice += $product->products_price * $quantity;
+        $this->_totalQty += $quantity;
     }
 
 

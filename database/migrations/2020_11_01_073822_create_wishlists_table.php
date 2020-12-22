@@ -22,13 +22,8 @@ class CreateWishlistsTable extends Migration
             $table->integer('price');
             $table->integer('quantity');
             $table->integer('total');
-            $table->string('small');
-            $table->string('medium');
-            $table->string('large');
-            $table->string('xtra_large');
-            $table->string('unspecified');
+            $table->string('size')->nullable();
             $table->dateTime('date_added')->default(Carbon::now()->toDateTimeString());
-            $table->dateTime('date_modified')->default(Carbon::now()->toDateTimeString());
             $table->timestamps();
         });
     }

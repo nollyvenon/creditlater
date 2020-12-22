@@ -12,6 +12,11 @@ class VendorBrandController extends Controller
 {
     public function index()
     {
+        if(!Session::has('vendor'))
+        {
+            return redirect('vendor/login');
+        }
+        
         // get brands
         $brands = DB::table('brands')->get();
         if(count($brands) == "")
@@ -59,7 +64,7 @@ class VendorBrandController extends Controller
         if($request->ajax())
         { 
             $data = false;
-            $brand = DB::table('brands')->where('id', $request->brand_id);
+            $brand = DB::table('brands')->where('brand_id', $request->brand_id);
             Session::flash('success', 'The brand '.$brand->first()->brand_name.' has been deleted!');
             if($brand->delete())
             {
@@ -78,7 +83,7 @@ class VendorBrandController extends Controller
         if($request->ajax())
         { 
             $data = false;
-            $brand = DB::table('brands')->where('id', $request->brand_id);
+            $brand = DB::table('brands')->where('brand_id', $request->brand_id);
             if($brand->first()->is_feature)
             {
                 $brand->update([
@@ -113,7 +118,7 @@ class VendorBrandController extends Controller
         { 
             $error = ['brand' => null];
             $date = date("Y-m-d H:s:i", time());
-            $brandCheck = DB::table('brands')->where('id', $request->brand_id);
+            $brandCheck = DB::table('brands')->where('brand_id', $request->brand_id);
 
            if(empty($request->brand_name))
            {
@@ -135,7 +140,7 @@ class VendorBrandController extends Controller
                     {
                         $error['brand']  = "brand already exists";
                     }else{
-                        DB::table('brands')->where('id', $request->brand_id)->update([
+                        DB::table('brands')->where('brand_id', $request->brand_id)->update([
                             'brand_name' => $request->brand_name,
                             'brand_last_modified' => $date
                         ]);

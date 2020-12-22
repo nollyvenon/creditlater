@@ -1,20 +1,20 @@
 
 <!--top brand panel start-->
-<section class="brand-panel section-pt-space">
+<!-- <section class="brand-panel section-pt-space">
     <div class="brand-panel-box">
         <div class="brand-panel-contain">
             <ul>
                 <li><a href="#">top brand</a></li>
                 <li><a>:</a></li>
                 @foreach($brands as $brand)
-                <li><a href="{{ url('category/'.$brand->id) }}">{{ $brand->brand_name}}</a></li>
+                <li><a href="{{ url('brand/'.$brand->brand_name) }}">{{ $brand->brand_name}}</a></li>
                 @endforeach
             </ul>
         </div>
     </div>
-</section>
+</section> -->
 <!--top brand panel end-->
-
+<div class="" style="width: 100%; padding: 30px; background-color: #fff;"></div>
 <!--services start-->
 <section class="services">
     <div class="container">

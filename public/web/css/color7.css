@@ -21040,3 +21040,13 @@ body.rtl {
     float: right;
     color:  rgba(130, 129, 129, 0.453);
 }
+
+/*  credit later brand logo */
+.creditlater_brand_logo{
+  border: 1px solid #ccc;
+  margin: 0px;
+  padding: 0px;
+}
+.creditlater_brand_logo img{
+    
+}

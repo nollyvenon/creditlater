@@ -19,6 +19,11 @@ class CategoryController extends Controller
         return view("web.category", compact('categories'));
     }
 
+
+
+
+
+
     public function show(Request $request, $category_name)
     {
         // filter products by brand or by price
@@ -26,18 +31,16 @@ class CategoryController extends Controller
         $productFilter = null;
 
         if($request->input()){
-            $category_id = Category::where('category_name', $category_name)->first()->id;
+            $category_id = Category::where('category_name', $category_name)->first()->category_id;
             $price = priceRange::where('id', $request->price_id)->first();
             if($request->brand_id && !$request->price_id){
-                $productFilter = DB::table('products')->where('category_id', $category_id)->where('brand_id', $request->brand_id)->where('is_feature', 1)->get();
+                $productFilter = DB::table('products')->where('category_id', $category_id)->where('brand_id', $request->brand_id)->where('is_product_feature', 1)->get();
             }else if($request->price_id && !$request->brand_id){
                 $productFilter = DB::table('products')->where('category_id', $category_id)->where('products_price', '>=', $price->price_from)->where('products_price', '<=', $price->price_to)->get();
             }else{
                 $productFilter = DB::table('products')->where('category_id', $category_id)->where('brand_id', $request->brand_id)->where('products_price', '>=', $price->price_from)->where('products_price', '<=', $price->price_to)->get();
             }
             $requestURL = $request->input(); //brand_id and price_id url parameter values;
-
-    
         }
 
        
@@ -50,12 +53,12 @@ class CategoryController extends Controller
         
 
         // get brands associated with category id;
-        $category_id = $categories->id;
+        $category_id = $categories->category_id;
         $brand_ids = DB::table('category_brand')->where('category_id', $category_id)->get();   
         $brands = array();
         foreach($brand_ids as $brand_id)
         {
-            $brands[] = Brand::where('id', $brand_id->brand_id)->first();
+            $brands[] = Brand::where('brand_id', $brand_id->brand_id)->first();
         }
         $categoryBrands = $brands;
         

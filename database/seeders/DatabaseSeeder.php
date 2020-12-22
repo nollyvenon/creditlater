@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
             CategoryBrandTableSeeder::class,
             RatingTableSeeder::class,
             PriceRangeTableSeeder::class,
-            GuarantorTableSeeder::class,
+            // GuarantorTableSeeder::class,
             VerificationTableSeeder::class,
             InstallmentMethodsTableSeeder::class,
         ]);

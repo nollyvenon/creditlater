@@ -24,9 +24,11 @@
                                     <a href="{{ url('detail/'.$products->id) }}"><img src="{{ asset(explode(',', $products->products_image)[1]) }}" class="img-fluid  " alt="product"></a>
                                 </div>
                                 <div class="product-icon">
+                                    @if($products->products_quantity)
                                      <button data-toggle="modal" class="quick-add-to-cartBtn" id="{{ $products->id }}" data-url="{{ url('/quick-add-to-cart') }}" data-target="#addtocart" title="Add to cart">
                                         <i class="fa fa-shopping-cart"></i>
                                     </button>
+                                    @endif
                                     @if(Session::has('user'))
                                     <a href="javascript:void(0)" title="Add to Wishlist" id="{{ $products->id }}" data-url="{{ url('/quick-add-to-wishlist') }}" class="quick-add-to-wishlist">
                                         <i class="fa fa-heart" aria-hidden="true"></i>
@@ -64,6 +66,10 @@
                                         <a href="#">
                                             <h6 class="price-title">
                                                {{$products->products_name}}
+
+                                                @if(!$products->products_quantity)
+                                                <i class="text-danger">out of stock</i>
+                                                @endif
                                             </h6>
                                         </a>
                                     </div>

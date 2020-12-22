@@ -25,33 +25,37 @@
                         <td>
                             <a href="{{ url('detail/'.$cart_item['id']) }}"><img src="{{ asset(image($cart_item['products_image'], 0)) }}" alt="{{ $cart_item['products_name'] }}"  class=" "></a>
                         </td>
-                        <td><a href="{{ url('detail/'.$cart_item['id']) }}">{{ $cart_item['products_name'] }}</a>
+                        <td>
+                           <a href="{{ url('detail/'.$cart_item['id']) }}">{{ $cart_item['products_name'] }}</a> <br>
+                           @if($values['size'] != 'unspecified')
+                           <span>Size: {{ $values['size'] }}</span>
+                           @endif
                             <div class="mobile-cart-content row">
                                 <div class="col-xs-3">
                                     <div class="qty-box">
-                                        <div class="input-group">
-                                           <input type="number" id="cart_item_quantity" class="form-control input-number" value="{{ $values['quantity'] }}">
+                                        <div class="input-group" id="{{ $cart_item['id'] }}" data-url="{{ url('/cart-quantity-action') }}">
+                                           <input type="number" id="cart_item_quantity" min="1" class="form-control cart_item_quantity input-number" data-size="{{ $values['size'] }}" value="{{ $values['quantity'] }}">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-xs-3">
                                     <h2 class="td-color">@money($cart_item['products_price'])</h2></div>
                                 <div class="col-xs-3">
-                                    <h2 class="td-color"><a href="{{ url('/cart-item-delete') }}" class="icon delete-cart-item" id="{{ $cart_item['id'] }}"><i class="fa fa-times"></i></a></h2></div>
+                                    <h2 class="td-color"><a href="{{ url('/cart-item-delete') }}" data-size="{{ $values['size'] }}" class="icon delete-cart-item" id="{{ $cart_item['id'] }}"><i class="fa fa-times"></i></a></h2></div>
                             </div>
                         </td>
                         <td>
                             <h2>@money($cart_item['products_price'])</h2></td>
                         <td>
                             <div class="qty-box">
-                                <div class="input-group">
-                                    <input type="number" id="cart_item_quantity" class="form-control input-number" value="{{ $values['quantity'] }}">
+                                <div class="input-group" id="{{ $cart_item['id'] }}" data-url="{{ url('/cart-quantity-action') }}">
+                                    <input type="number" id="cart_item_quantity" min="1" class="form-control cart_item_quantity input-number" data-size="{{ $values['size'] }}" value="{{ $values['quantity'] }}">
                                 </div>
                             </div>
                         </td>
-                        <td><a href="{{ url('/cart-item-delete') }}" class="icon delete-cart-item" id="{{ $cart_item['id'] }}"><i class="fa fa-times"></i></a></td>
+                        <td><a href="{{ url('/cart-item-delete') }}" data-size="{{ $values['size'] }}" class="icon delete-cart-item" id="{{ $cart_item['id'] }}"><i class="fa fa-times"></i></a></td>
                         <td>
-                            <h2 class="td-color">@money($values['price'])</h2></td>
+                            <h2 class="td-color">@money($values['total'])</h2></td>
                     </tr>
                     </tbody>
                     @endforeach
@@ -128,6 +132,11 @@ var payWithPaystackBtn = $("#payWithPaystackBtn");
                 }
             });
         }
+
+
+
+
+
 
      </script>
 </section>

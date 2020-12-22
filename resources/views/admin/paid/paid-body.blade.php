@@ -46,7 +46,7 @@
                                                     <td>{{ $paid->shipping }}</td>
                                                     <td>{{ $paid->state }}</td>
                                                     <td>{{ $paid->phone }}</td>
-                                                    <td>{{ explode(' ', $paid->paid_date)[0] }}</td>
+                                                    <td>{{ date('d M Y', strtotime($paid->paid_date)) }}</td>
                                                     <td><a href="{{ url('/dashboard/paid-detail/'.$paid->reference) }}"><i class="fa fa-file"></i></a></td>
                                                 </tr>
                                                 @endforeach

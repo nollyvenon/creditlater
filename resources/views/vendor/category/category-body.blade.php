@@ -34,7 +34,6 @@
                                                     <th>Round category</th>
                                                     <th>Featured</th>                                                    
                                                     <th>Date Added</th>
-                                                    <th>Last Modified</th>
                                                     <th>Approved</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -46,13 +45,13 @@
                                                     <td><a href="#" style="color: #717171">{{ $category->category_name }}</a></td>
                                                     <td><a href="#"><img src="{{ asset($category->category_image) }}" alt="image" style="width: 30px;"></a></td>
                                                     <td><a href="#"><img src="{{ asset($category->round_cat_image) }}" alt="image" style="width: 30px;"></a></td>                                                   
-                                                    <td><a href="{{ url('/vendor/category-feature') }}" id="{{ $category->id }}" class="category_feature_btn"><i class="fa fa-{{ $category->is_feature ? 'check text-success' : 'times text-danger' }}"></i></a></td>
+                                                    <td><a href="{{ url('/vendor/category-feature') }}" id="{{ $category->category_id }}" class="category_feature_btn"><i class="fa fa-{{ $category->is_feature ? 'check text-success' : 'times text-danger' }}"></i></a></td>
                                                     <td>{{ explode(' ', $category->date_added)[0] }}</td>
-                                                    <td>{{ explode(' ', $category->last_modified)[0] }}</td>
                                                     <td><i class="fa fa-{{ $category->is_approved ? 'check text-success' : 'times text-danger' }}"></i></td>                                                    
                                                     <td>
-                                                        <a href="{{ url('/vendor/category-edit') }}" class="category_edit_btn" style="color: #717171" id="{{ $category->id }}" data-val="{{ $category->category_name }}" data-toggle="modal" data-target="#exampleModal2"><i class="fa fa-edit"></i></a>
-                                                        <a href="{{ url('/vendor/category-delete') }}" id="{{ $category->id }}" style="color: #717171" class="category_delete_btn"><i class="fa fa-trash"></i></a>
+                                                        <a href="{{ url('/vendor/category/'.$category->category_id) }}" class="category_edit" style="color: #717171" id="{{ $category->category_id }}"><i class="fa fa-edit"></i></a>
+                                                        <span style="padding: 0px 10px;"></span>
+                                                        <a href="{{ url('/vendor/category-delete/'.$category->category_id) }}" id="{{ $category->category_id }}" style="color: #717171" class="category_delete_btn"><i class="fa fa-trash"></i></a>
                                                 </td>
                                                     </tr>
                                                 @endforeach

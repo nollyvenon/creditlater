@@ -41,16 +41,24 @@ class ProductReturnController extends Controller
             $user = User::where('email', $request->email)->first();
             if($user)
             {
-                $return = DB::table('return_products')->insert(array(
+                $warranty_slip = $request->file('warranty_slip');
+                $newImageName = 'warranty_file_'.time().'.'.$warranty_slip->getClientOriginalExtension();
+                $Destination = public_path('/admin/images/warranty_file');
+                $W_ImagePath = "/admin/images/warranty_file/".$newImageName;
+               
+                if($warranty_slip->move($Destination, $newImageName))
+                {
+                    $return = DB::table('return_products')->insert(array(
                         'buyer_id' => $user->id,
                         'email' => $request->email,
                         'warranty_number' => $request->warranty_number,
-                        'warranty_slip' =>  $request->warranty_slip->store('return_image', 'public')
+                        'warranty_slip' =>  $W_ImagePath
                     ));
 
                     if($return){
                         return redirect("account")->with('success', "Your request would be attended to shortly!");
                     }
+                }
 
             }else{
                 return back()->with('error', "Email does not exist!");

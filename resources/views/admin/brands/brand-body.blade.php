@@ -14,13 +14,13 @@
                             <div class="col-md-12">
                                 <nav aria-label="breadcrumb" class="float-right mt-1">
                                     <ol class="breadcrumb">
-                                       <form action="" method="">
+                                       <!-- <form action="" method="">
                                            <div class="row">
                                            <div class="col-lg-12">
                                                 <input type="text" id="brand" name="brand" class="form-control" placeholder="Enter brand">
                                             </div>
                                            </div>
-                                       </form>
+                                       </form> -->
                                     </ol>
                                 </nav>
                                 <h4 class="mb-1 mt-0">Brand</h4>
@@ -37,10 +37,9 @@
                                             <thead>
                                                 <tr>
                                                     <th>Name</th>
-                                                    <th>Date Added</th>
-                                                    <th>Last Modified</th>
                                                     <th>Featured</th>
-                                                    <th>Action</th>
+                                                    <th>Date Added</th>
+                                                    <th>is_approved</th>
                                                 </tr>
                                             </thead>
                                         
@@ -48,10 +47,9 @@
                                                 @foreach($brands as $brand)
                                                 <tr>
                                                     <td><a href="#" style="color: #717171">{{ $brand->brand_name }}</a></td>
-                                                    <td>{{ explode(' ', $brand->brand_date_added)[0] }}</td>
-                                                    <td>{{ explode(' ', $brand->brand_last_modified)[0] }}</td>
-                                                    <td><a href="#"><i class="fa fa-{{ $brand->is_feature ? 'check text-success' : 'times text-danger' }}"></i></a></td>
-                                                    <td><i class="fa fa-trash"></i> <i class="fa fa-edit"></i></td>
+                                                    <td><i class="fa fa-{{ $brand->is_feature ? 'check text-success' : 'times text-danger' }}"></i></td>                                                    
+                                                    <td>{{ date('d M Y', strtotime($brand->brand_date_added)) }}</td>
+                                                    <td><a href="{{ url('/admin/brand_approved/'.$brand->brand_id) }}"><i class="fa fa-{{ $brand->is_approved ? 'check text-success' : 'times text-danger' }}"></i></a></td>
                                                 </tr>
                                                 @endforeach
                                                 </tbody>

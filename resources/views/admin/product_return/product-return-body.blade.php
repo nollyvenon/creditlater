@@ -15,7 +15,7 @@
                                 </nav>
                             </div>
                         </div>
-                        @if($return_products)
+                      
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
@@ -32,28 +32,29 @@
                                                     <th>Date</th>
                                                 </tr>
                                             </thead>
-                                        
+                                             
                                             <tbody>
+                                            @if($return_products)
                                                 @foreach($return_products as $return)
                                                 <tr>
                                                     <td>{{ $return->first_name }} {{ $return->last_name }}</td>
                                                     <td>{{ $return->email }}</td>
                                                     <td>#{{ $return->warranty_number }}</td>
-                                                    <td><img src="{{ asset('storage/'.$return->warranty_slip) }}" style="width: 75px;" alt="{{ $return->first_name }}"></td>
-                                                    <td>{{ explode(' ', $return->return_date)[0] }}</td>
+                                                    <td><img src="{{ asset($return->warranty_slip) }}" style="width: 75px;" alt="{{ $return->first_name }}"></td>
+                                                    <td>{{ date('d M Y', strtotime($return->return_date)) }}</td>
                                                 </tr>
                                                 @endforeach
                                                 </tbody>
+                                            @endif
                                         </table>
-
+                                        @if(!$return_products)
+                                        <div class="alert p-3 text-center">There are no returned products yet.</div>
+                                        @endif
                                     </div> <!-- end card body-->
                                 </div> <!-- end card -->
                             </div><!-- end col-->
                         </div>
                         <!-- end row-->
-                        @else
-                         <div class="alert-danger p-3 text-center">There are no return yet</div>
-                        @endif
                     </div> <!-- container-fluid -->
 
                 </div> 

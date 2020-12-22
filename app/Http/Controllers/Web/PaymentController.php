@@ -10,47 +10,44 @@ use App\Models\Web\Auth;
 use App\Models\Web\Paid;
 use App\Models\Web\Category;
 use App\Models\Web\PaidBuyer;
+use App\Models\Web\Paystack;
+use App\Models\Web\Product;
 use Illuminate\Support\Facades\Hash;
 
 
 use DB;
 use Session;
 use Carbon\Carbon;
-use Paystack;
 use Redirect;
 use Validator;
 
 class PaymentController extends Controller
 {
 
-    /**
-     * Redirect the User to Paystack Payment Page
-     * @return Url
-     */
-    public function redirectToGateway()
+   
+    public function checkout_one_time_payment_paystack(Request $request)
     {
-        try{
-            return Paystack::getAuthorizationUrl()->redirectNow();
-        }catch(\Exception $e) {
-            return Redirect::back()->withMessage(['msg'=>'The paystack token has expired. Please refresh the page and try again.', 'type'=>'error']);
-        }        
+        if(!Auth::user())
+        {
+            return back()->with('error', 'Something went wrong');
+        }
+        $payment_fields = $request->validate([
+            'first_name' => 'required|min:3|max:50',
+            'last_name' => 'required|min:3|max:50',
+            'email' => 'required|email',
+            'phone' => 'required|min:11|max:15',
+            'address' => 'required|min:3|max:200',
+            'city' => 'required|min:3|max:200',
+            'state' => 'required|min:3|max:200',
+            'country' => 'required|min:3|max:200',
+            'postal_code' => 'required|min:3|max:100',
+            'shipping' => 'required',
+        ]);
+
+        Session::put('buyer_details', $request->all());
+        $callback_url = url('/order-success');     
+        Paystack::initialize($request->email, $request->amount, $callback_url);
     }
-
-    /**
-     * Obtain Paystack payment information
-     * @return void
-     */
-    public function handleGatewayCallback()
-    {
-        $paymentDetails = Paystack::getPaymentData();
-
-        dd($paymentDetails);
-        // Now you have the payment details,
-        // you can store the authorization_code in your db to allow for recurrent subscriptions
-        // you can then redirect or do whatever you want
-    }
-
-
 
 
 
@@ -61,6 +58,10 @@ class PaymentController extends Controller
         if(Session::has('reference'))
         {
             return redirect('order-success');
+        }
+        if(!Session::has('cart'))
+        {
+            return redirect('/');
         }
 
         if(!Auth::user())
@@ -85,9 +86,9 @@ class PaymentController extends Controller
 
 
 
-    public function _store_paid_products(Request $request)
+    public function store_paid_products($reference)
     {
-        if($request->ajax())
+        if($reference)
         {
             $user = Auth::user();
             $stored_user = User::where('id', $user['id'])->where('email', $user['email'])->first();
@@ -97,28 +98,29 @@ class PaymentController extends Controller
                 foreach($cart_items as $items)
                 {
                     $paid = new Paid();
-                    $total = $items['price'] * $items['quantity'];
                     $paid->create([
                         'buyer_user_id' => $user['id'],
-                        'reference_number' => $request->reference,
+                        'reference_number' => $reference,
                         'product_id' => $items['product_id'],
                         'price' =>  $items['price'],
                         'quantity' =>  $items['quantity'],
-                        'total' =>  $total,
-                        'small' =>  $items['small'],
-                        'medium' =>  $items['medium'],
-                        'large' =>  $items['large'],
-                        'xtra_large' =>  $items['xtra large'],
-                        'unspecified' =>  $items['unspecified'],
+                        'total' =>  $items['total'],
+                        'size' => $items['size']
                     ]);
                 }
-                $this->store_buyers_details($request->reference);
-                Session::put('reference', $request->reference);
+
+                foreach($cart_items as $items)
+                {
+                    $product = Product::where('id', $items['product_id'])->first();
+                    $product->products_quantity -= $items['quantity'];
+                    $product->quantity_sold  += $items['quantity'];
+                    $product->save();
+                }
                 Session::forget('cart');
-                $data = true;
+                return true;
             }
         }
-        return response()->json(['data' => $data]);
+        return false;
     }
 
 
@@ -149,6 +151,8 @@ class PaymentController extends Controller
             $store->postal_code = $buyer_details['postal_code'];
             $store->amount = $buyer_details['amount'];
             $store->save();
+            
+            $this->store_paid_products($reference);  //store paid products
 
             Session::forget('buyer_details');
             return true;
@@ -181,139 +185,20 @@ class PaymentController extends Controller
 
 
 
-    public function get_checkout_form_validationajax(Request $request)
-    {
-        if($request->ajax())
-        {
-            $data = true; 
-            $first_name = null;
-            $last_name = null;
-            $phone = null;
-            $email = null;
-            $address = null;
-            $city = null;
-            $state = null;
-            $country = null;
-            $postal_code = null;
-            $shipping = null;
-            $error_array = array();
-
-             if(empty($request->first_name))
-             {
-                 $first_name = "First name field is required";
-             }else if(strlen($request->first_name) < 3)
-                 {
-                    $first_name = "First name must be minimum of 3 characters";
-                 }else if(strlen($request->first_name) > 50){
-                    $first_name = "First name must be maximum of 50 characters";
-                 }
-             
-
-
-             if(empty($request->last_name))
-             {
-                 $last_name = "last name field is required";
-             }else if(strlen($request->last_name) < 3)
-             {
-                $last_name = "Last name must be minimum of 3 characters";
-             }else if(strlen($request->last_name) > 50){
-                $last_name = "Last name must be maximum of 50 characters";
-             }
-
-             if(empty($request->phone))
-             {
-                 $phone = "phone field is required";
-             }else if(strlen($request->phone) != 11){
-                $phone = "phone must be 11 characters long";
-             }
-
-             if(empty($request->email))
-             {
-                 $email = "email field is required";
-             }else if (!filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
-                $email = "Invalid email format";
-              }else{
-                  $user_email = User::Where('id', Auth::user()['id'])->where('email', $request->email)->first();
-                  if(!$user_email){
-                      $email = "Insert your email address";
-                  }
-              }
-
-             if(empty($request->address))
-             {
-                 $address = "address field is required";
-             }else if(strlen($request->address) > 400){
-                $address = "address must be a maximum of 400 characters";
-             }else  if(strlen($request->address) < 10){
-                $address = "address must be a minimum of 10 characters";
-             }
-
-             if(empty($request->city))
-             {
-                 $city = "city field is required";
-             }else if(is_numeric($request->city)){
-                 $city = "Wrong city name";
-             }
-             if(empty($request->postal_code))
-             {
-                 $postal_code = "postal_code field is required";
-             }
-             if(empty($request->shipping))
-             {
-                $shipping = "shipping field is required";
-             }
-             if(empty($request->country))
-             {
-                $country = "country field is required";
-             }
-
-
-
-
-
-             $error_message = ['first_name' => $first_name, 'last_name'=>$last_name,'phone' => $phone,
-                              'email'=>$email, 'address'=>$address,'city'=>$city,'country'=>$country,
-                              'postal_code'=>$postal_code, 'shipping' => $shipping
-                            ];
-             foreach($error_message as $values)
-             {
-                 if(!empty($values))
-                 {
-                    $error_array[] = $values; 
-                 }
-             }
-            
-            if(!empty($error_array))
-            {
-                return response()->json(['errors' => $error_message]);
-            }else{
-                    $buyer_details = ['first_name' => $request->first_name, 'last_name' => $request->last_name, 'phone' => $request->phone,
-                            'state' => $request->state, 'city' => $request->city, 'country' => $request->country, 'address' => $request->address, 
-                            'email' => $request->email, 'shipping' => $request->shipping, 'postal_code' => $request->postal_code,
-                            'amount' => $request->amount
-                        ];
-                Session::put('buyer_details', $buyer_details);
-            }
-        }
-        return response()->json(['data' => $data]);
-    }
-
-
-
-
 
 
 
     public function order_success()
     {
+        // Session::put('reference', '897893329');
         $sideCategories = Category::where('is_feature', 1)->get();  
-        if(Session::has('reference'))
+        
+        if(Session::has('buyer_details'))
         {
-            $reference = Session::get('reference');
-            $order = DB::table('paid_buyers')->where('reference', $reference)->leftJoin('paids', 'paid_buyers.reference', '=', 'paids.reference_number')
-                    ->leftJoin('products', 'paids.product_id' , '=', 'products.id')->get();
+            $reference = Paystack::call_back();
+            $this->store_buyers_details($reference);  //store buyers details
 
-            Session::forget('reference'); //deletes the reference from session
+            $order = DB::table('paid_buyers')->where('reference', $reference)->where('user_id', '=', Auth::user()['id'])->get();
         }else{
             return redirect('/');
         }

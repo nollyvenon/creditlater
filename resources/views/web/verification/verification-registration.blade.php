@@ -96,7 +96,7 @@
                                     <div class="text-danger verification-alert">*{{ $errors->first('supporing_document') }}</div>
                                     @endif
                                     <label for="supporing_document">Supporting documents<l>
-                                    <input type="file" class="form-control" name="supporing_document" placeholder="supporting document">
+                                    <input type="file" class="form-control" name="supporting_document" placeholder="supporting document">
                                 </div>
                             </div>
                             <div class="col-md-12">

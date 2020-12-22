@@ -12,7 +12,7 @@
       </div>
       <div class="modal-body">
       <div class="text-danger category-edit-error"></div>
-        <form action="" method="post" enctype="multipart/form-data">
+        <form action="{{ url('/vendor/category-edit') }}" method="post" id="vendor_category_edit_form" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="label">Category name</label>
                 <input type="text" id="edit_category_name_input" class="form-control"value="" placeholder="Enter name">
@@ -25,12 +25,13 @@
                 <label for="label">Round image</label>
                 <input type="file" id="edit_category_round_input" class="form-control" value="" placeholder="">
             </div>
-        </form>
+      
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <a href="{{ url('/vendor/category-edit') }}"  class="btn btn-primary confirm_edit_category_btn" id="">Edit Category</a>
+        <a href="#"  class="btn btn-primary confirm_edit_category_btn" id="">Edit Category</a>
       </div>
+      </form>
     </div>
   </div>
 </div>

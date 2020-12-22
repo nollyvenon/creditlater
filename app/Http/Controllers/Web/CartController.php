@@ -37,6 +37,7 @@ class CartController extends Controller
             }
        }
 
+    //    Session::forget('cart');
         return view("web.cart", compact('sideCategories'));
     }
 
@@ -70,7 +71,7 @@ class CartController extends Controller
     {
         if($request)
         {
-            $product = Product::where('id', $request->product_id)->where('is_feature', 1)->first();
+            $product = Product::where('id', $request->product_id)->where('is_product_feature', 1)->first();
 
             $oldCart = Session::has('cart') ? Session::get('cart') : null;
             $cart = new Cart($oldCart);
@@ -82,6 +83,26 @@ class CartController extends Controller
         return false;
     }
 
+
+
+
+
+
+    public function cart_quantity_action_ajax(Request $request)
+    {
+        $data = false;
+        if($request->ajax())
+        {
+            $product = Product::where('id', $request->product_id)->first();
+            $oldCart = Session::has('cart') ? Session::get('cart') : null;
+            $cart = new Cart($oldCart);
+
+            $cart->update_quantity($request->product_id, $product, $request->size, $request->quantity);
+            Session::put('cart', $cart);
+            $data = true;
+        }
+        return response()->json(['data' => $data]);
+    }
 
 
 
@@ -110,7 +131,7 @@ class CartController extends Controller
         {
             $oldCart = Session::has('cart') ? Session::get('cart') : null;
             $cart = new Cart($oldCart);
-            $cart->delete_cart($request->product_id);
+            $cart->delete_cart($request->product_id, $request->size);
             
             Session::put('cart', $cart);
             if(Session::get('cart')->_totalQty == 0)
@@ -127,7 +148,7 @@ class CartController extends Controller
 
 
 
-    // GET ACRT QUANTITY
+    // GET CART QUANTITY
     public function get_cart_quantity_ajax(Request $request)
     {
         if($request->ajax())
@@ -177,7 +198,7 @@ class CartController extends Controller
 
 
 
-    // DELETE CART DROPDOWN ITEMS
+    // QUICK DELETE CART DROPDOWN ITEMS
     public function delete_cart_dropdown_ajax(Request $request)
     {
         $data = false;

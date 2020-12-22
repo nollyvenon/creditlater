@@ -11,15 +11,20 @@
             <div class="col-12 product">
                 <div class="product-slide no-arrow">
                     @foreach($relatedProducts as $products)
+                    @php($images = explode(',', $products->products_image))
                     <div>
                         <div class="product-box">
                             <div class="product-imgbox">
+                                @if($images[0])
                                 <div class="product-front">
                                    <a href="{{ url('/detail/'.$products->id) }}"><img src="{{ asset(explode(',', $products->products_image)[0]) }} " class="img-fluid  " alt="product"></a>
                                 </div>
+                                @endif
+                                @if(count($images) > 1)
                                 <div class="product-back">
                                     <a href="{{ url('/detail/'.$products->id) }}"><img src="{{ asset(explode(',', $products->products_image)[1]) }} " class="img-fluid  " alt="product"></a>
                                 </div>
+                                @endif
                             </div>
                             <div class="product-detail detail-center ">
                                 <div class="detail-title">

@@ -25,33 +25,34 @@ class IndexController extends Controller
 
 
     public function index(Request $request){
+
         $sideCategories = Category::where('is_feature', 1)->get(); //get all category
 
         $sliders = Slider::where('is_feature', 1)->get(); //get all slider
         
         $tab_categories = Category::where('is_feature', 1)->limit(6)->get(); //get six tab category
         
-        $specialProducts = DB::table('products')->where('is_feature', 1)->where('is_special', 1)->inRandomOrder()->limit(6)->get();   // special products
+        $specialProducts = DB::table('products')->where('is_product_feature', 1)->where('is_special', 1)->inRandomOrder()->limit(6)->get();   // special products
         
-        $brands = Brand::where('is_feature', 1)->limit(6)->get(); //get all slider
+        $brands = Brand::where('is_feature', 1)->limit(6)->get(); //get brands
         
-        $featuredProducts = Product::where('is_feature', 1)->inRandomOrder()->limit(2)->get();  //get two featurd products
+        $featuredProducts = Product::where('is_product_feature', 1)->inRandomOrder()->limit(2)->get();  //get two featurd products
 
         // best sellers
         $bestSellers = DB::table('products')->leftJoin('product_solds', 'products.id', '=', 'product_solds.product_id')->orderBy('total_price', 'desc')->limit(2)->get();
        
         //new products
-        $newProducts = Product::where('is_feature', 1)->orderBy('products_date_added', 'desc')->limit(2)->get();
+        $newProducts = Product::where('is_product_feature', 1)->orderBy('products_date_added', 'desc')->limit(2)->get();
        
         //on sale
-        $onSales = Product::where('is_feature', 1)->inRandomOrder()->limit(2)->get(); 
+        $onSales = Product::where('is_product_feature', 1)->inRandomOrder()->limit(2)->get(); 
 
         //on sale
         $yesterdayDate = date("Y-m-d H:s:i");
-        $todaysDeal = Product::where('is_feature', 1)->where('products_date_added', '>=', $yesterdayDate)->inRandomOrder()->limit(2)->get(); 
+        $todaysDeal = Product::where('is_product_feature', 1)->where('products_date_added', '>=', $yesterdayDate)->inRandomOrder()->limit(2)->get(); 
         
         // 50% off products
-        $fiftyPercentOff = Product::where('is_feature', 1)->inRandomOrder()->get();
+        $fiftyPercentOff = Product::where('is_product_feature', 1)->inRandomOrder()->get();
         $productsArray = array();
         foreach($fiftyPercentOff as $product)
         {

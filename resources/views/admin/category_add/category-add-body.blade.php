@@ -6,9 +6,9 @@
                     <div class="col-md-12">
                         <nav aria-label="breadcrumb" class="float-right mt-1">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="#">Shreyu</a></li>
-                                <li class="breadcrumb-item"><a href="#">Forms</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Basic</li>
+                                <li class="breadcrumb-item"><a href="#">dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="#">category</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">add category</li>
                             </ol>
                         </nav>
                         <h4 class="mb-1 mt-0">Category</h4>
@@ -21,7 +21,7 @@
                             <div class="card-body">
                                 <h4 class="header-title mt-0 text-center">Add category</h4>
 
-                                <form class="form-horizontal">
+                                <form action="{{ url('dashboard/category/add') }}" method="post" enctype="multipart/form-data" class="form-horizontal">
                                     <div class="row">
                                         <div class="col">
                                             <div class="form-group row">
@@ -47,6 +47,12 @@
                                                 <label class="col-lg-12"for="category_name">Round Category</label>
                                                 <div class="col-lg-12">
                                                       <input type="file" class="form-control" id="round_image" value="">
+                                                </div>
+                                            </div>
+
+                                             <div class="form-group row">
+                                                <div class="col-lg-12 text-right">
+                                                    <button type="submit" name="add_category" class="btn btn-primary">Add category</button>
                                                 </div>
                                             </div>
                                         </div>

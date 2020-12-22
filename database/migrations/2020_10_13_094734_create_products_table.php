@@ -33,15 +33,15 @@ class CreateProductsTable extends Migration
 			$table->text('products_video_link')->nullable();
 			$table->boolean('products_status');
 			$table->string('warranty');
-			$table->boolean('is_special');
+			$table->boolean('is_approve')->default('0');
 			$table->integer('manufacturers_id')->nullable();
-			$table->integer('products_ordered')->default(0);
+			$table->integer('products_ordered')->default('0');
 			$table->integer('products_liked');
-			$table->integer('low_limit');
-			$table->boolean('is_feature')->default(0);
+			$table->integer('quantity');
+			$table->boolean('is_feature')->default('0');
 			$table->string('products_slug');
-			$table->integer('products_min_order')->default(1);
-			$table->integer('products_max_stock')->nullable();
+			$table->integer('quantity_sold')->default('0');
+			$table->integer('product_views')->nullable();
             $table->timestamps();
         });
     }

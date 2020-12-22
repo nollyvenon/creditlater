@@ -172,6 +172,56 @@ class UserController extends Controller
                     'guarantor_address' => 'required|min:6|max:200',
                 ]);
 
+                $proof_of_employment = $request->file('proof_of_employment');
+                $newImageName = 'prof_file'.time().'.'.$proof_of_employment->getClientOriginalExtension();
+                $Destination = public_path('/admin/images/buyer_file');
+                $P_ImagePath = "/admin/images/buyer_file/".$newImageName;
+               
+                if($proof_of_employment->move($Destination, $newImageName))
+                {
+                    $supporting_document = null;
+                    if($request->hasFile('supporting_document'))
+                    {
+                        $supporing_document = $request->file('supporting_document');
+                        $suppotingImageName = 'supporting_file'.time().'.'.$supporing_document->getClientOriginalExtension();
+                        $S_ImagePath = "/admin/images/buyer_file/".$suppotingImageName;
+
+    
+                        if($supporing_document->move($Destination, $suppotingImageName))
+                        {
+                            $supporting_document = $S_ImagePath;
+                        }
+                        //add image link to db
+                    }
+
+                    Verification::create([
+                        'user_id' => $user_id,
+                        'first_name' => $request->first_name,
+                        'last_name' => $request->last_name,
+                        'date_of_birth' => $request->date_of_birth,
+                        'phone' => $request->phone,
+                        'national_id' => $request->national_id,
+                        'status' => $request->status,
+                        'occupation' => $request->occupation,
+                        'proof_of_employment' => $P_ImagePath,
+                        'supporting_documents' => $supporting_document,
+                        'address' => $request->address,
+                        'guarantor_first_name' => $request->guarantor_first_name,
+                        'guarantor_last_name' =>  $request->guarantor_last_name,
+                        'guarantor_phone' =>  $request->guarantor_phone,
+                        'guarantor_date_of_birth' =>  $request->guarantor_date_of_birth,
+                        'guarantor_national_id' =>  $request->guarantor_national_id,
+                        'guarantor_status' => $request->guarantor_status,
+                        'guarantor_occupation' => $request->guarantor_occupation,
+                        'guarantor_relationship' => $request->guarantor_relationship,
+                        'guarantor_address' => $request->guarantor_address,
+                        'date_registered' => $date
+                    ]);
+
+
+
+                }
+
 
                 if( $request->supporting_document == null)
                 {
@@ -179,30 +229,7 @@ class UserController extends Controller
                 }
 
   
-                Verification::create([
-                    'user_id' => $user_id,
-                    'first_name' => $request->first_name,
-                    'last_name' => $request->last_name,
-                    'date_of_birth' => $request->date_of_birth,
-                    'phone' => $request->phone,
-                    'national_id' => $request->national_id,
-                    'status' => $request->status,
-                    'occupation' => $request->occupation,
-                    'proof_of_employment' => $request->proof_of_employment,
-                    'supporting_documents' => $request->supporting_document,
-                    'address' => $request->address,
-                    'guarantor_first_name' => $request->guarantor_first_name,
-                    'guarantor_last_name' =>  $request->guarantor_last_name,
-                    'guarantor_phone' =>  $request->guarantor_phone,
-                    'guarantor_date_of_birth' =>  $request->guarantor_date_of_birth,
-                    'guarantor_national_id' =>  $request->guarantor_national_id,
-                    'guarantor_status' => $request->guarantor_status,
-                    'guarantor_occupation' => $request->guarantor_occupation,
-                    'guarantor_relationship' => $request->guarantor_relationship,
-                    'guarantor_address' => $request->guarantor_address,
-                    'date_registered' => $date
-                ]);
-
+                
             }else{
                 return back()->with( 'image-error','Proof of employment is require!');
             }

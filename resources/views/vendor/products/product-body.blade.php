@@ -20,6 +20,9 @@
                                 <h4 class="mb-1 mt-0">Products</h4>
                             </div>
                         </div>
+                        @if(Session::has('success'))
+                        <div class="text-center alert-success p-3">{{ Session::get('success') }}</div>
+                        @endif
                         @if($products)
                         <div class="row">
                             <div class="col-12">
@@ -51,9 +54,13 @@
                                                     <td>{{ $product->category_name }}</td>
                                                     <td>@money($product->products_price)</td>
                                                     <td>@money($product->products_price_slash)</td>
-                                                    <td><a href="#"><i class="fa fa-{{ $product->is_feature ? 'check text-success' : 'times text-danger' }}"></i></a></td>
+                                                    <td><a href="{{ url('/vendor/products_feature/'.$product->id) }}"><i class="fa fa-{{ $product->is_product_feature ? 'check text-success' : 'times text-danger' }}"></i></a></td>
                                                     <td>{{ $product->products_quantity }}</td>
-                                                    <td><i class="fa fa-trash"></i> <i class="fa fa-edit"></i></td>
+                                                    <td>
+                                                        <a href="{{ url('/vendor/products/edit/'.$product->id) }}" style="color: #717171"><i class="fa fa-edit"></i></a>
+                                                        <span style="padding: 0px 10px;"></span>
+                                                        <a href="{{ url('/vendor/products/delete/'.$product->id) }}" style="color: #717171"><i class="fa fa-trash"></i> </a>
+                                                    </td>
                                                 </tr>
                                                 @endforeach
                                                 </tbody>
@@ -70,3 +77,12 @@
                     </div> <!-- container-fluid -->
 
                 </div> <!-- content -->
+
+
+
+
+<script>
+$(document).ready(function(){
+   
+});
+</script>

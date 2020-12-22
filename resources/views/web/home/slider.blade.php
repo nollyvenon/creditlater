@@ -19,7 +19,7 @@
                                     <h4>{{ $slider->header_one }}</h4>
                                     <h1>{{ $slider->header_two }}</h1>
                                     <h2>{{ $slider->header_three }}</h2>
-                                    <a class="btn btn-rounded">
+                                    <a href="{{ url('/products') }}" class="btn btn-rounded">
                                         Shop Now
                                     </a>
                                 </div>

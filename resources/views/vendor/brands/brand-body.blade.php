@@ -47,9 +47,8 @@
                                             <thead>
                                                 <tr>
                                                     <th>Name</th>
-                                                    <th>Date Added</th>
-                                                    <th>Last Modified</th>
                                                     <th>Featured</th>
+                                                    <th>Date Added</th>
                                                     <th>Approved</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -59,13 +58,13 @@
                                                 @foreach($brands as $brand)
                                                 <tr>
                                                     <td><a href="#" style="color: #717171">{{ $brand->brand_name }}</a></td>
+                                                    <td><a href="{{ url('/vendor/brand-feature') }}" class="vendor_feature_brand" id="{{ $brand->brand_id }}"><i class="fa fa-{{ $brand->is_feature ? 'check text-success' : 'times text-danger' }}"></i></a></td>
                                                     <td>{{ explode(' ', $brand->brand_date_added)[0] }}</td>
-                                                    <td>{{ explode(' ', $brand->brand_last_modified)[0] }}</td>
-                                                    <td><a href="{{ url('/vendor/brand-feature') }}" class="vendor_feature_brand" id="{{ $brand->id }}"><i class="fa fa-{{ $brand->is_feature ? 'check text-success' : 'times text-danger' }}"></i></a></td>
                                                     <td><a href="#" ><i class="fa fa-{{ $brand->is_approved ? 'check text-success' : 'times text-danger' }}"></i></a></td>                                                   
                                                     <td>
-                                                       <a href="#"  style="color: #717171" class="vendor_brand_edit" id="{{ $brand->id }}" data-val="{{ $brand->brand_name }}" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-edit"></i></a>
-                                                       <a href="{{ url('/vendor/brand-delete') }}" style="color: #717171" class="vendor_delete_brand" id="{{ $brand->id }}"> <i class="fa fa-trash" ></i> </a>
+                                                       <a href="#"  style="color: #717171" class="vendor_brand_edit" id="{{ $brand->brand_id }}" data-val="{{ $brand->brand_name }}" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-edit"></i></a>
+                                                       <span style="padding: 0px 10px;"></span>
+                                                       <a href="{{ url('/vendor/brand-delete') }}" style="color: #717171" class="vendor_delete_brand" id="{{ $brand->brand_id }}"> <i class="fa fa-trash" ></i> </a>
                                                     </td>
                                                 </tr>
                                                 @endforeach

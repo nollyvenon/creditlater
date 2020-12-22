@@ -57,7 +57,7 @@ use Illuminate\Support\Facades\DB;
            $data = explode(',', $string);
            return $data[$index];
         }
-        return "Error: include image array";
+        return "Error: include doesnt image array";
    }
 
     function cart($user_id){
@@ -77,7 +77,7 @@ use Illuminate\Support\Facades\DB;
         $quantity = 0;
         if($user_id = Auth::user()['id'])
         {
-            $old_wishList = WishList::where('user_id', $user_id)->get();  
+            $old_wishList = WishList::where('wishlist_user_id', $user_id)->get();  
             if(count($old_wishList) != "")
             {
                 foreach($old_wishList as $values)
@@ -97,7 +97,7 @@ use Illuminate\Support\Facades\DB;
         $wishlist_items = 0;
         if($user_id = Auth::user()['id'])
         {
-            $wishlist = DB::table('wishlists')->leftJoin('products', 'wishlists.product_id', '=', 'products.id')->where('user_id', $user_id)->get();
+            $wishlist = DB::table('wishlists')->leftJoin('products', 'wishlists.product_id', '=', 'products.id')->where('wishlist_user_id', $user_id)->get();
             if(count($wishlist) != "")
             {
                 $wishlist_items = $wishlist;
@@ -105,3 +105,22 @@ use Illuminate\Support\Facades\DB;
         }
         return $wishlist_items;
     }
+
+
+
+
+    function payment_method()
+    {
+        return $payment_methods = DB::table('payment_methods')->where('active', 1)->get(); //get payment methods
+    }
+
+
+
+
+    function settings()
+    {
+        return $payment_methods = DB::table('settings')->where('setting_id', 1)->first(); //get payment methods
+        
+    }
+
+    

@@ -65,8 +65,8 @@
                     <div class="category-right">
                         <div class="contact-block">
                             <div>
-                                <i class="fa fa-volume-control-phone"></i>
-                                <span>call us<span>123-456-76890</span></span>
+                                <i class="fa fa-phone"></i>
+                              <span><span style="font-size: 15px;">Call us {{ settings()->contact }}</span></span>
                             </div>
                         </div>
                         <div class="btn-group">

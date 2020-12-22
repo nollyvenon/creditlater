@@ -8,11 +8,6 @@
                     <div class="container-fluid">
                         <div class="row page-title">
                             <div class="col-md-12">
-                                <nav aria-label="breadcrumb" class="float-right mt-1">
-                                    <ol class="breadcrumb">
-                                       <a href="{{ url('/dashboard/category/add') }}" class="add-item-btn">Add Category</a>
-                                    </ol>
-                                </nav>
                                 <h4 class="mb-1 mt-0">Category</h4>
                             </div>
                         </div>
@@ -29,9 +24,8 @@
                                                     <th>Name</th>
                                                     <th>Image</th>
                                                     <th>Featured</th>
+                                                    <th>Approved</th>
                                                     <th>Date Added</th>
-                                                    <th>Last Modified</th>
-                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                         
@@ -41,9 +35,8 @@
                                                     <td><a href="#" style="color: #717171">{{ $category->category_name }}</a></td>
                                                     <td><a href="#"><img src="{{ asset($category->category_image) }}" alt="image"></a></td>
                                                     <td><a href="#"><i class="fa fa-{{ $category->is_feature ? 'check text-success' : 'times text-danger' }}"></i></a></td>
-                                                    <td>{{ explode(' ', $category->date_added)[0] }}</td>
-                                                    <td>{{ explode(' ', $category->last_modified)[0] }}</td>
-                                                    <td><i class="fa fa-trash"></i> <i class="fa fa-edit"></i></td>
+                                                    <td><a href="{{ url('/admin/category_approve/'.$category->category_id) }}"><i class="fa fa-{{ $category->is_approved ? 'check text-success' : 'times text-danger' }}"></i></a></td>    
+                                                    <td>{{ date('d M Y', strtotime($category->date_added)) }}</td>
                                                 </tr>
                                                 @endforeach
                                                 </tbody>

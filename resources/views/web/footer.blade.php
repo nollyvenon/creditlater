@@ -35,12 +35,12 @@
                 <div class="row">
                     <div class="col-lg-3 col-md-12 ">
                         <div class="logo-block">
-                            <a href="{{ url('/') }}"><img src="{{ asset('web/images/layout-1/logo/logo.png') }}" class="img-fluid  " alt="logo"></a>
+                            <a href="{{ url('/') }}"><img src="{{ asset(settings()->logo) }}" class="img-fluid  " alt="logo"></a>
                         </div>
                     </div>
                     <div class="col-lg-9 col-md-12 pr-lg-0">
                         <div class="logo-detail">
-                            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution. </p>
+                            <p>{{ settings()->about }}</p>
                         </div>
                     </div>
                 </div>
@@ -61,11 +61,11 @@
                                         </div>
                                         <div class="footer-contant">
                                             <ul>
-                                                <li><a href="#">about us</a></li>
-                                                <li><a href="#">contact us</a></li>
-                                                <li><a href="#">terms & conditions</a></li>
-                                                <li><a href="#">returns & exchanges</a></li>
-                                                <li><a href="#">shipping & delivery</a></li>
+                                                <li><a href="{{ url('/account') }}">Account</a></li>
+                                                <li><a href="{{ url('/wishlist') }}">Wishlist</a></li>
+                                                <li><a href="{{ url('/order-history') }}">Orders</a></li>
+                                                <li><a href="{{ url('/return-product') }}">Return products</a></li>
+                                                <li><a href="{{ url('/verification') }}">Verification</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -78,11 +78,10 @@
                                         <div class="footer-contant">
                                             <ul>
                                                 <li><a href="#">store location</a></li>
-                                                <li><a href="#"> my account</a></li>
-                                                <li><a href="#"> orders tracking</a></li>
-                                                <li><a href="#"> size guide</a></li>
+                                                <li><a href="{{ url('/account') }}"> my account</a></li>
+                                                <li><a href="{{ url('/order-history') }}"> orders tracking</a></li>
                                                 <li><a href="#">FAQ </a></li>
-                                                <li><a href="#">new products</a></li>
+                                                <li><a href="{{ url('products/new-products') }}">new products</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -98,10 +97,9 @@
                                 </div>
                                 <div class="footer-contant">
                                     <ul class="contact-list">
-                                        <li><i class="fa fa-map-marker"></i>big deal store demo store <br> india-<span>3654123</span></li>
-                                        <li><i class="fa fa-phone"></i>call us: <span>123-456-7898</span></li>
-                                        <li><i class="fa fa-envelope-o"></i>email us: support@bigdeal.com</li>
-                                        <li><i class="fa fa-fax"></i>fax <span>123456</span></li>
+                                        <li><i class="fa fa-map-marker"></i>32 Akinremi street, Ikeja, Lagos. <br></li>
+                                        <li><i class="fa fa-phone"></i>call us: <span>08027257478, 08054511357</span></li>
+                                        <li><i class="fa fa-envelope-o"></i><span>email: onyxdatasystems@gmail.com</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -117,18 +115,18 @@
                 <div class="row">
                     <div class="col-xl-6 col-md-8 col-sm-12">
                         <div class="footer-end">
-                            <p><span>2018 - 19</span> Copy Right by Themeforest Powered by pixel strap</p>
+                            <p>{{ settings()->copy_rights }}
                         </div>
                     </div>
                     <div class="col-xl-6 col-md-4 col-sm-12">
                         <div class="payment-card-bottom">
+                        @if(payment_method())
                             <ul>
-                                <li><a href="#"><img src="{{ asset('web/images/layout-1/pay/1.png') }}" class="img-fluid" alt="pay"></a></li>
-                                <li><a href="#"><img src="{{ asset('web/images/layout-1/pay/2.png') }}" class="img-fluid" alt="pay"></a></li>
-                                <li><a href="#"><img src="{{ asset('web/images/layout-1/pay/3.png') }}" class="img-fluid" alt="pay"></a></li>
-                                <li><a href="#"><img src="{{ asset('web/images/layout-1/pay/4.png') }}" class="img-fluid" alt="pay"></a></li>
-                                <li><a href="#"><img src="{{ asset('web/images/layout-1/pay/5.png') }}" class="img-fluid" alt="pay"></a></li>
+                                @foreach(payment_method() as $method)
+                                <li><a href="{{ url($method->payment_link) }}"><img src="{{ asset($method->payment_method_image) }}" class="img-fluid" alt="pay"></a></li>
+                                @endforeach
                             </ul>
+                            @endif
                         </div>
                     </div>
                 </div>

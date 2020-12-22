@@ -17,8 +17,8 @@
                                 @if($categoryBrands)
                                     @foreach($categoryBrands as $brands)
                                     <div class="custom-control custom-checkbox collection-filter-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="{{ $brands->id }}" {{ $brands->id == request()->brand_id ? 'checked' : ''}}>
-                                        <label class="custom-control-label" for="{{ $brands->id }}">{{ $brands->brand_name}}</label>
+                                        <input type="checkbox" class="custom-control-input" id="{{ $brands->brand_id }}" {{ $brands->brand_id == request()->brand_id ? 'checked' : ''}}>
+                                        <label class="custom-control-label" for="{{ $brands->brand_id }}">{{ $brands->brand_name}}</label>
                                     </div>
                                     @endforeach
                                 @else
@@ -207,6 +207,10 @@
                                                                     <a href="{{ url('detail/'.$category->id) }}">
                                                                         <h6 class="price-title">
                                                                            {{ $category->products_name}}
+
+                                                                            @if(!$category->products_quantity)
+                                                                            <i class="text-danger">out of stock</i>
+                                                                            @endif
                                                                         </h6>
                                                                     </a>
                                                                 </div>
@@ -222,9 +226,11 @@
                                                                 </div>
                                                             </div>
                                                             <div class="icon-detail">
-                                                                <button data-toggle="modal" class="quick-add-to-cartBtn" id="{{ $category->id }}" data-url="{{ url('/quick-add-to-cart') }}" data-target="#addtocart" title="Add to cart">
+                                                                 @if($category->products_quantity)
+                                                                 <button data-toggle="modal" class="quick-add-to-cartBtn" id="{{ $category->id }}" data-url="{{ url('/quick-add-to-cart') }}" data-target="#addtocart" title="Add to cart">
                                                                     <i class="fa fa-shopping-cart"></i>
                                                                 </button>
+                                                                @endif
                                                                 @if(Session::has('user'))
                                                                 <a href="javascript:void(0)" title="Add to Wishlist" id="{{ $category->id }}" data-url="{{ url('/quick-add-to-wishlist') }}" class="quick-add-to-wishlist">
                                                                     <i class="fa fa-heart" aria-hidden="true"></i>

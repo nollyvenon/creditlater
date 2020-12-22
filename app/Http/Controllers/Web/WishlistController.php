@@ -47,7 +47,7 @@ class WishlistController extends Controller
         $wishlist_items = 0;
         if($user_id = Auth::user()['id'])
         {
-            $wishlist = DB::table('wishlists')->leftJoin('products', 'wishlists.product_id', '=', 'products.id')->where('user_id', $user_id)->get();
+            $wishlist = DB::table('wishlists')->leftJoin('products', 'wishlists.product_id', '=', 'products.id')->where('wishlist_user_id', $user_id)->get();
             if(count($wishlist) != "")
             {
                 $wishlist_items = $wishlist;
@@ -66,7 +66,7 @@ class WishlistController extends Controller
         if($request->ajax())
         {   
             $data = false;
-            $product = Product::where('id', $request->product_id)->where('is_feature', 1)->first();
+            $product = Product::where('id', $request->product_id)->where('is_product_feature', 1)->first();
 
             if(Auth::user())
             {
@@ -88,95 +88,26 @@ class WishlistController extends Controller
 
     public function registered_user_wish_list($product, $request)
     {
-       $user_id = Auth::user()['id'];
-       $date =  $date = Carbon::now()->toDateTimeString();
+        $user_id = Auth::user()['id'];
+        if($user_id)
+        {
 
-       $quantity = $request->quantity;
-       $total = $product->products_price * $quantity;
-       $size = $request->size ? $request->size : 'unspecified';
+        $date =  $date = date('Y-m-d H:i:s');
 
-       $old_wishList = WishList::where('user_id', $user_id)->where('product_id', $request->product_id)->first();
-       
-       $small = 0;
-       $medium = 0;
-       $large = 0;
-       $xlarge = 0;
-       $small = 0;
-       $unspecified = 0;
+        $quantity = $request->quantity;
+        $total = $product->products_price * $quantity;
+        $size = $request->size ? $request->size : 'unspecified';
+        
+        $wish_list = WishList::create([
+            'wishlist_user_id' => $user_id,
+            'product_id' => $request->product_id,
+            'price' => $product->products_price,
+            'quantity' => $quantity,
+            'total' => $total,
+            'size' => $size,
+            'date_added' => $date,
+        ]);
 
-
-       switch($size)
-       {
-           case "small":
-               $small += $quantity;
-           break;
-
-           case "medium":
-               $medium += $quantity;
-           break;
-
-           case "large":
-              $large += $quantity;
-           break;
-
-           case "xtra large":
-               $xlarge += $quantity;
-           break;
-
-           case "unspecified":
-               $unspecified += $quantity;
-           break;
-       }
-
-
-       if($old_wishList == null)
-       {
-           $wish_list = WishList::create([
-               'user_id' => $user_id,
-               'product_id' => $request->product_id,
-               'price' => $product->products_price,
-               'quantity' => $quantity,
-               'total' => $total,
-               'small' => $small,
-               'medium' => $medium,
-               'large' => $large,
-               'xtra_large' => $xlarge,
-               'unspecified' => $unspecified,
-               'date_added' => $date,
-               'date_modified' => $date
-           ]);
-           return true;
-       }else{
-
-           switch($size)
-           {
-               case "small":
-               $old_wishList->small += $quantity;
-               break;
-   
-               case "medium":
-               $old_wishList->medium += $quantity;
-               break;
-   
-               case "large":
-               $old_wishList->large += $quantity;
-               break;
-   
-               case "xtra large":
-               $old_wishList->xtra_large += $quantity;
-               break;
-   
-               case "unspecified":
-                   $old_wishList->unspecified += $quantity;
-               break;
-           }
-    
-           
-
-           $old_wishList->quantity += $quantity;
-           $old_wishList->total = $old_wishList->price * $old_wishList->quantity;
-           $old_wishList->date_modified = $date;
-           $old_wishList->save();
            return true;
        }
        return false;
@@ -207,7 +138,7 @@ class WishlistController extends Controller
     {
         if($user_id = Auth::user()['id'])
         {
-            $data = WishList::where('user_id', $user_id)->where('product_id', $request->product_id)->delete();            
+            $data = WishList::where('wishlist_user_id', $user_id)->where('product_id', $request->product_id)->where('size', $request->size)->delete();            
         }
         return $data;
     }
@@ -223,7 +154,7 @@ class WishlistController extends Controller
         {
            if(Auth::user())
            {
-                $product = Product::where('id', $request->product_id)->where('is_feature', 1)->first();
+                $product = Product::where('id', $request->product_id)->where('is_product_feature', 1)->first();
                 $data = $this->registered_user_wish_list($product, $request);
            }
         }
@@ -254,7 +185,7 @@ class WishlistController extends Controller
         $quantity = 0;
         if($user_id = Auth::user()['id'])
         {
-            $old_wishList = WishList::where('user_id', $user_id)->get();  
+            $old_wishList = WishList::where('wishlist_user_id', $user_id)->get();  
             if(count($old_wishList) != "")
             {
                 $data = 0;
@@ -306,15 +237,15 @@ class WishlistController extends Controller
             $data = false;
             if($user = Auth::user())
             {
-                $wishlist = WishList::where('user_id', $user['id'])->where('product_id', $request->product_id)->first();
+                $wishlist = WishList::where('wishlist_user_id', $user['id'])->where('product_id', $request->product_id)->where('size', $request->size)->first();
                 $product = Product::where('id', $request->product_id)->first();
                 $oldCart = Session::has('cart')? Session::get('cart') : null;
 
                 $cart = new Cart($oldCart);
-                $cart->wishlist_add_to_cart($request->product_id, $product, $wishlist);
+                $cart->add($request->product_id, $product, $wishlist->size, $wishlist->quantity);
                 Session::put('cart', $cart);
 
-               if( WishList::where('product_id', $request->product_id)->delete())
+               if( $wishlist->delete())
                {
                 $data = true;
                }

@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <div class="close-circle">
-                        <a href="{{ url('/quick-delete-wishlist-item') }}" class="quick-delete-wishlist-item" id="{{ $wishlist->id }}">
+                        <a href="{{ url('/quick-delete-wishlist-item') }}" data-size="{{ $wishlist->size }}" class="quick-delete-wishlist-item" id="{{ $wishlist->id }}">
                             <i class="fa fa-trash" aria-hidden="true"></i>
                         </a>
                     </div>

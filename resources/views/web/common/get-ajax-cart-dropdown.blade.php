@@ -33,7 +33,7 @@
                         </div>
                     </div>
                     <div class="close-circle">
-                        <a href="{{ url('/delete-cart-dropdown') }}" id="{{ $cart_item['id'] }}" class="delete-cart-dropdown-item">
+                        <a href="{{ url('/delete-cart-dropdown') }}" id="{{ $cart_item['id'] }}" data-size="{{ $values['size'] }}" class="delete-cart-dropdown-item">
                             <i class="fa fa-trash" aria-hidden="true"></i>
                         </a>
                     </div>

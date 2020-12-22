@@ -5,6 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 use Carbon\Carbon;
+$date = date("Y-m-d H:s:i");
 
 
 class CreatePaidBuyersTable extends Migration
@@ -32,7 +33,7 @@ class CreatePaidBuyersTable extends Migration
             $table->string('shipping');
             $table->integer('amount');
             $table->boolean('is_delivered')->default('0');
-            $table->dateTime('paid_date')->default(Carbon::now()->toDateTimeString());
+            $table->dateTime('paid_date')->default($date);
             $table->dateTime('date_delivered')->nullable();
             $table->timestamps();
             

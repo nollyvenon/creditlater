@@ -13,13 +13,18 @@
                         <div class="row page-title">
                             <div class="col-md-12">
                                 <nav aria-label="breadcrumb" class="float-right mt-1">
-                                    <ol class="breadcrumb">
-                                        <a href="{{ url('/dashboard/products/add') }}" class="add-item-btn">Add product</a>
-                                    </ol>
+                                    <!-- <ol class="breadcrumb">
+                                       <a href="{{ url('/dashboard/products/add') }}" class="add-item-btn">Add products</a>
+                                    </ol> -->
                                 </nav>
                                 <h4 class="mb-1 mt-0">Products</h4>
                             </div>
                         </div>
+
+                        @if(Session::has('success'))
+                            <div class="text-center alert-success p-3">{{ Session::get('success') }}</div>
+                        @endif
+                        
                         @if($products)
                         <div class="row">
                             <div class="col-12">
@@ -36,9 +41,8 @@
                                                     <th>Category</th>
                                                     <th>Product Price</th>
                                                     <th>Price Slash</th>
-                                                    <th>Featured</th>
+                                                    <th>Approved</th>
                                                     <th>Quantity</th>
-                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                         
@@ -51,9 +55,8 @@
                                                     <td>{{ $product->category_name }}</td>
                                                     <td>@money($product->products_price)</td>
                                                     <td>@money($product->products_price_slash)</td>
-                                                    <td><a href="#"><i class="fa fa-{{ $product->is_feature ? 'check text-success' : 'times text-danger' }}"></i></a></td>
+                                                    <td><a href="{{ url('/admin/approve/'. $product->id) }}"><i class="fa fa-{{ $product->is_approve ? 'check text-success' : 'times text-danger' }}"></i></a></td>
                                                     <td>{{ $product->products_quantity }}</td>
-                                                    <td><i class="fa fa-trash"></i> <i class="fa fa-edit"></i></td>
                                                 </tr>
                                                 @endforeach
                                                 </tbody>

@@ -15,7 +15,7 @@
             <div class="col-md-12 col-lg-4 ">
                 <div class="deal-banner-containe">
                     <diV class="deal-btn">
-                        <a class="btn-white">
+                        <a href="{{ url('/products') }}" class="btn-white">
                             View more
                         </a>
                     </div>
